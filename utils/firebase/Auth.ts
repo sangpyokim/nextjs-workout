@@ -1,0 +1,22 @@
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
+import { app } from "../../firebase";
+
+const getMyAuth = () => {
+    const auth = getAuth(app)
+    const provider = new GoogleAuthProvider(); // provider를 구글로 설정
+
+    return {auth, provider}
+}
+
+export const mobileLogIn = () => {
+    const {auth, provider} = getMyAuth()
+
+
+    signInWithRedirect(auth, provider)
+}
+
+export const pcLogIn = () => {
+    const {auth, provider} = getMyAuth()
+
+    signInWithPopup(auth, provider)
+}
