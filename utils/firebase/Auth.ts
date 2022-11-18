@@ -11,12 +11,22 @@ const getMyAuth = () => {
 export const mobileLogIn = () => {
     const {auth, provider} = getMyAuth()
 
-
-    signInWithRedirect(auth, provider)
+    try {
+        signInWithRedirect(auth, provider)
+        
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const pcLogIn = () => {
     const {auth, provider} = getMyAuth()
 
-    signInWithPopup(auth, provider)
+    try {
+        signInWithPopup(auth, provider)
+        
+    } catch (error) {
+        console.log(error)
+
+    }
 }
