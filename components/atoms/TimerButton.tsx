@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Radio } from 'antd';
+import style from './TimerButton.module.css'
 
 interface ITimerButton {
     label: string,
@@ -8,14 +9,14 @@ interface ITimerButton {
 }
 
 const TimerButton = (
-    { label, onClick, style }: ITimerButton
+    { label, onClick }: ITimerButton
     ) => {
 
 
 
   return (
     <Button 
-        style={style}
+        className={style.button}
         value="default"
         onClick={() => onClick()} 
         >

@@ -14,9 +14,10 @@ const GoogleLogInButton = () => {
   const [ imageState, setImageState ] = useState(Normal)
   
   const handleLogIn = () => {
-    setImageState(Pressed)
+    // setImageState(Pressed)
     if (isPlatformPC()) {
       pcLogIn()
+
     } else {
       mobileLogIn()
     }

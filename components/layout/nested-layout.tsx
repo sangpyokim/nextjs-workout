@@ -8,7 +8,6 @@ type NestedLayoutProps = {
 const NestedLayout = ({ children }: NestedLayoutProps) => {
   return (
     <div className={styles.container} >
-      <Header />
       {children}
     </div>
   )

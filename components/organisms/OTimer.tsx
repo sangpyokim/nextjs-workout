@@ -46,17 +46,21 @@ const Timer = ({ initSec = 1 }: ITimer) => {
                 <TimerButton 
                     label={"다시시작"} 
                     onClick={() => restartTimer()}  
-                    style={{ width: '80px' }}
                 />
                 <TimerButton 
                     label={"초기화"} 
                     onClick={() => resetTimer()}
-                    style={{ width: '80px' }}    
                 />
             </div>
         </>
         :
-            <CircleInput setTime={setTime} initSec={initSec} setToggle={setToggle} maxSec={120} />
+            <CircleInput 
+                setTime={setTime} 
+                initSec={initSec} 
+                setToggle={setToggle} 
+                maxSec={120}
+                style={{ padding: '8px 0' }}
+            />
         }
         </div>
     </div>

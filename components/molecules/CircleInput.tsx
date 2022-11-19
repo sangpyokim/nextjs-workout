@@ -6,10 +6,11 @@ interface ICircleInput {
   setToggle: Function,
   initSec: number,
   maxSec: number,
+  style: object,
 }
 
 const CircleInput = (
-  { setTime, initSec, setToggle, maxSec }: ICircleInput
+  { setTime, initSec, setToggle, maxSec, style }: ICircleInput
   ) => {
     const [ dataArr, setDataArr ] = useState(setData(maxSec))
     const [ curTime, setCurTime ] = useState(initSec?.toString() )
@@ -23,38 +24,37 @@ const CircleInput = (
         return res
     }
 
-    const onDragEnd = (e: boolean) => {
-      if (!e) {
-        // IndexDB.writeDB('rlatkdvy12@naver.com', 'record', [{name: 'rlatkdvy12', sec: curTime}], new Date().valueOf())
-        setTime(curTime.slice(0, curTime.length-1))
-        setToggle(true)
-      }
+
+    const handleClick = () => {
+      setTime(curTime.slice(0, curTime.length-1))
+      setToggle(true)
     }
-  
+
     return (
-    <CircularSlider
-      onChange={(val: string) => setCurTime(val)}
-      isDragging={(e: boolean) => onDragEnd(e)}
+      <div style={style} onClick={() => handleClick()} >
+        <CircularSlider
+          onChange={(val: string) => setCurTime(val)}
 
-      width={180}
+          width={180}
 
-      data={dataArr}
-      dataIndex={initSec-1} 
+          data={dataArr}
+          dataIndex={initSec-1} 
 
-      progressSize={12}
-      progressColorFrom='#0c7de7'
-      // progressColorTo='#36cfc9'
+          progressSize={12}
+          progressColorFrom='#0c7de7'
+          // progressColorTo='#36cfc9'
 
-      knobColor='black'
-      trackColor='#d4d4d4'
-      
-      label={' '}
-      labelFontSize={'16px'}
-      labelBottom={true}
+          knobColor='black'
+          trackColor='#d4d4d4'
+          
+          label={' '}
+          labelFontSize={'16px'}
+          labelBottom={true}
 
-      valueFontSize={'40px'}
-    >
-    </CircularSlider>
+          valueFontSize={'40px'}
+        >
+        </CircularSlider>
+    </div>
   )
 }
 

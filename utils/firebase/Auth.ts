@@ -30,3 +30,13 @@ export const pcLogIn = () => {
 
     }
 }
+export const logOut = () => {
+    const {auth, provider} = getMyAuth()
+
+    try {
+        auth.signOut()
+        
+    } catch (error) {
+        console.log(error)
+    }
+}

@@ -7,7 +7,7 @@ type FullHeightProps = {
     children: ReactElement
 }
 
-const FullHeight = ({ children }: FullHeightProps) => {
+const FullHeightLayout = ({ children }: FullHeightProps) => {
     
 
 
@@ -16,7 +16,7 @@ const FullHeight = ({ children }: FullHeightProps) => {
         window.addEventListener('resize', setScreenSize)
         
         return () => window.removeEventListener('resize', setScreenSize);
-    })
+    }, [])
   
     return (
     <div className={styles.container} >
@@ -25,4 +25,4 @@ const FullHeight = ({ children }: FullHeightProps) => {
   )
 }
 
-export default FullHeight
+export default FullHeightLayout

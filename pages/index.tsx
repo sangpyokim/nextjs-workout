@@ -4,12 +4,18 @@ import { getAuth, getIdToken, GoogleAuthProvider, signInWithPopup, User, UserCre
 import { app } from '../firebase';
 import { ReactElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Landing from './landing';
-import Timer from './timer';
 import { NextPageWithLayout } from './_app';
-import NestedLayout from '../components/layout/nested-layout';
+
+
+
+// layout
 import Layout from '../components/layout/layout';
-import FullHeight from '../components/layout/full-height';
+import NestedLayout from '../components/layout/nested-layout';
+import FullHeightLayout from '../components/layout/full-height-layout';
+
+// page
+import Timer from './timer';
+import Landing from './landing';
 
 
 
@@ -44,10 +50,20 @@ const Home: NextPageWithLayout = () => {
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  const auth = getAuth(app)
-  console.log(auth.currentUser)
-  
-  if (!auth.currentUser) return <FullHeight>{page}</FullHeight>
+  const [ user, setUser ] = useState(false)
+
+  useEffect(() => {
+    const auth = getAuth(app)
+    auth.onAuthStateChanged((authUser) => {
+      if (!authUser) {
+        setUser(false)
+      } else {
+        setUser(true)
+      }
+    })
+  })
+
+  if (!user) return <FullHeightLayout>{page}</FullHeightLayout>
 
   return (
     <Layout>
