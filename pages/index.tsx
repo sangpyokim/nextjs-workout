@@ -49,7 +49,7 @@ const Home: NextPageWithLayout = () => {
   }
 }
 
-Home.getLayout = function getLayout(page: ReactElement) {
+Home.getLayout = function GetLayout(page: ReactElement) {
   const [ user, setUser ] = useState(false)
 
   useEffect(() => {
