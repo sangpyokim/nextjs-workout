@@ -5,17 +5,24 @@ import { DashboardFilled, DashboardOutlined } from '@ant-design/icons'
 
 const Navigator = () => {
   const router = useRouter()
-  console.log(router)
+
   return (
     <div className={style.container} >
       { 
         router.pathname === '/' ?
-        <DashboardFilled alt='timer-fill' style={{ fontSize: '24px' }} />
+          <DashboardFilled alt='timer-fill' style={styles.icon} />
         :
-        <DashboardOutlined alt='timer-outline' style={{ fontSize: '24px' }} />
+        <DashboardOutlined alt='timer-outline' style={styles.icon} />
       }
     </div>
   )
 }
+
+const styles = {
+  icon: {
+    fontSize: '26px'
+  },
+}
+
 
 export default Navigator
