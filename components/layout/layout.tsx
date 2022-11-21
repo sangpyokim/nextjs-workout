@@ -12,13 +12,9 @@ type LayoutProps = {
     children: ReactElement
 }
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data)
 
 const Layout = ({ children }: LayoutProps) => {
-    const { data, error } = useSWR('/api/hello', fetcher)
 
-    if (error) return <div>Failed to load</div>
-    if (!data) return <div>Loading...</div>
 
   return (
     <div className={styles.container} >
@@ -33,7 +29,6 @@ const Layout = ({ children }: LayoutProps) => {
       {children}
 
       <Navigator />
-      
     </div>
   )
 }

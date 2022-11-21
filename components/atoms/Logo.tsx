@@ -5,7 +5,7 @@ import LogoSVG from '../../images/logo.svg'
 const Logo = () => {
   return (
     <div>
-        <Image alt='logo' src={LogoSVG} height={26} />
+        <Image alt='logo' src={LogoSVG} height={26} priority={true} />
     </div>
   )
 }

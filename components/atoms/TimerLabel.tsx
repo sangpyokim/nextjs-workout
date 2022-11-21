@@ -9,7 +9,7 @@ interface ITimerLabel {
   setIsPlaying: Function,
 }
 
-const myFont = localFont({ src: '../../font/BMEuljiro10yearslater.ttf' })
+const myFont = localFont({ src: '../../font/BMEuljiro10yearslater.ttf', preload: true })
 
 const TimerLabel = (
   { timer, setIsPlaying, animation = false, isPlaying, ...props }: ITimerLabel

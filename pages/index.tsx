@@ -16,6 +16,7 @@ import FullHeightLayout from '../components/layout/full-height-layout';
 // page
 import Timer from './timer';
 import Landing from './landing';
+import { getAllExercises } from '../utils/firebase/Database';
 
 
 
@@ -36,13 +37,11 @@ const Home: NextPageWithLayout = () => {
       }
       setLoading(false)
     })
+  }, [])
 
-  })
-
-  if (loading) return <div>loading</div>
 
   if (isLoggedIn) {
-    return <Timer />
+    return (<Timer />)
   }
   else {
     return <Landing />
@@ -51,6 +50,7 @@ const Home: NextPageWithLayout = () => {
 
 Home.getLayout = function GetLayout(page: ReactElement) {
   const [ user, setUser ] = useState(false)
+  const [ loading, setLoading ] = useState(true)
 
   useEffect(() => {
     const auth = getAuth(app)
@@ -60,8 +60,11 @@ Home.getLayout = function GetLayout(page: ReactElement) {
       } else {
         setUser(true)
       }
+      setLoading(false)
     })
   })
+
+  if (loading) return <div></div>
 
   if (!user) return <FullHeightLayout>{page}</FullHeightLayout>
 

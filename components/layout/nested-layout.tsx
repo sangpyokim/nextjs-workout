@@ -1,5 +1,4 @@
 import { ReactElement } from 'react';
-import Header from '../organisms/Header';
 import styles from './nested-layout.module.css'
 type NestedLayoutProps = {
     children: ReactElement
