@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import WorkOutItem from '../atoms/WorkOutItem'
 import WorkOutTempItem from '../atoms/WorkOutTempItem'
 import styled from 'styled-components'
@@ -71,7 +71,7 @@ const data2 = {
 const TodayWorkOutList = () => {
 	const [ list, setList ] = useState<listProps[]>([])
 	const [ tempList, setTempList ] = useState<listProps[]>([])
-	
+
 	const addList = (data: listProps) => {
 		setList((prev) => {
 			const temp = [...prev]
@@ -86,6 +86,7 @@ const TodayWorkOutList = () => {
 			temp.push(data2)
 			return temp
 		})
+
 	}
 	const removeTempList = (i: number) => {
 		setTempList(prev => {
@@ -94,6 +95,7 @@ const TodayWorkOutList = () => {
 			return temp
 		})
 	}
+
 
 	return (
 		<Container>
@@ -112,13 +114,15 @@ const TodayWorkOutList = () => {
 
 			{
 			tempList.map((li, i) => (
-			<WorkOutTempItem 
-				key={i} 
-				index={i} 
-				add={addList} 
-				remove={removeTempList} 
-				{...li}
-			/>))
+			<div key={i}  >
+				<WorkOutTempItem 
+					index={i} 
+					add={addList} 
+					remove={removeTempList} 
+					{...li}
+					/>
+			</div>
+				))
 			}
 
 			<PlusButton onClick={() => addTempList()} >+</PlusButton>

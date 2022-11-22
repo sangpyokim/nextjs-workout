@@ -55,7 +55,7 @@ const WorkOutItem = ({ targetBody, exercise, setTimes }: listProps) => {
   console.log(progress)
 
   const handleProgressUp = () => {
-    if (progress < 5) {
+    if (progress < Number(setTimes)) {
       setProgress(prev => prev+1)
     }
     
