@@ -33,7 +33,7 @@ const ProgressBarWrapper = styled.div`
 `
 const ProgressContainer = styled.div`
   height: 6px;
-  width: 20%;
+  width: 100%;
   margin: 0 1px;
   background-color: '#e4e4e4';
 `
@@ -52,13 +52,11 @@ interface IProgressBar {
 
 const WorkOutItem = ({ targetBody, exercise, setTimes }: listProps) => {
   const [ progress, setProgress ] = useState(0)
-  console.log(progress)
 
   const handleProgressUp = () => {
     if (progress < Number(setTimes)) {
       setProgress(prev => prev+1)
     }
-    
   }
 
   return (

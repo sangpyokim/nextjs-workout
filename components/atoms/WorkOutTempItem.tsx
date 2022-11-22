@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { listProps } from '../organisms/TodayWorkOutList';
 import styled from 'styled-components'
 import dataList from '../../workoutList.json'
@@ -93,10 +93,22 @@ const WorkOutTempItem = ({ index, add, remove, ...tempItem }: tempListProps) => 
     const handleChange = (type: FORM_DATA_TYPE, val: string) => {
         setFormData(prev => {
             const temp: listProps = {...prev}
+            if (type === FORM_DATA_TYPE.TARGET_BODY) {
+                if (val === 'arms' || val === 'legs') {
+                    const find = allData.filter(ele => ele.bodyPart.includes(val))[0].name
+                    temp.exercise = find
+                }
+                else temp.exercise = allData.find(ele => ele.bodyPart === val)!.name
+            }
             temp[type] = val
             return temp
         })
     }
+
+
+    useEffect(() => {
+
+    }, [formData])
     return (
         <Container>
             <Form onSubmit={e => handleSubmit(e)} >
@@ -123,11 +135,12 @@ const WorkOutTempItem = ({ index, add, remove, ...tempItem }: tempListProps) => 
                         name='exercise'
                         defaultValue={allData.find(ele => ele.bodyPart === formData.targetBody)?.name}
                         onChange={e => handleChange(FORM_DATA_TYPE.EXERCISE, e.target.value)}
+                        placeholder={'123'}
                     >
                     {
                         formData && formData.targetBody?.length !== 0 ?
                         allData.filter(ele => ele.bodyPart.includes(formData.targetBody))
-                        .map((val) => (
+                        .map((val, i) => (
                             <Option key={val.id} value={val.name} >{`${val.name}`}</Option>
                         ))
                     : 

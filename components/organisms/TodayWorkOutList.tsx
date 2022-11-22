@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { createRef, ReactElement, useEffect, useRef, useState } from 'react'
 import WorkOutItem from '../atoms/WorkOutItem'
 import WorkOutTempItem from '../atoms/WorkOutTempItem'
 import styled from 'styled-components'
@@ -72,6 +72,7 @@ const TodayWorkOutList = () => {
 	const [ list, setList ] = useState<listProps[]>([])
 	const [ tempList, setTempList ] = useState<listProps[]>([])
 
+
 	const addList = (data: listProps) => {
 		setList((prev) => {
 			const temp = [...prev]
@@ -86,7 +87,6 @@ const TodayWorkOutList = () => {
 			temp.push(data2)
 			return temp
 		})
-
 	}
 	const removeTempList = (i: number) => {
 		setTempList(prev => {
@@ -96,6 +96,7 @@ const TodayWorkOutList = () => {
 		})
 	}
 
+  
 
 	return (
 		<Container>
@@ -114,7 +115,7 @@ const TodayWorkOutList = () => {
 
 			{
 			tempList.map((li, i) => (
-			<div key={i}  >
+			<div key={i} >
 				<WorkOutTempItem 
 					index={i} 
 					add={addList} 
