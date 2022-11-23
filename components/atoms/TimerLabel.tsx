@@ -9,7 +9,6 @@ interface ITimerLabel {
   setIsPlaying: Function,
 }
 
-const myFont = localFont({ src: '../../font/BMEuljiro10yearslater.ttf', preload: true })
 
 const TimerLabel = (
   { timer, setIsPlaying, animation = false, isPlaying, ...props }: ITimerLabel
@@ -22,7 +21,7 @@ const TimerLabel = (
      {...props} onClick={() => setIsPlaying((prev: boolean) => !prev)} >
         <span className={styles.subLabel} >{isPlaying ? 'Remaining' : ''}</span>
 
-      <span className={myFont.className} >
+      <span >
 
         <span className={styles.label} key={timer} >
             {isPlaying ? timer : 'start'}
