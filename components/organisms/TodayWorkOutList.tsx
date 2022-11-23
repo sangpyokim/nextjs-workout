@@ -103,6 +103,7 @@ const TodayWorkOutList = () => {
 			<TitleWrapper>
 				<Title>오늘의 운동</Title>
 			</TitleWrapper>
+			
 			{
 			list.map((li, i) => (
 				<WorkOutItem 

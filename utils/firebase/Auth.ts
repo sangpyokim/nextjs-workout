@@ -1,7 +1,7 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { app } from "../../firebase";
 
-const getMyAuth = () => {
+export const getMyAuth = () => {
     const auth = getAuth(app)
     const provider = new GoogleAuthProvider(); // provider를 구글로 설정
 
