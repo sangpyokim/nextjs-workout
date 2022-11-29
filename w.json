@@ -1,0 +1,162 @@
+[
+  {
+    "bodyPart": "하체",
+    "equipment": "바벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0042.gif",
+    "id": "0002",
+    "name": "프론트 스쿼트",
+    "target": "엉덩이"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "바벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0046.gif",
+    "id": "0003",
+    "name": "핵 스쿼트",
+    "target": "둔부"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "바벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0101.gif",
+    "id": "0001",
+    "name": "스쿼트",
+    "target": "둔부"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "덤벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0336.gif",
+    "id": "0007",
+    "name": "덤벨 런지",
+    "target": "둔부"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "머신",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0739.gif",
+    "id": "0004",
+    "name": "레그 프레스",
+    "target": "둔부"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "바벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/1370.gif",
+    "id": "0008",
+    "name": "카프 레이즈",
+    "target": "종아리"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "덤벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0291.gif",
+    "id": "0000",
+    "name": "덤벨 벤치 스쿼트",
+    "target": "둔부"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "머신",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0586.gif",
+    "id": "0005",
+    "name": "레그 컬",
+    "target": "햄스트링"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "머신",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0585.gif",
+    "id": "0006",
+    "name": "레그 익스텐션",
+    "target": "허벅지"
+  },
+  {
+    "bodyPart": "하체",
+    "equipment": "덤벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0431.gif",
+    "id": "0009",
+    "name": "스탭업",
+    "target": "둔부"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "머신",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0579.gif",
+    "id": "1000",
+    "name": "렛풀다운",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "머신",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0673.gif",
+    "id": "1001",
+    "name": "리버스그립 렛풀다운",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "맨몸",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0652.gif",
+    "id": "1002",
+    "name": "풀업",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "케이블",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0180.gif",
+    "id": "1003",
+    "name": "케이블 시티드 로우",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "케이블",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0193.gif",
+    "id": "1004",
+    "name": "케이블 원암 로우",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "맨몸",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0499.gif",
+    "id": "1005",
+    "name": "인벌티드 로우",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "바벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0574.gif",
+    "id": "1006",
+    "name": "벤트오버 로우",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "머신",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0761.gif",
+    "id": "1007",
+    "name": "스미스머신 로우",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "덤벨",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0292.gif",
+    "id": "1008",
+    "name": "덤벨 원암 로우",
+    "target": "등"
+  },
+  {
+    "bodyPart": "등",
+    "equipment": "케이블",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0189.gif",
+    "id": "1009",
+    "name": "케이블 원암 로우",
+    "target": "등"
+  }
+]

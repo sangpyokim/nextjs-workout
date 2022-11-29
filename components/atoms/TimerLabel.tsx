@@ -1,6 +1,6 @@
+import Head from 'next/head'
 import React from 'react'
 import styles from './TimerLabel.module.css'
-import localFont from '@next/font/local'
 
 interface ITimerLabel {
   timer: number,
@@ -21,7 +21,7 @@ const TimerLabel = (
      {...props} onClick={() => setIsPlaying((prev: boolean) => !prev)} >
         <span className={styles.subLabel} >{isPlaying ? 'Remaining' : ''}</span>
 
-      <span >
+      <span>
 
         <span className={styles.label} key={timer} >
             {isPlaying ? timer : 'start'}
@@ -30,7 +30,6 @@ const TimerLabel = (
 
         <span className={styles.subLabel} >{isPlaying ? 'seconds' : ''}</span>
     </div>
-    )
-}
+)}
 
 export default TimerLabel

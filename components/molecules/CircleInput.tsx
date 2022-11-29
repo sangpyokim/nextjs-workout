@@ -35,8 +35,8 @@ const CircleInput = (
         <CircularSlider
           onChange={(val: string) => setCurTime(val)}
 
-          width={180}
-
+          width={176}
+        
           data={dataArr}
           dataIndex={initSec-1} 
 

@@ -13,6 +13,7 @@
     line-height: 54px;
     animation-name: textSlideIn;
     animation-duration: 0.5s;
+    font-family: 'timer-font';
 }
 @keyframes textSlideIn {
     /* 0% {

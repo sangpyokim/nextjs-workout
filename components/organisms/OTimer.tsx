@@ -5,6 +5,7 @@ import CircleTimer from '../molecules/CircleTimer'
 import styles from './OTimer.module.css'
 
 
+const MAX_SECOND = 120
 
 interface ITimer {
     initSec: number,
@@ -40,7 +41,7 @@ const Timer = ({ initSec = 1 }: ITimer) => {
                 keys={keys} 
                 isPlaying={isPlaying} 
                 setIsPlaying={setIsPlaying}
-                style={{ marginBottom: '8px' }}
+                style={{ marginBottom: '8px', paddingTop: '6px' }}
             />
             <div className={styles.buttonWrapper} >
                 <TimerButton 
@@ -58,7 +59,7 @@ const Timer = ({ initSec = 1 }: ITimer) => {
                 setTime={setTime} 
                 initSec={initSec} 
                 setToggle={setToggle} 
-                maxSec={120}
+                maxSec={MAX_SECOND}
                 style={{ padding: '8px 0' }}
             />
         }

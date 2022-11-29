@@ -1,7 +1,13 @@
 .container {
-    max-width: 470px;
-    margin: 0 auto 0;
-    padding-top: 55px;
-    min-height: 100vh;
-    background-color: #e4e4e4; 
+  max-width: 100%;
+  margin: 0 auto 0;
+  padding-top: 55px;
+  min-height: 100vh;
+  background-color: #e4e4e4;
+}
+
+@media (min-width: 880px) {
+  .container {
+    max-width: 840px;
+  }
 }

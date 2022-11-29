@@ -1,34 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Work Out
 
-## Getting Started
+## 공통
 
-First, run the development server:
+> 1. 레벨이나 경험치같은 제도마련. 특정 트리거에서 경험치 증가 ex) 오늘 운동 완료, 1주(3일 이상) 연속 운동 완료 등
+> 2. 1.의 제도로 랭킹을 만들거나 커뮤니티에 표시하도록함.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## 타이머 페이지
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> 운동에 집중할 수 있게 타이머와 오늘의 운동 목록
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 식단 페이지
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+> 오늘 먹은 식단, 체중, 골격근량 등 가능하다면 인바디 파일 인식해서 자동 작성
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 통계 페이지
 
-## Learn More
+> 운동간날을 표시 ( 부위별로 다른 색으로 표시 )
 
-To learn more about Next.js, take a look at the following resources:
+## 커뮤니티 or 학습 페이지
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> 헬스장기구 사용법이나 맨몸운동, 부위별 운동 등을 알려주는 페이지
+> 다른 회원들과 소통할 수 있게 간단한 커뮤니티
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 검색 페이지
 
-## Deploy on Vercel
+> 유튜브 api로 검색, 시청, 즐겨찾기 등
+> 운동, 기구, 옷, 음식 등을 추천해줌.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 할일
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [ ] 폰트 찾기
+- [ ] 운동 api 만들기
+- [ ] 식단 api 찾기, 음식 칼로리
+- [ ] Timer 페이지에서 뭘 저장하고 뭘 불러올 것인지. -> 통계를 만들어야 함 -> 오늘의 운동 관련 데이터, 최근 인터벌시간을 데이터베이스에 저장
+
+## 자유시간
+
+- pwa 급함. -> 설치가이드까지.
+- 데이터 추출 급함. -> 일단 내가 써야하니 헬스 종목만. -> 분할운동, 즐겨찾기.
+- 운동 추천 메일?
