@@ -5,6 +5,12 @@ const Document = () => {
   return (
     <Html>
       <Head>
+        <link
+          rel="preload"
+          href="/fonts/BMEuljiro10yearslater.woff2"
+          as="font"
+          type="font/woff2"
+        />
         <meta name="theme-color"></meta>
         <link
           rel="manifest"
