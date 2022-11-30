@@ -1,6 +1,6 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
-import { listProps } from '../organisms/TodayWorkOutList'
+import React, { FormEvent, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { IWorkOutTempItemProps } from '../../utils/types/exercise'
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +20,6 @@ const Form = styled.form`
   flex-direction: column;
   padding: px;
 `
-
 const Section = styled.div`
   display: flex;
   width: 100%;
@@ -45,71 +44,31 @@ const ButtonWrapper = styled.div`
 `
 const Button = styled.button``
 
-interface tempListProps extends listProps {
-  remove: Function
-  add: Function
-  tempItem?: listProps
-  allData: any
-}
-
-enum FORM_DATA_TYPE {
-  'TARGET_BODY' = 'targetBody',
-  'EXERCISE' = 'exercise',
-  'SET_TIMES' = 'setTimes',
-}
-const INIT_FORM_DATA = {
-  targetBody: 'back',
-  exercise: '',
-  setTimes: '5',
-}
+const INIT_TIMES_DATA = '5'
 
 const WorkOutTempItem = ({
   index,
   add,
   remove,
-  allData,
-  ...tempItem
-}: tempListProps) => {
-  const [formData, setFormData] = useState<listProps>({
-    targetBody: INIT_FORM_DATA.targetBody,
-    exercise: allData.find(
-      (ele: any) => ele.bodyPart === INIT_FORM_DATA.targetBody,
-    )!.name,
-    setTimes: INIT_FORM_DATA.setTimes,
-  })
+  exerciseList,
+}: IWorkOutTempItemProps) => {
+  const [bodyPart, setBodyPart] = useState('등')
+  const targetBodyRef = useRef<HTMLSelectElement>(null)
+  const exerciseNameRef = useRef<HTMLSelectElement>(null)
+  const timesRef = useRef<HTMLSelectElement>(null)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    add(formData)
+    add({
+      targetBody: targetBodyRef.current?.value,
+      exercise: exerciseNameRef.current?.value,
+      setTimes: timesRef.current?.value,
+    })
     remove(index)
   }
 
   const handleDelete = () => {
-    setFormData({
-      targetBody: 'back',
-      exercise: allData.find(
-        (ele: any) => ele.bodyPart === formData.targetBody,
-      )!.name,
-      setTimes: '5',
-    })
     remove(index)
-  }
-
-  const handleChange = (type: FORM_DATA_TYPE, val: string) => {
-    setFormData((prev) => {
-      const temp: listProps = { ...prev }
-      if (type === FORM_DATA_TYPE.TARGET_BODY) {
-        if (val === 'arms' || val === 'legs') {
-          const find = allData.filter((ele: any) =>
-            ele.bodyPart.includes(val),
-          )[0].name
-          temp.exercise = find
-        } else
-          temp.exercise = allData.find((ele: any) => ele.bodyPart === val)!.name
-      }
-      temp[type] = val
-      return temp
-    })
   }
 
   return (
@@ -118,18 +77,17 @@ const WorkOutTempItem = ({
         <Section>
           <Label htmlFor="targetBody">운동부위: </Label>
           <select
+            ref={targetBodyRef}
             name={'targetBody'}
-            defaultValue={INIT_FORM_DATA.targetBody}
-            onChange={(e) =>
-              handleChange(FORM_DATA_TYPE.TARGET_BODY, e.target.value)
-            }
+            defaultValue={bodyPart}
+            onChange={(e) => setBodyPart(e.target.value)}
           >
-            <option value="back">등</option>
-            <option value="chest">가슴</option>
-            <option value="shoulders">어깨</option>
-            <option value="arms">팔</option>
-            <option value="legs">하체</option>
-            <option value="waist">허리</option>
+            <option value="등">등</option>
+            <option value="가슴">가슴</option>
+            <option value="어깨">어깨</option>
+            <option value="팔">팔</option>
+            <option value="하체">하체</option>
+            <option value="허리">허리</option>
           </select>
         </Section>
 
@@ -137,27 +95,13 @@ const WorkOutTempItem = ({
           <Label htmlFor="exercise">운동이름: </Label>
           <Select
             name="exercise"
-            defaultValue={
-              allData.find((ele: any) => ele.bodyPart === formData.targetBody)
-                ?.name
-            }
-            onChange={(e) =>
-              handleChange(FORM_DATA_TYPE.EXERCISE, e.target.value)
-            }
-            placeholder={'123'}
+            ref={exerciseNameRef}
           >
-            {formData && formData.targetBody?.length !== 0
-              ? allData
-                  .filter((ele: any) =>
-                    ele.bodyPart.includes(formData.targetBody),
-                  )
-                  .map((val: any, i: any) => (
-                    <Option
-                      key={val.id}
-                      value={val.name}
-                    >{`${val.name}`}</Option>
-                  ))
-              : null}
+            {exerciseList
+              .filter((element) => element.bodyPart === bodyPart)
+              .map((list) => (
+                <option key={list.id}>{list.name}</option>
+              ))}
           </Select>
         </Section>
 
@@ -165,10 +109,8 @@ const WorkOutTempItem = ({
           <Label htmlFor="setTimes">횟수: </Label>
           <Select
             name="setTimes"
-            defaultValue={INIT_FORM_DATA.setTimes}
-            onChange={(e) =>
-              handleChange(FORM_DATA_TYPE.SET_TIMES, e.target.value)
-            }
+            ref={timesRef}
+            defaultValue={INIT_TIMES_DATA}
           >
             <Option>1</Option>
             <Option>2</Option>

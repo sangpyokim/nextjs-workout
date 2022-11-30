@@ -3,8 +3,8 @@ import WorkOutItem from '../atoms/WorkOutItem'
 import WorkOutTempItem from '../atoms/WorkOutTempItem'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
-import { exercisesState } from '../../utils/recoil/ExercisesState'
-import { tempState } from '../../pages/_app'
+import { IExerciseList, IWorkOutFormDataList } from '../../utils/types/exercise'
+import { tempState } from '../../utils/recoil/ExercisesState'
 
 const Container = styled.section`
   display: flex;
@@ -15,6 +15,7 @@ const Container = styled.section`
   border: 0;
   border-radius: 8px;
   width: 240px;
+  min-height: 80px;
 
   /* 뉴몰피즘 */
   background-color: #eee;
@@ -56,25 +57,20 @@ const PlusButton = styled.button`
       inset 2px 2px 4px rgba(0, 0, 0, 0.15);
   }
 `
-export type listProps = {
-  index?: number
-  targetBody: string
-  exercise: string
-  setTimes: string
-}
 
 const data2 = {
-  targetBody: 'string',
-  exercise: 'string',
-  setTimes: '5',
+  targetBody: '',
+  exercise: '',
+  setTimes: '',
 }
 
 const TodayWorkOutList = () => {
-  const [a, setA] = useRecoilState(tempState)
-  const [list, setList] = useState<listProps[]>([])
-  const [tempList, setTempList] = useState<listProps[]>([])
+  const [exerciseList, setExerciseList] =
+    useRecoilState<IExerciseList[]>(tempState)
+  const [list, setList] = useState<IWorkOutFormDataList[]>([])
+  const [tempList, setTempList] = useState<IWorkOutFormDataList[]>([])
 
-  const addList = (data: listProps) => {
+  const addList = (data: IWorkOutFormDataList) => {
     setList((prev) => {
       const temp = [...prev]
       temp.push(data)
@@ -89,6 +85,7 @@ const TodayWorkOutList = () => {
       return temp
     })
   }
+
   const removeTempList = (i: number) => {
     setTempList((prev) => {
       const temp = [...prev]
@@ -112,16 +109,14 @@ const TodayWorkOutList = () => {
         />
       ))}
 
-      {tempList.map((li, i) => (
-        <div key={i}>
-          <WorkOutTempItem
-            index={i}
-            add={addList}
-            remove={removeTempList}
-            allData={a}
-            {...li}
-          />
-        </div>
+      {tempList.map((_, i) => (
+        <WorkOutTempItem
+          key={i}
+          index={i}
+          add={addList}
+          remove={removeTempList}
+          exerciseList={exerciseList}
+        />
       ))}
 
       <PlusButton onClick={() => addTempList()}>+</PlusButton>

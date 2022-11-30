@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { atom, RecoilRoot } from 'recoil'
 import { getExercises } from './api/exercises'
 import { NotificationContextProvider } from '../store/NotificationContext'
+import { tempState } from '../utils/recoil/ExercisesState'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -30,19 +31,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     </NotificationContextProvider>,
   )
 }
-export const tempState = atom({
-  key: 'tempState', // unique ID (with respect to other atoms/selectors)
-  default: [
-    {
-      bodyPart: '',
-      equipment: '',
-      gifUrl: '',
-      id: '',
-      name: '',
-      target: '',
-    },
-  ], // default value (aka initial value)
-})
 
 async function initializeState({ set }: any) {
   const data = await getExercises().then((res) => set(tempState, [...res]))

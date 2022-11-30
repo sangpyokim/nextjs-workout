@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  FC,
-  ReactElement,
-  ReactNode,
-  ReactPropTypes,
-  useState,
-} from 'react'
+import React, { createContext, ReactNode, useState } from 'react'
 
 interface INotificationContextProvider {
   children: ReactNode

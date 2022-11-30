@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { IExerciseItem } from '../../utils/types/exercise'
 import ExerciseItem from './ExerciseItem'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
-import { tempState } from '../../pages/_app'
+import { tempState } from '../../utils/recoil/ExercisesState'
 
 const Container = styled.div`
   display: grid;
@@ -16,7 +15,7 @@ const Container = styled.div`
 
 const ExerciseList = () => {
   const [items, setItems] = useRecoilState(tempState)
-  console.log(items)
+
   const router = useRouter()
 
   if (!items.length) return <div>loading</div>
