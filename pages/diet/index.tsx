@@ -1,7 +1,8 @@
-import React, { FormEvent, ReactElement, useState } from 'react'
+import React, { FormEvent, ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Layout from '../../components/layout/layout'
 import NestedLayout from '../../components/layout/nested-layout'
+import { getFoodData } from '../../utils/dataFetch'
 
 const Container = styled.div`
   width: 100%;
@@ -25,51 +26,59 @@ enum DIET_ITEM_TYPE {
 }
 
 const Diet = () => {
-  const [dietList, setDietList] = useState<IDietItem[]>([])
-  const [dietItem, setDietItem] = useState<IDietItem>({ name: '', amount: '' })
+  const [result, setResult] = useState([])
+  const [customInput, setCustomInput] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const foodNameRef = useRef<HTMLInputElement>(null)
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    validation()
-    console.log(e)
-    setDietList((prev) => {
-      const temp = [...prev]
-      temp.push(dietItem)
-      return temp
-    })
+    setLoading(true)
+    await getFoodData(foodNameRef.current!.value)
+      .then((res) => {
+        if (res) setResult(res)
+        else {
+          // 검색결과가 없으면 직접입력
+          setCustomInput(true)
+        }
+        console.log(res)
+      })
+      .finally(() => setLoading(false))
   }
-  const validation = () => {
-    console.log(dietItem)
-  }
-  const handleChange = (type: DIET_ITEM_TYPE, val: string) => {
-    setDietItem((prev) => {
-      const temp = { ...prev }
-      temp[type] = val
-      return temp
-    })
-  }
+
+  if (loading) return <div>loading</div>
 
   return (
     <Container>
-      {dietList.map((item, i) => (
-        <div key={i}>{item.name}</div>
-      ))}
-
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>음식</label>
         <input
           type={'text'}
-          onChange={(e) => handleChange(DIET_ITEM_TYPE.NAME, e.target.value)}
+          ref={foodNameRef}
         />
 
         <label>섭취량</label>
-        <input
-          type={'text'}
-          onChange={(e) => handleChange(DIET_ITEM_TYPE.AMOUNT, e.target.value)}
-        />
+        <input type={'text'} />
 
         <button type={'submit'}>추가</button>
       </form>
+
+      {customInput && <div>직접입력하시겠습니까</div>}
+
+      {result.map((res: any, i) => (
+        <div
+          key={i}
+          style={{ display: 'flex' }}
+        >
+          <div>{res.DESC_KOR}</div>
+          <div>{res.SERVING_WT}</div>
+          <div>{res.NUTR_CONT1}</div>
+          <div>{res.NUTR_CONT2}</div>
+          <div>{res.NUTR_CONT3}</div>
+          <div>{res.NUTR_CONT4}</div>
+        </div>
+      ))}
     </Container>
   )
 }

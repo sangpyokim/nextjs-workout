@@ -10,6 +10,7 @@ const Document = () => {
           href="/fonts/BMEuljiro10yearslater.woff2"
           as="font"
           type="font/woff2"
+          crossOrigin="anonymous"
         />
         <meta name="theme-color"></meta>
         <link
