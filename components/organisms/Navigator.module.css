@@ -15,6 +15,7 @@
 .iconName {
   display: none;
 }
+
 @media (min-width: 1265px) {
   .container {
     width: 200px;
@@ -29,6 +30,32 @@
     display: flex;
     font-size: 16px;
     margin-left: 4px;
+  }
+  .linkWrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    height: 65px;
+  }
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+  }
+}
+/*768  */
+@media (min-width: 768px) and (max-width: 1264px) {
+  .container {
+    width: 72px;
+    height: 100vh;
+    z-index: 9;
+    border-right: 1px solid #d2d2d2;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 90px;
+  }
+  .iconName {
+    display: none;
   }
   .linkWrapper {
     display: flex;

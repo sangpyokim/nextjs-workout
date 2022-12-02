@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ReactElement, useContext } from 'react'
+import { ReactElement, useContext, useEffect } from 'react'
 import useSWR from 'swr'
 
 import Head from 'next/head'
@@ -9,6 +9,7 @@ import Header from '../organisms/Header'
 import Navigator from '../organisms/Navigator'
 import NotificationContext from '../../store/NotificationContext'
 import Notification from '../organisms/Notification'
+import { setScreenSize } from '../../utils/window/screen'
 
 type LayoutProps = {
   children: ReactElement

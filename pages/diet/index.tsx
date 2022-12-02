@@ -6,13 +6,11 @@ import { getFoodData } from '../../utils/dataFetch'
 
 const Container = styled.div`
   width: 100%;
-  min-height: 100vh;
   padding: 0 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 60px;
 `
 
 interface IDietItem {
@@ -35,6 +33,7 @@ const Diet = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
+    setCustomInput(false)
     await getFoodData(foodNameRef.current!.value)
       .then((res) => {
         if (res) setResult(res)
@@ -43,6 +42,10 @@ const Diet = () => {
           setCustomInput(true)
         }
         console.log(res)
+      })
+      .catch((e) => {
+        setResult([])
+        setCustomInput(true)
       })
       .finally(() => setLoading(false))
   }

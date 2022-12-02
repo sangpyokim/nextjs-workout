@@ -1,15 +1,18 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react'
+import { setScreenSize } from '../../utils/window/screen'
 import styles from './nested-layout.module.css'
 type NestedLayoutProps = {
-    children: ReactElement
+  children: ReactElement
 }
 
 const NestedLayout = ({ children }: NestedLayoutProps) => {
-  return (
-    <div className={styles.container} >
-      {children}
-    </div>
-  )
+  useEffect(() => {
+    setScreenSize()
+    window.addEventListener('resize', setScreenSize)
+
+    return () => window.removeEventListener('resize', setScreenSize)
+  }, [])
+  return <div className={styles.container}>{children}</div>
 }
 
 export default NestedLayout

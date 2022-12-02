@@ -1,13 +1,25 @@
 .container {
-  max-width: 100%;
+  box-sizing: border-box;
   margin: 0 auto 0;
   padding-top: 55px;
-  min-height: 100vh;
   background-color: #e4e4e4;
+  min-height: calc(var(--vh, 1vh) * 100);
 }
 
-@media (min-width: 880px) {
+@media (min-width: 1265px) {
   .container {
     max-width: 840px;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1264px) {
+  .container {
+    max-width: 840px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1000px) {
+  .container {
+    max-width: 640px;
+    margin: 0 auto 0;
+    padding-top: 55px;
   }
 }

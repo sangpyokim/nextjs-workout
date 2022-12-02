@@ -1,13 +1,14 @@
 import React, { FormEvent, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { IWorkOutTempItemProps } from '../../utils/types/exercise'
+import Button from './Button'
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   color: #454545;
-  margin-bottom: 8px;
-  padding: 4px;
+  margin-bottom: 12px;
+  padding: 6px;
   border-radius: 4px;
   background-color: #eee;
   box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.7),
@@ -22,10 +23,11 @@ const Form = styled.form`
 `
 const Section = styled.div`
   display: flex;
+  align-items: center;
   width: 100%;
   height: 20px;
   overflow: hidden;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 `
 const Label = styled.label`
   margin-right: 4px;
@@ -33,16 +35,22 @@ const Label = styled.label`
 const Select = styled.select`
   max-width: 140px;
   min-width: 40px;
+  border: 1px solid #757575;
+  border-radius: 2px;
+  color: black;
+  outline: none;
 `
 const Option = styled.option``
-
-const ButtonWrapper = styled.div`
+const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 4px;
+  margin-bottom: 6px;
 `
-const Button = styled.button``
+const ButtonWrapper = styled.div`
+  height: 20px;
+  width: 80px;
+`
 
 const INIT_TIMES_DATA = '5'
 
@@ -58,7 +66,7 @@ const WorkOutTempItem = ({
   const timesRef = useRef<HTMLSelectElement>(null)
 
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
+    // e.preventDefault()
     add({
       targetBody: targetBodyRef.current?.value,
       exercise: exerciseNameRef.current?.value,
@@ -73,10 +81,10 @@ const WorkOutTempItem = ({
 
   return (
     <Container>
-      <Form onSubmit={(e) => handleSubmit(e)}>
+      <Form>
         <Section>
           <Label htmlFor="targetBody">운동부위: </Label>
-          <select
+          <Select
             ref={targetBodyRef}
             name={'targetBody'}
             defaultValue={bodyPart}
@@ -88,7 +96,7 @@ const WorkOutTempItem = ({
             <option value="팔">팔</option>
             <option value="하체">하체</option>
             <option value="허리">허리</option>
-          </select>
+          </Select>
         </Section>
 
         <Section>
@@ -122,20 +130,21 @@ const WorkOutTempItem = ({
           </Select>
         </Section>
 
-        <ButtonWrapper>
-          <Button
-            type={'reset'}
-            onClick={() => handleDelete()}
-          >
-            삭제
-          </Button>
-          <Button
-            type="submit"
-            value={'추가'}
-          >
-            추가
-          </Button>
-        </ButtonWrapper>
+        <ButtonContainer>
+          <ButtonWrapper>
+            <Button
+              title="삭제"
+              action={() => handleDelete()}
+            />
+          </ButtonWrapper>
+
+          <ButtonWrapper>
+            <Button
+              title={'추가'}
+              action={handleSubmit}
+            />
+          </ButtonWrapper>
+        </ButtonContainer>
       </Form>
     </Container>
   )
