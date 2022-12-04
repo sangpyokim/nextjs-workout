@@ -1,12 +1,13 @@
 import React, { FormEvent, ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
+import Calender from '../../components/Calender'
 import Layout from '../../components/layout/layout'
 import NestedLayout from '../../components/layout/nested-layout'
 import { getFoodData } from '../../utils/dataFetch'
 
 const Container = styled.div`
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 1rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -54,6 +55,8 @@ const Diet = () => {
 
   return (
     <Container>
+      <Calender />
+
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>음식</label>
         <input
