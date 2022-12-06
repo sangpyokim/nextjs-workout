@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import {
+  LeftOutlined,
+  OrderedListOutlined,
+  RedoOutlined,
+  RightOutlined,
+} from '@ant-design/icons'
+import { getDateString, initCalender } from '../utils/calender'
 
 const Container = styled.div`
   max-width: 320px;
@@ -41,8 +47,8 @@ const IconContainer = styled.div`
   display: flex;
 `
 const IconWrapper = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,12 +70,13 @@ const DaysItem = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-const Days = styled.div`
+const Days = styled.div<{ isToday: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 1/1;
-  background-color: #f2f2f2;
+  background-color: ${(props) => (props.isToday ? '#333333' : '#f2f2f2')};
+  color: ${(props) => (props.isToday ? '#f2f2f2' : '#333333')};
   width: 50%;
   font-size: 12px;
   font-weight: 500;
@@ -81,10 +88,10 @@ const TiesWrapper = styled.div`
   height: 20px;
   padding: 0 2px;
 `
-const Ties = styled.div`
+const Ties = styled.div<{ bodyPart: string }>`
   width: 100%;
   height: 4px;
-  background-color: red;
+  background-color: ${(props) => bodyPartColors[props.bodyPart]};
   margin-bottom: 2px;
 `
 
@@ -92,480 +99,125 @@ const Ties = styled.div`
 // 현재 캘린더에 적힌 월, 년 기준으로 달력 만들기 -> 버튼 누르면 캘린더 재 랜더링
 // days -> background-color(이번달, 오늘), color(이번달, 이번달 x, 오늘)
 // ties -> 운동에따른 지정색. 최대 4개
-const Calender = () => {
+
+const bodyPartColors: IBodyPartColors = {
+  가슴: '#69b1ff',
+  등: '#b37feb',
+}
+interface IBodyPartColors {
+  [key: string]: string
+}
+
+interface IDummyData {
+  date: string
+  workList: string[]
+}
+
+interface ICalender {
+  calenderList: number[][]
+  dummyData: IDummyData[]
+}
+
+const Calender = ({ calenderList, dummyData }: ICalender) => {
+  const [currentCalenderList, setCurrentCalenderList] = useState({
+    calenderList,
+    year: new Date().getFullYear(),
+    month: new Date().toLocaleDateString('en-US', { month: 'long' }),
+    date: new Date(),
+  })
+  const [counter, setCounter] = useState(0)
+
+  const updateCalenderList = (up: boolean) => {
+    if (up) {
+      setCounter(counter + 1)
+    } else {
+      setCounter(counter - 1)
+    }
+
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const newDate = new Date(year, month + counter)
+
+    setCurrentCalenderList({
+      calenderList: initCalender(getDateString(newDate)),
+      year: newDate.getFullYear(),
+      month: newDate.toLocaleDateString('en-US', { month: 'long' }),
+      date: newDate,
+    })
+  }
+  const resetCalenderList = () => {
+    const date = new Date()
+    setCurrentCalenderList({
+      calenderList: initCalender(getDateString(date)),
+      year: date.getFullYear(),
+      month: date.toLocaleDateString('en-US', { month: 'long' }),
+      date,
+    })
+  }
+  const isToday = (date: number) => {
+    const temp = new Date()
+
+    return (
+      temp.getFullYear() === currentCalenderList.year &&
+      temp.toLocaleDateString('en-US', { month: 'long' }) ===
+        currentCalenderList.month &&
+      temp.getDate() === date
+    )
+  }
+  const findTies = (date: number) => {
+    const temp = new Date(
+      currentCalenderList.date.getFullYear(),
+      currentCalenderList.date.getMonth(),
+      date,
+    )
+    const tempStr = getDateString(temp)
+
+    return dummyData
+      .filter((list) => list.date === tempStr)
+      .map((list) => list.workList.sort())
+  }
+
   return (
     <Container>
       <TitleContainer>
         <TimeContainer>
-          <Month>march</Month>
-          <Year>2022</Year>
+          <Month>{currentCalenderList.month}</Month>
+          <Year>{currentCalenderList.year}</Year>
         </TimeContainer>
         <IconContainer>
-          <IconWrapper>
+          <IconWrapper onClick={() => resetCalenderList()}>
+            <RedoOutlined style={{ fontSize: '12px' }} />
+          </IconWrapper>
+          <IconWrapper onClick={() => updateCalenderList(false)}>
             <LeftOutlined style={{ fontSize: '12px' }} />
           </IconWrapper>
-          <IconWrapper>
+          <IconWrapper onClick={() => updateCalenderList(true)}>
             <RightOutlined style={{ fontSize: '12px' }} />
           </IconWrapper>
         </IconContainer>
       </TitleContainer>
 
       <DaysGridContainer>
-        <DaysColumnsWrapper>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-        </DaysColumnsWrapper>
-        <DaysColumnsWrapper>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-        </DaysColumnsWrapper>
-        <DaysColumnsWrapper>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-        </DaysColumnsWrapper>
-        <DaysColumnsWrapper>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-        </DaysColumnsWrapper>
-        <DaysColumnsWrapper>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-        </DaysColumnsWrapper>
-        <DaysColumnsWrapper>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-        </DaysColumnsWrapper>
-        <DaysColumnsWrapper>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-          <DaysItem>
-            <Days>1</Days>
-            <TiesWrapper>
-              <Ties />
-              <Ties />
-              <Ties />
-              <Ties />
-            </TiesWrapper>
-          </DaysItem>
-        </DaysColumnsWrapper>
+        {currentCalenderList.calenderList.map((list, i) => (
+          <DaysColumnsWrapper key={i}>
+            {list.map((date, i) => (
+              <DaysItem key={i}>
+                <Days isToday={isToday(date)}>{date}</Days>
+                <TiesWrapper>
+                  {findTies(date).map((list, i) =>
+                    list.map((tie, i) => (
+                      <Ties
+                        key={i}
+                        bodyPart={tie}
+                      />
+                    )),
+                  )}
+                </TiesWrapper>
+              </DaysItem>
+            ))}
+          </DaysColumnsWrapper>
+        ))}
       </DaysGridContainer>
     </Container>
   )

@@ -4,6 +4,7 @@ import Calender from '../../components/Calender'
 import Layout from '../../components/layout/layout'
 import NestedLayout from '../../components/layout/nested-layout'
 import { getFoodData } from '../../utils/dataFetch'
+import { getDateString, initCalender } from '../../utils/calender'
 
 const Container = styled.div`
   width: 100%;
@@ -23,8 +24,28 @@ enum DIET_ITEM_TYPE {
   'NAME' = 'name',
   'AMOUNT' = 'amount',
 }
+const dummyData = [
+  {
+    date: '12/6/2022',
+    workList: ['가슴', '등'],
+  },
+  {
+    date: '12/5/2022',
+    workList: ['등', '가슴'],
+  },
+]
 
-const Diet = () => {
+export async function getStaticProps() {
+  return {
+    props: {
+      calenderList: initCalender(getDateString()),
+    }, // will be passed to the page component as props
+  }
+}
+interface ICalender {
+  calenderList: number[][]
+}
+const Diet = ({ calenderList }: ICalender) => {
   const [result, setResult] = useState([])
   const [customInput, setCustomInput] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -55,7 +76,10 @@ const Diet = () => {
 
   return (
     <Container>
-      <Calender />
+      <Calender
+        calenderList={calenderList}
+        dummyData={dummyData}
+      />
 
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>음식</label>
