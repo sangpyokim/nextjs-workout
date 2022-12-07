@@ -128,16 +128,17 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
   const [counter, setCounter] = useState(0)
 
   const updateCalenderList = (up: boolean) => {
+    let temp = counter
     if (up) {
-      setCounter(counter + 1)
+      temp += 1
     } else {
-      setCounter(counter - 1)
+      temp -= 1
     }
 
     const date = new Date()
     const year = date.getFullYear()
     const month = date.getMonth()
-    const newDate = new Date(year, month + counter)
+    const newDate = new Date(year, month + temp)
 
     setCurrentCalenderList({
       calenderList: initCalender(getDateString(newDate)),
@@ -145,6 +146,7 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
       month: newDate.toLocaleDateString('en-US', { month: 'long' }),
       date: newDate,
     })
+    setCounter(temp)
   }
   const resetCalenderList = () => {
     const date = new Date()
