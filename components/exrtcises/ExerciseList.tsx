@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
-import { tempState } from '../../utils/recoil/ExercisesState'
+import { exerciseDataList } from '../../utils/recoil/ExercisesState'
 
 const Container = styled.div`
   display: grid;
@@ -14,22 +14,23 @@ const Container = styled.div`
 `
 
 const ExerciseList = () => {
-  const [items, setItems] = useRecoilState(tempState)
+  const [items, setItems] = useRecoilState(exerciseDataList)
 
   const router = useRouter()
 
-  if (!items.length) return <div>loading</div>
+  if (items[0].bodyPart.length === 0) return <div>loading</div>
 
   return (
     <Container>
-      {items.map((item) => (
-        <Link
-          key={item.id}
-          href={`${router.pathname}/${item.id}`}
-        >
-          <ExerciseItem {...item} />
-        </Link>
-      ))}
+      {items &&
+        items.map((item) => (
+          <Link
+            key={item.id}
+            href={`${router.pathname}/${item.id}`}
+          >
+            <ExerciseItem {...item} />
+          </Link>
+        ))}
     </Container>
   )
 }

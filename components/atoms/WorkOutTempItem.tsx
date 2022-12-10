@@ -56,7 +56,7 @@ const INIT_TIMES_DATA = '5'
 
 const WorkOutTempItem = ({
   index,
-  add,
+  addList,
   remove,
   exerciseList,
 }: IWorkOutTempItemProps) => {
@@ -67,7 +67,8 @@ const WorkOutTempItem = ({
 
   const handleSubmit = (e: FormEvent) => {
     // e.preventDefault()
-    add({
+    addList({
+      id: new Date().getTime(),
       targetBody: targetBodyRef.current?.value,
       exercise: exerciseNameRef.current?.value,
       setTimes: timesRef.current?.value,

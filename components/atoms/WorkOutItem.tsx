@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
+import { getUserId, isLoggedIn } from '../../utils/firebase/Auth'
+import { writeUserExerciseDate } from '../../utils/firebase/Database'
 import { IWorkOutFormDataList } from '../../utils/types/exercise'
 import Button from './Button'
 
@@ -62,6 +65,7 @@ interface IProgressBar {
 }
 
 const WorkOutItem = ({
+  id,
   targetBody,
   exercise,
   setTimes,
@@ -69,8 +73,19 @@ const WorkOutItem = ({
   const [progress, setProgress] = useState(0)
 
   const handleProgressUp = () => {
-    if (progress < Number(setTimes)) {
-      setProgress((prev) => prev + 1)
+    let temp = progress
+
+    if (temp < Number(setTimes)) {
+      setProgress(temp + 1)
+
+      if (temp + 1 === Number(setTimes) && isLoggedIn()) {
+        // writeUserExerciseDate('rlatkdvy12', {
+        //   id:
+        //   exercise,
+        //   setTimes,
+        //   targetBody,
+        // })
+      }
     }
   }
 

@@ -1,6 +1,4 @@
-import axios from 'axios'
-import { ReactElement, useContext, useEffect } from 'react'
-import useSWR from 'swr'
+import { ReactElement, useContext, useEffect, useState } from 'react'
 
 import Head from 'next/head'
 
@@ -8,17 +6,38 @@ import styles from './layout.module.css'
 import Header from '../organisms/Header'
 import Navigator from '../organisms/Navigator'
 import NotificationContext from '../../store/NotificationContext'
-import Notification from '../organisms/Notification'
-import { setScreenSize } from '../../utils/window/screen'
+import { getMyAuth } from '../../utils/firebase/Auth'
+import { onAuthStateChanged } from 'firebase/auth'
+import { authLoading, userInfo } from '../../utils/recoil/ExercisesState'
+import { useRecoilState } from 'recoil'
 
 type LayoutProps = {
   children: ReactElement
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const notificationContext = useContext(NotificationContext)
+  const [loading, setLoading] = useRecoilState(authLoading)
+  const [user, setUser] = useRecoilState(userInfo)
 
-  const activeNotification = notificationContext.notification
+  useEffect(() => {
+    const auth = getMyAuth()
+    const listener = onAuthStateChanged(auth.auth, (user) => {
+      if (user) {
+        const uid = user.uid
+        setUser({
+          email: user.email!,
+          displayName: user.displayName!,
+        })
+        setLoading(false)
+      } else {
+        setLoading(false)
+      }
+    })
+
+    return () => {
+      listener()
+    }
+  }, [])
 
   return (
     <div className={styles.container}>

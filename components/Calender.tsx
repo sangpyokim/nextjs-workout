@@ -6,7 +6,11 @@ import {
   RedoOutlined,
   RightOutlined,
 } from '@ant-design/icons'
-import { getDateString, initCalender } from '../utils/calender'
+import {
+  getDateString,
+  getKoreaDateString,
+  initCalender,
+} from '../utils/calender'
 
 const Container = styled.div`
   max-width: 320px;
@@ -108,12 +112,12 @@ interface IBodyPartColors {
   [key: string]: string
 }
 
-interface IDummyData {
+export interface IDummyData {
   date: string
   workList: string[]
 }
 
-interface ICalender {
+export interface ICalender {
   calenderList: number[][]
   dummyData: IDummyData[]
 }
@@ -173,11 +177,19 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
       currentCalenderList.date.getMonth(),
       date,
     )
-    const tempStr = getDateString(temp)
+    // const tempStr = getDateString(temp)
+    const tempStr = getKoreaDateString(temp)
 
     return dummyData
       .filter((list) => list.date === tempStr)
-      .map((list) => list.workList.sort())
+      .map((list) => {
+        const set: Set<string> = new Set()
+        list.workList.forEach((part) => set.add(part))
+        const temp: string[] = []
+        set.forEach((v) => temp.push(v))
+        list.workList = temp
+        return list
+      })
   }
 
   return (
@@ -208,10 +220,10 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
                 <Days isToday={isToday(date)}>{date}</Days>
                 <TiesWrapper>
                   {findTies(date).map((list, i) =>
-                    list.map((tie, i) => (
+                    list.workList.map((part) => (
                       <Ties
-                        key={i}
-                        bodyPart={tie}
+                        key={part}
+                        bodyPart={part}
                       />
                     )),
                   )}

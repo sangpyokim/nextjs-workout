@@ -15,7 +15,7 @@ export interface IExerciseList {
   target: string
 }
 export interface IWorkOutFormDataList {
-  index?: number
+  id: string
   targetBody: string
   exercise: string
   setTimes: string
@@ -24,6 +24,6 @@ export interface IWorkOutFormDataList {
 export interface IWorkOutTempItemProps {
   index: number
   remove: Function
-  add: Function
+  addList: Function
   exerciseList: IExerciseList[]
 }

@@ -56,3 +56,7 @@ const getNextCalenderArr = (days: number) => {
 export const getDateString = (newDate: Date = new Date()) => {
   return new Intl.DateTimeFormat('en-US').format(newDate)
 }
+
+export const getKoreaDateString = (newDate: Date = new Date()) => {
+  return new Intl.DateTimeFormat('ko').format(newDate)
+}

@@ -10,13 +10,9 @@ const Community = () => {
     </div>
   )
 }
-
+// Community.getLayout = Community
 Community.getLayout = function GetLayout(page: ReactElement) {
-  return (
-    <Layout>
-      <NestedLayout>{page}</NestedLayout>
-    </Layout>
-  )
+  return page
 }
 
 export default Community

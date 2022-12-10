@@ -11,11 +11,7 @@ const DetailPage = () => {
 }
 
 DetailPage.getLayout = function GetLayout(page: ReactElement) {
-  return (
-    <Layout>
-      <NestedLayout>{page}</NestedLayout>
-    </Layout>
-  )
+  return page
 }
 
 export default DetailPage

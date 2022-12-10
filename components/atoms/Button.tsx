@@ -26,7 +26,14 @@ const CustomButton = styled.button`
 `
 
 const Button = ({ action, title }: IButton) => {
-  return <CustomButton onClick={() => action()}>{title}</CustomButton>
+  return (
+    <CustomButton
+      onClick={() => action()}
+      type="button"
+    >
+      {title}
+    </CustomButton>
+  )
 }
 
 export default Button

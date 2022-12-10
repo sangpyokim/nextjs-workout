@@ -1,10 +1,22 @@
-import React, { FormEvent, ReactElement, useRef, useState } from 'react'
+import React, {
+  FormEvent,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 import Calender from '../../components/Calender'
 import Layout from '../../components/layout/layout'
 import NestedLayout from '../../components/layout/nested-layout'
 import { getFoodData } from '../../utils/dataFetch'
 import { getDateString, initCalender } from '../../utils/calender'
+import { collection, doc } from 'firebase/firestore'
+import { fireStore } from '../../firebase'
+import { authLoading, userInfo } from '../../utils/recoil/ExercisesState'
+import { useRecoilState } from 'recoil'
+import { getUserAllData } from '../../utils/firebase/FireStore'
+import { useQuery } from 'react-query'
 
 const Container = styled.div`
   width: 100%;
@@ -46,6 +58,9 @@ interface ICalender {
   calenderList: number[][]
 }
 const Diet = ({ calenderList }: ICalender) => {
+  const [aLoading, setALoading] = useRecoilState(authLoading)
+  const [user, setUser] = useRecoilState(userInfo)
+
   const [result, setResult] = useState([])
   const [customInput, setCustomInput] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -72,13 +87,26 @@ const Diet = ({ calenderList }: ICalender) => {
       .finally(() => setLoading(false))
   }
 
-  if (loading) return <div>loading</div>
+  const { data, isLoading } = useQuery(
+    ['userAllData'],
+    () => getUserAllData(user.email.split('@')[0]),
+    {
+      enabled: !aLoading && user.email.length > 0,
+    },
+  )
+
+  useEffect(() => {
+    // react Query 로 바꾸기
+    getUserAllData(user.email.split('@')[0])
+  }, [])
+
+  if (loading || aLoading || isLoading) return <div>loading</div>
 
   return (
     <Container>
       <Calender
         calenderList={calenderList}
-        dummyData={dummyData}
+        dummyData={data!}
       />
 
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -112,13 +140,9 @@ const Diet = ({ calenderList }: ICalender) => {
     </Container>
   )
 }
-
+// Diet.getLayout = Diet
 Diet.getLayout = function GetLayout(page: ReactElement) {
-  return (
-    <Layout>
-      <NestedLayout>{page}</NestedLayout>
-    </Layout>
-  )
+  return page
 }
 
 export default Diet
