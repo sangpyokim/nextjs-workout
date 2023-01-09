@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { getUserId, isLoggedIn } from '../../utils/firebase/Auth'
-import { writeUserExerciseDate } from '../../utils/firebase/Database'
+import { isLoggedIn } from '../../utils/firebase/Auth'
 import { IWorkOutFormDataList } from '../../utils/types/exercise'
 import Button from './Button'
 

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {
-  LeftOutlined,
-  OrderedListOutlined,
-  RedoOutlined,
-  RightOutlined,
-} from '@ant-design/icons'
+import { LeftOutlined, RedoOutlined, RightOutlined } from '@ant-design/icons'
 import {
   getDateString,
   getKoreaDateString,
   initCalender,
 } from '../utils/calender'
+import {
+  bodyPartColors,
+  ICalender,
+  IWorkOutFormDataList,
+} from '../utils/types/exercise'
 
 const Container = styled.div`
   max-width: 320px;
@@ -99,30 +99,7 @@ const Ties = styled.div<{ bodyPart: string }>`
   margin-bottom: 2px;
 `
 
-// 캘린더 데이터가져오기
-// 현재 캘린더에 적힌 월, 년 기준으로 달력 만들기 -> 버튼 누르면 캘린더 재 랜더링
-// days -> background-color(이번달, 오늘), color(이번달, 이번달 x, 오늘)
-// ties -> 운동에따른 지정색. 최대 4개
-
-const bodyPartColors: IBodyPartColors = {
-  가슴: '#69b1ff',
-  등: '#b37feb',
-}
-interface IBodyPartColors {
-  [key: string]: string
-}
-
-export interface IDummyData {
-  date: string
-  workList: string[]
-}
-
-export interface ICalender {
-  calenderList: number[][]
-  dummyData: IDummyData[]
-}
-
-const Calender = ({ calenderList, dummyData }: ICalender) => {
+const Calender = ({ calenderList, data }: ICalender) => {
   const [currentCalenderList, setCurrentCalenderList] = useState({
     calenderList,
     year: new Date().getFullYear(),
@@ -152,6 +129,7 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
     })
     setCounter(temp)
   }
+
   const resetCalenderList = () => {
     const date = new Date()
     setCurrentCalenderList({
@@ -161,6 +139,7 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
       date,
     })
   }
+
   const isToday = (date: number) => {
     const temp = new Date()
 
@@ -171,25 +150,23 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
       temp.getDate() === date
     )
   }
+
   const findTies = (date: number) => {
-    const temp = new Date(
+    const curDate = new Date(
       currentCalenderList.date.getFullYear(),
       currentCalenderList.date.getMonth(),
       date,
     )
-    // const tempStr = getDateString(temp)
-    const tempStr = getKoreaDateString(temp)
+    const strCurDate = getKoreaDateString(curDate)
 
-    return dummyData
-      .filter((list) => list.date === tempStr)
-      .map((list) => {
-        const set: Set<string> = new Set()
-        list.workList.forEach((part) => set.add(part))
-        const temp: string[] = []
-        set.forEach((v) => temp.push(v))
-        list.workList = temp
-        return list
-      })
+    const res: IWorkOutFormDataList[] = []
+    for (let x of data) {
+      const prevDate = new Date(x.id)
+      const strPrevDate = getKoreaDateString(prevDate)
+      if (res.length < 4 && strCurDate === strPrevDate) res.push(x)
+    }
+
+    return res
   }
 
   return (
@@ -219,14 +196,12 @@ const Calender = ({ calenderList, dummyData }: ICalender) => {
               <DaysItem key={i}>
                 <Days isToday={isToday(date)}>{date}</Days>
                 <TiesWrapper>
-                  {findTies(date).map((list, i) =>
-                    list.workList.map((part) => (
-                      <Ties
-                        key={part}
-                        bodyPart={part}
-                      />
-                    )),
-                  )}
+                  {findTies(date).map((data) => (
+                    <Ties
+                      key={data.id}
+                      bodyPart={data.targetBody}
+                    />
+                  ))}
                 </TiesWrapper>
               </DaysItem>
             ))}

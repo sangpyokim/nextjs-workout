@@ -2,18 +2,22 @@ import { ReactElement, useContext, useEffect, useState } from 'react'
 
 import Head from 'next/head'
 
-import styles from './layout.module.css'
 import Header from '../organisms/Header'
 import Navigator from '../organisms/Navigator'
-import NotificationContext from '../../store/NotificationContext'
 import { getMyAuth } from '../../utils/firebase/Auth'
 import { onAuthStateChanged } from 'firebase/auth'
 import { authLoading, userInfo } from '../../utils/recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
+import styled from 'styled-components'
 
 type LayoutProps = {
   children: ReactElement
 }
+
+const Container = styled.div`
+  width: 100%;
+  margin: 0 auto 0;
+`
 
 const Layout = ({ children }: LayoutProps) => {
   const [loading, setLoading] = useRecoilState(authLoading)
@@ -40,7 +44,7 @@ const Layout = ({ children }: LayoutProps) => {
   }, [])
 
   return (
-    <div className={styles.container}>
+    <Container>
       <Head>
         <title>Work Out</title>
         <meta
@@ -66,7 +70,7 @@ const Layout = ({ children }: LayoutProps) => {
       {children}
 
       <Navigator />
-    </div>
+    </Container>
   )
 }
 

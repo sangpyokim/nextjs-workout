@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import style from './Navigator.module.css'
 import {
   DashboardFilled,
   DashboardOutlined,
@@ -9,15 +8,89 @@ import {
   CommentOutlined,
 } from '@ant-design/icons'
 import Link from 'next/link'
+import styled from 'styled-components'
 
+const Container = styled.div`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    width: 200px;
+    height: 100vh;
+    z-index: 9;
+    border-right: 1px solid #d2d2d2;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 90px;
+  }
+
+  @media ${({ theme }) => theme.breakPoint.tablet} {
+    width: 72px;
+    height: 100vh;
+    z-index: 9;
+    border-right: 1px solid #d2d2d2;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 90px;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: white;
+  border-top: 1px solid #d2d2d2;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  height: 45px;
+  width: 100%;
+  padding: 0 16px;
+`
+const LinkWrapper = styled.div`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    height: 65px;
+  }
+
+  @media ${({ theme }) => theme.breakPoint.tablet} {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    height: 65px;
+  }
+`
+const IconWrapper = styled.div`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    display: flex;
+    align-items: center;
+  }
+
+  @media ${({ theme }) => theme.breakPoint.tablet} {
+    display: flex;
+    align-items: center;
+  }
+`
+const IconName = styled.p`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    display: flex;
+    font-size: 16px;
+    margin-left: 4px;
+  }
+
+  @media ${({ theme }) => theme.breakPoint.tablet} {
+    display: none;
+  }
+  display: none;
+`
 const Navigator = () => {
   const router = useRouter()
 
   return (
-    <div className={style.container}>
-      <div className={style.linkWrapper}>
+    <Container>
+      <LinkWrapper>
         <Link href={'/'}>
-          <div className={style.iconWrapper}>
+          <IconWrapper>
             {router.pathname === '/' ? (
               <DashboardFilled
                 alt="timer-fill"
@@ -29,14 +102,14 @@ const Navigator = () => {
                 style={styles.icon}
               />
             )}
-            <p className={style.iconName}>타이머</p>
-          </div>
+            <IconName>타이머</IconName>
+          </IconWrapper>
         </Link>
-      </div>
+      </LinkWrapper>
 
-      <div className={style.linkWrapper}>
+      <LinkWrapper>
         <Link href={'/diet'}>
-          <div className={style.iconWrapper}>
+          <IconWrapper>
             {router.pathname === '/diet' ? (
               <HeartFilled
                 alt="heart-fill"
@@ -48,23 +121,23 @@ const Navigator = () => {
                 style={styles.icon}
               />
             )}
-            <p className={style.iconName}>식단</p>
-          </div>
+            <IconName>식단</IconName>
+          </IconWrapper>
         </Link>
-      </div>
+      </LinkWrapper>
 
-      <div className={style.linkWrapper}>
+      <LinkWrapper>
         <Link href={'/community'}>
-          <div className={style.iconWrapper}>
+          <IconWrapper>
             <CommentOutlined
               alt="comment-outline"
               style={styles.icon}
             />
-            <p className={style.iconName}>커뮤니티</p>
-          </div>
+            <IconName>커뮤니티</IconName>
+          </IconWrapper>
         </Link>
-      </div>
-    </div>
+      </LinkWrapper>
+    </Container>
   )
 }
 

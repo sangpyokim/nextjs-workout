@@ -13,13 +13,19 @@ import axios from 'axios'
 import {
   getUserExerciseData,
   setUserExerciseData,
-  updateUserExerciseData,
 } from '../../utils/firebase/FireStore'
 import { getMyAuth } from '../../utils/firebase/Auth'
 import WorkOutItem from '../atoms/WorkOutItem'
 import { getKoreaDateString } from '../../utils/calender'
 
 const Container = styled.section`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    width: 460px;
+  }
+  @media ${({ theme }) => theme.breakPoint.tablet} {
+    width: 400px;
+  }
+
   display: flex;
   padding: 8px;
   flex-direction: column;
@@ -31,9 +37,8 @@ const Container = styled.section`
   min-height: 80px;
 
   /* 뉴몰피즘 */
-  background-color: #eee;
-  box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.7),
-    6px 6px 10px rgba(0, 0, 0, 0.15);
+  background-color: ${({ theme }) => theme.neumorphism.background_color};
+  box-shadow: ${({ theme }) => theme.neumorphism.box_shadow};
 `
 const TitleWrapper = styled.div`
   display: flex;
@@ -57,17 +62,14 @@ const PlusButton = styled.button`
   color: black;
   font-size: 16px;
 
-  background-color: #eee;
-  box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.7),
-    6px 6px 10px rgba(0, 0, 0, 0.15);
+  background-color: ${({ theme }) => theme.neumorphism.background_color};
+  box-shadow: ${({ theme }) => theme.neumorphism.box_shadow};
 
   &:hover {
-    box-shadow: -2px -2px 6px rgba(255, 255, 255, 0.6),
-      2px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: ${({ theme }) => theme.neumorphism.hover.box_shadow};
   }
   &:active {
-    box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.7),
-      inset 2px 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: ${({ theme }) => theme.neumorphism.active.box_shadow};
   }
 `
 

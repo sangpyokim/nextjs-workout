@@ -27,3 +27,15 @@ export interface IWorkOutTempItemProps {
   addList: Function
   exerciseList: IExerciseList[]
 }
+export interface ICalender {
+  calenderList: number[][]
+  data: any
+}
+export const bodyPartColors: IBodyPartColors = {
+  가슴: '#69b1ff',
+  등: '#b37feb',
+  하체: '#de3d3d',
+}
+interface IBodyPartColors {
+  [key: string]: string
+}

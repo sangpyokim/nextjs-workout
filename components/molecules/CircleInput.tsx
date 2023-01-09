@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CircularSlider from '@fseehawer/react-circular-slider'
 import styled from 'styled-components'
+import { AMaxTime, AStartTime, AStartToggle } from '../main/recoil/TimerAtom'
+import { useRecoilState } from 'recoil'
 
 const WIDTH = 176
 
@@ -16,47 +18,26 @@ const TouchBox = styled.div`
 `
 
 interface ICircleInput {
-  setTime: Function
-  setToggle: Function
-  initSec: number
-  maxSec: number
   style: object
 }
 
-const CircleInput = ({
-  setTime,
-  initSec,
-  setToggle,
-  maxSec,
-  style,
-}: ICircleInput) => {
-  const [dataArr, setDataArr] = useState(setData(maxSec))
-  const [curTime, setCurTime] = useState(initSec?.toString())
-
-  function setData(start: number): Array<string> {
-    const res = []
-    for (let i = 1; i <= start; i++) {
-      res.push(`${i}초`)
-    }
-    return res
-  }
-
-  const handleClick = () => {
-    setTime(curTime.slice(0, curTime.length - 1))
-    setToggle(true)
-  }
+const CircleInput = ({ style }: ICircleInput) => {
+  const [aStartToggle, setAStartToggle] = useRecoilState(AStartToggle)
+  const [aMaxTime, setAMaxTime] = useRecoilState(AMaxTime)
+  const [aStartTime, setAStartTime] = useRecoilState(AStartTime)
 
   return (
     <div style={style}>
       <CircularSlider
-        onChange={(val: string) => setCurTime(val)}
+        onChange={(val: string) => setAStartTime(Number(val))}
         width={WIDTH}
-        data={dataArr}
-        dataIndex={initSec - 1}
+        // data={dataArr}
+        max={aMaxTime}
+        min={1}
+        dataIndex={aStartTime - 1}
         progressSize={12}
         progressColorFrom="#0c7de7"
         // progressColorTo='#36cfc9'
-
         knobColor="black"
         trackColor="#d4d4d4"
         label={' '}
@@ -64,9 +45,9 @@ const CircleInput = ({
         labelBottom={true}
         valueFontSize={'40px'}
       />
-      <TouchBox onClick={() => handleClick()} />
+      <TouchBox onClick={() => setAStartToggle(true)} />
     </div>
   )
 }
 
-export default CircleInput
+export default React.memo(CircleInput)

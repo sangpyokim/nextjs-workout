@@ -1,31 +1,33 @@
-import Head from 'next/head'
-
 import { ReactElement } from 'react'
 import { NextPageWithLayout } from './_app'
+import styled from 'styled-components'
 
-import styles from '../styles/Timer.module.css'
 // layout
 import Layout from '../components/layout/layout'
 import NestedLayout from '../components/layout/nested-layout'
 
-// page
-import OTimer from '../components/organisms/OTimer'
-import TodayWorkOutList from '../components/organisms/TodayWorkOutList'
+// components
+import TimerWrapper from '../components/main/TimerWrapper'
+import TodayWorkOutList from '../components/main/TodayWorkOutList'
 
-// server-side
+const Container = styled.div`
+  width: 100%;
+  padding: 0 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 60px;
+`
 
 const Home: NextPageWithLayout = (props: any) => {
   return (
-    <div className={styles.container}>
+    <Container>
       {/* 데이터 가져와서 initSec 변경 시켜주기 */}
-      <div className={styles.timerWrapper}>
-        <OTimer initSec={60} />
-      </div>
+      <TimerWrapper />
 
-      <div className={styles.listWrapper}>
-        <TodayWorkOutList />
-      </div>
-    </div>
+      <TodayWorkOutList />
+    </Container>
   )
 }
 // Home.getLayout = Home

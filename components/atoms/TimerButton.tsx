@@ -1,27 +1,39 @@
 import React from 'react'
-import { Button, Radio } from 'antd';
-import style from './TimerButton.module.css'
+import { Button } from 'antd'
+import styled from 'styled-components'
 
 interface ITimerButton {
-    label: string,
-    onClick: Function,
-    style?: object
+  label: string
+  onClick: Function
+  style?: object
 }
 
-const TimerButton = (
-    { label, onClick }: ITimerButton
-    ) => {
+const Buttons = styled(Button)`
+  width: 80px;
+  height: 20px;
+  border: 0;
+  font-size: 12px;
+  color: #252525;
+  border-radius: 20px;
 
+  background-color: ${({ theme }) => theme.neumorphism.background_color};
+  box-shadow: ${({ theme }) => theme.neumorphism.box_shadow};
+  &:hover {
+    ${({ theme }) => theme.neumorphism.hover.box_shadow};
+  }
+  &:active {
+    ${({ theme }) => theme.neumorphism.active.box_shadow};
+  }
+`
 
-
+const TimerButton = ({ label, onClick }: ITimerButton) => {
   return (
-    <Button 
-        className={style.button}
-        value="default"
-        onClick={() => onClick()} 
-        >
-        {label}
-    </Button>
+    <Buttons
+      value="default"
+      onClick={() => onClick()}
+    >
+      {label}
+    </Buttons>
   )
 }
 

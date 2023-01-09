@@ -8,7 +8,7 @@ import { getExercises } from './api/exercises'
 import { NotificationContextProvider } from '../store/NotificationContext'
 
 // recoil
-import { atom, RecoilRoot } from 'recoil'
+import { RecoilRoot } from 'recoil'
 import { exerciseDataList, userInfo } from '../utils/recoil/ExercisesState'
 
 // react query
@@ -18,6 +18,9 @@ import { getMyAuth } from '../utils/firebase/Auth'
 import Header from '../components/organisms/Header'
 import Layout from '../components/layout/layout'
 import NestedLayout from '../components/layout/nested-layout'
+import { GlobalStyle } from '../styles/GlobalStyles'
+import { ThemeProvider } from 'styled-components'
+import { theme } from '../styles/theme'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -37,11 +40,14 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <NotificationContextProvider>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot initializeState={initializeState}>
-          <Layout>
-            <NestedLayout>
-              <Component {...pageProps} />
-            </NestedLayout>
-          </Layout>
+          <GlobalStyle />
+          <ThemeProvider theme={theme}>
+            <Layout>
+              <NestedLayout>
+                <Component {...pageProps} />
+              </NestedLayout>
+            </Layout>
+          </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools />
       </QueryClientProvider>
