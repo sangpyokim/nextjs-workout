@@ -1,6 +1,6 @@
 import React, { FormEvent, ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
-import Calender from '../../components/Calender'
+import Calender from '../../components/diet/Calender'
 import { getFoodData } from '../../utils/dataFetch'
 import {
   getDateString,
@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil'
 import { getUserAllData } from '../../utils/firebase/FireStore'
 import { useQuery } from 'react-query'
 import FoodSearch from '../../components/organisms/FoodSearch'
+import { useCalenders } from '../../components/diet/hooks/useCalenders'
 
 const Container = styled.div`
   width: 100%;
@@ -33,28 +34,9 @@ interface ICalender {
   calenderList: number[][]
 }
 const Diet = ({ calenderList }: ICalender) => {
-  const [aLoading, setALoading] = useRecoilState(authLoading)
-  const [user, setUser] = useRecoilState(userInfo)
-
-  const { data, isLoading } = useQuery(
-    ['userAllData'],
-    () => {
-      const curDate = getKoreaDateString(new Date())
-      return getUserAllData(user.email.split('@')[0], curDate)
-    },
-    {
-      enabled: !aLoading && user.email.length > 0,
-    },
-  )
-
-  if (aLoading || isLoading) return <div>loading</div>
-
   return (
     <Container>
-      <Calender
-        calenderList={calenderList}
-        data={data?.exerciseData || []}
-      />
+      <Calender calenderList={calenderList} />
       <FoodSearch />
     </Container>
   )

@@ -9,12 +9,10 @@ import {
   userInfo,
 } from '../../utils/recoil/ExercisesState'
 import { useQuery } from 'react-query'
-import axios from 'axios'
 import {
   getUserExerciseData,
   setUserExerciseData,
 } from '../../utils/firebase/FireStore'
-import { getMyAuth } from '../../utils/firebase/Auth'
 import WorkOutItem from '../atoms/WorkOutItem'
 import { getKoreaDateString } from '../../utils/calender'
 
@@ -48,7 +46,7 @@ const TitleWrapper = styled.div`
 `
 const Title = styled.div`
   font-size: 14px;
-  color: #454545;
+  color: #252525;
   font-weight: 500;
 `
 const PlusButton = styled.button`

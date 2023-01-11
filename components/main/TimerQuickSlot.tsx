@@ -7,16 +7,17 @@ const Container = styled.div`
   @media ${({ theme }) => theme.breakPoint.laptop} {
     margin-left: 16px;
     width: 140px;
+    margin-top: 0px;
   }
   @media ${({ theme }) => theme.breakPoint.tablet} {
     margin-left: 16px;
     width: 140px;
+    margin-top: 0px;
   }
-
   margin-top: 8px;
   display: flex;
   flex-direction: column;
-  padding: 4px;
+  padding: 8px;
 
   background-color: ${({ theme }) => theme.neumorphism.background_color};
   box-shadow: ${({ theme }) => theme.neumorphism.box_shadow};
@@ -25,10 +26,14 @@ const Container = styled.div`
 
 const TimeQuickSlot = styled.div``
 const TimeBlockWrapper = styled.div`
+  @media ${({ theme }) => theme.breakPoint.tablet} {
+    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+    grid-auto-rows: minmax(35px, 1fr);
+  }
   margin: 8px 0 12px 0;
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40px, auto));
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
   grid-auto-rows: minmax(40px, auto);
   gap: 4px;
 `

@@ -1,6 +1,7 @@
 import {
   Auth,
   getAuth,
+  getRedirectResult,
   GoogleAuthProvider,
   signInWithPopup,
   signInWithRedirect,
@@ -21,19 +22,13 @@ export const getUserId = async () => {
   const auth = getAuth(app)
   return auth.currentUser?.email?.split('@')[0]
 }
-export const mobileLogIn = () => {
+export const mobileLogIn = async () => {
   const { auth, provider } = getMyAuth()
-
-  try {
-    signInWithRedirect(auth, provider)
-  } catch (error) {
-    console.log(error)
-  }
+  await signInWithRedirect(auth, provider)
 }
 
 export const pcLogIn = () => {
   const { auth, provider } = getMyAuth()
-
   try {
     signInWithPopup(auth, provider)
   } catch (error) {

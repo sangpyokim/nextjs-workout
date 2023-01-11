@@ -5,12 +5,15 @@ import {
   getDateString,
   getKoreaDateString,
   initCalender,
-} from '../utils/calender'
+} from '../../utils/calender'
 import {
   bodyPartColors,
   ICalender,
   IWorkOutFormDataList,
-} from '../utils/types/exercise'
+} from '../../utils/types/exercise'
+import { useCalenders, useCalenderFeature } from './hooks/useCalenders'
+import { useRecoilState } from 'recoil'
+import { authLoading } from '../../utils/recoil/ExercisesState'
 
 const Container = styled.div`
   max-width: 320px;
@@ -99,75 +102,18 @@ const Ties = styled.div<{ bodyPart: string }>`
   margin-bottom: 2px;
 `
 
-const Calender = ({ calenderList, data }: ICalender) => {
-  const [currentCalenderList, setCurrentCalenderList] = useState({
-    calenderList,
-    year: new Date().getFullYear(),
-    month: new Date().toLocaleDateString('en-US', { month: 'long' }),
-    date: new Date(),
-  })
-  const [counter, setCounter] = useState(0)
+const Calender = ({ calenderList }: ICalender) => {
+  const [loading, setLoading] = useRecoilState(authLoading)
+  const { data, isLoading } = useCalenders()
+  const {
+    currentCalenderList,
+    findTies,
+    isToday,
+    resetCalenderList,
+    updateCalenderList,
+  } = useCalenderFeature(calenderList, data)
 
-  const updateCalenderList = (up: boolean) => {
-    let temp = counter
-    if (up) {
-      temp += 1
-    } else {
-      temp -= 1
-    }
-
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = date.getMonth()
-    const newDate = new Date(year, month + temp)
-
-    setCurrentCalenderList({
-      calenderList: initCalender(getDateString(newDate)),
-      year: newDate.getFullYear(),
-      month: newDate.toLocaleDateString('en-US', { month: 'long' }),
-      date: newDate,
-    })
-    setCounter(temp)
-  }
-
-  const resetCalenderList = () => {
-    const date = new Date()
-    setCurrentCalenderList({
-      calenderList: initCalender(getDateString(date)),
-      year: date.getFullYear(),
-      month: date.toLocaleDateString('en-US', { month: 'long' }),
-      date,
-    })
-  }
-
-  const isToday = (date: number) => {
-    const temp = new Date()
-
-    return (
-      temp.getFullYear() === currentCalenderList.year &&
-      temp.toLocaleDateString('en-US', { month: 'long' }) ===
-        currentCalenderList.month &&
-      temp.getDate() === date
-    )
-  }
-
-  const findTies = (date: number) => {
-    const curDate = new Date(
-      currentCalenderList.date.getFullYear(),
-      currentCalenderList.date.getMonth(),
-      date,
-    )
-    const strCurDate = getKoreaDateString(curDate)
-
-    const res: IWorkOutFormDataList[] = []
-    for (let x of data) {
-      const prevDate = new Date(x.id)
-      const strPrevDate = getKoreaDateString(prevDate)
-      if (res.length < 4 && strCurDate === strPrevDate) res.push(x)
-    }
-
-    return res
-  }
+  if (loading || isLoading) return <div>loading</div>
 
   return (
     <Container>

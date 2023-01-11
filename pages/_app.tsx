@@ -21,6 +21,7 @@ import NestedLayout from '../components/layout/nested-layout'
 import { GlobalStyle } from '../styles/GlobalStyles'
 import { ThemeProvider } from 'styled-components'
 import { theme } from '../styles/theme'
+import { queryClient } from '../react-query/queryClient'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -34,7 +35,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   // const getLayout = Component.getLayout ?? ((page) => page)
   const getLayout = Component.getLayout ?? ((page) => page)
-  const queryClient = new QueryClient()
 
   return getLayout(
     <NotificationContextProvider>

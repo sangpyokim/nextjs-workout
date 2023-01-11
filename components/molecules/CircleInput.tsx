@@ -44,6 +44,7 @@ const CircleInput = ({ style }: ICircleInput) => {
         labelFontSize={'16px'}
         labelBottom={true}
         valueFontSize={'40px'}
+        appendToValue={'s'}
       />
       <TouchBox onClick={() => setAStartToggle(true)} />
     </div>

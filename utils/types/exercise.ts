@@ -29,7 +29,6 @@ export interface IWorkOutTempItemProps {
 }
 export interface ICalender {
   calenderList: number[][]
-  data: any
 }
 export const bodyPartColors: IBodyPartColors = {
   가슴: '#69b1ff',

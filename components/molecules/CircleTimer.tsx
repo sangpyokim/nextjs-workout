@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { AudioHTMLAttributes, useRef, useState } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useRecoilState } from 'recoil'
 import TimerLabel from '../atoms/TimerLabel'
@@ -17,11 +17,16 @@ const CircleTimer = ({
   style,
 }: ICircleTimer) => {
   const [aStartTime, setAStartTime] = useRecoilState(AStartTime)
+  const ref = useRef<HTMLAudioElement>(null)
+  const onComplete = () => {
+    setIsPlaying(false)
+    ref.current?.play()
+  }
 
   return (
     <div style={style}>
       <CountdownCircleTimer
-        onComplete={() => setIsPlaying(false)}
+        onComplete={() => onComplete()}
         key={keys}
         isPlaying={isPlaying}
         duration={aStartTime}
@@ -43,10 +48,15 @@ const CircleTimer = ({
               animation={true}
             />
           ) : (
-            <div>끝</div>
+            <div>종료</div>
           )
         }
       </CountdownCircleTimer>
+      <audio
+        ref={ref}
+        id="complete_play"
+        src="/sounds/complete.mp3"
+      />
     </div>
   )
 }
