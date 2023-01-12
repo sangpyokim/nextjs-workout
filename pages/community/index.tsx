@@ -1,7 +1,5 @@
 import React, { ReactElement, useState } from 'react'
 import ExerciseList from '../../components/exrtcises/ExerciseList'
-import Layout from '../../components/layout/layout'
-import NestedLayout from '../../components/layout/nested-layout'
 
 const Community = () => {
   return (

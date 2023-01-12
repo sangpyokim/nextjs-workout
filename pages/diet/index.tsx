@@ -1,18 +1,13 @@
 import React, { FormEvent, ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Calender from '../../components/diet/Calender'
-import { getFoodData } from '../../utils/dataFetch'
 import {
   getDateString,
   getKoreaDateString,
   initCalender,
 } from '../../utils/calender'
-import { authLoading, userInfo } from '../../utils/recoil/ExercisesState'
-import { useRecoilState } from 'recoil'
-import { getUserAllData } from '../../utils/firebase/FireStore'
-import { useQuery } from 'react-query'
 import FoodSearch from '../../components/organisms/FoodSearch'
-import { useCalenders } from '../../components/diet/hooks/useCalenders'
+import { getTemp } from '../../firebase/database/calender'
 
 const Container = styled.div`
   width: 100%;
@@ -34,6 +29,7 @@ interface ICalender {
   calenderList: number[][]
 }
 const Diet = ({ calenderList }: ICalender) => {
+  const res = getTemp()
   return (
     <Container>
       <Calender calenderList={calenderList} />

@@ -97,7 +97,7 @@ const TiesWrapper = styled.div`
 `
 const Ties = styled.div<{ bodyPart: string }>`
   width: 100%;
-  height: 4px;
+  height: 3px;
   background-color: ${(props) => bodyPartColors[props.bodyPart]};
   margin-bottom: 2px;
 `

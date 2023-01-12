@@ -6,11 +6,11 @@ import { SettingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
 import { AStartToggle } from './recoil/TimerAtom'
-
-const MAX_SECOND = 120
+import Modal from './Modal'
+import { useModal } from './hooks/useModal'
+import { useTimer } from './hooks/useTimer'
 
 const Container = styled.div`
-  // 반응형 고민..
   @media ${({ theme }) => theme.breakPoint.laptop} {
     width: 300px;
     height: 300px;
@@ -41,23 +41,93 @@ const ButtonWrapper = styled.div`
   width: 100%;
   height: 60px;
 `
+const IconContainer = styled.div`
+  position: relative;
+  top: 12px;
+  height: 0px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: end;
+`
+const MaxTimeSetForm = styled.form`
+  padding: 16px;
+  border-bottom: 1px solid #dee2e6;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+`
+const Label = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
+  margin-right: 8px;
+`
+const TimeSetInput = styled.input`
+  width: 60px;
+  height: 18px;
+  margin: 8px 0;
+  border: 0;
+  border-radius: 4px;
+
+  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.7),
+    inset -5px -5px 10px #ddd;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.7),
+      inset -1px -1px 2px #ddd;
+  }
+`
+const MaxTimeSetButton = styled.button`
+  border: 1px solid white;
+  border-radius: 4px;
+`
 
 const Timer = () => {
-  const [aStartToggle, setAStartToggle] = useRecoilState(AStartToggle)
-  const [keys, setKey] = useState(1)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const { open, setOpen } = useModal()
 
-  const resetTimer = () => {
-    setAStartToggle(false)
-    setIsPlaying(false)
-  }
-  const restartTimer = () => {
-    setIsPlaying(false)
-    setKey((prev) => prev + 1)
-  }
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const {
+    keys,
+    isPlaying,
+    setIsPlaying,
+    aStartToggle,
+    setAStartToggle,
+    aMaxTime,
+    inputHandler,
+    resetTimer,
+    restartTimer,
+  } = useTimer(inputRef)
 
   return (
     <Container>
+      <Modal
+        open={open}
+        setOpen={setOpen}
+        header={'타이머 설정'}
+      >
+        <MaxTimeSetForm>
+          <Label>최대시간 설정 (초)</Label>
+          <TimeSetInput
+            ref={inputRef}
+            type="text"
+            pattern="\d*"
+            name="maxTimeSetter"
+            defaultValue={aMaxTime}
+            maxLength={5}
+          />
+          <MaxTimeSetButton onClick={(e) => inputHandler(e)}>
+            확인
+          </MaxTimeSetButton>
+        </MaxTimeSetForm>
+      </Modal>
+
+      <IconContainer>
+        <SettingOutlined onClick={() => setOpen(true)} />
+      </IconContainer>
+
       <Wrapper>
         {aStartToggle ? (
           <>

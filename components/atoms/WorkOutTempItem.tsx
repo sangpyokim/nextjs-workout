@@ -96,7 +96,7 @@ const WorkOutTempItem = ({
             <option value="어깨">어깨</option>
             <option value="팔">팔</option>
             <option value="하체">하체</option>
-            <option value="허리">허리</option>
+            <option value="복근">복근</option>
           </Select>
         </Section>
 

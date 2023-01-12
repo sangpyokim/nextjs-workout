@@ -6,9 +6,13 @@ import {
   HeartOutlined,
   HeartFilled,
   CommentOutlined,
+  BankOutlined,
+  BankFilled,
 } from '@ant-design/icons'
 import Link from 'next/link'
 import styled from 'styled-components'
+
+// icons
 
 const Container = styled.div`
   @media ${({ theme }) => theme.breakPoint.laptop} {
@@ -129,11 +133,18 @@ const Navigator = () => {
       <LinkWrapper>
         <Link href={'/community'}>
           <IconWrapper>
-            <CommentOutlined
-              alt="comment-outline"
-              style={styles.icon}
-            />
-            <IconName>커뮤니티</IconName>
+            {router.pathname === '/community' ? (
+              <BankFilled
+                alt="learn-exercise-fill"
+                style={styles.icon}
+              />
+            ) : (
+              <BankOutlined
+                alt="learn-exercise-outline"
+                style={styles.icon}
+              />
+            )}
+            <IconName>운동 학습</IconName>
           </IconWrapper>
         </Link>
       </LinkWrapper>

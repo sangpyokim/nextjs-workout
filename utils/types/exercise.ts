@@ -31,9 +31,12 @@ export interface ICalender {
   calenderList: number[][]
 }
 export const bodyPartColors: IBodyPartColors = {
-  가슴: '#69b1ff',
   등: '#b37feb',
+  가슴: '#69b1ff',
+  어깨: '#bae637',
   하체: '#de3d3d',
+  팔: '#ffa940',
+  복근: '#ff85c0',
 }
 interface IBodyPartColors {
   [key: string]: string
