@@ -1,13 +1,8 @@
-import React, { FormEvent, ReactElement, useRef, useState } from 'react'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import Calender from '../../components/diet/Calender'
-import {
-  getDateString,
-  getKoreaDateString,
-  initCalender,
-} from '../../utils/calender'
+import { getDateString, initCalender } from '../../utils/calender'
 import FoodSearch from '../../components/organisms/FoodSearch'
-import { getTemp } from '../../firebase/database/calender'
 
 const Container = styled.div`
   width: 100%;
@@ -29,7 +24,6 @@ interface ICalender {
   calenderList: number[][]
 }
 const Diet = ({ calenderList }: ICalender) => {
-  const res = getTemp()
   return (
     <Container>
       <Calender calenderList={calenderList} />

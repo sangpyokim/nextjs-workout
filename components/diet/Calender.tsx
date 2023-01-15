@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { LeftOutlined, RedoOutlined, RightOutlined } from '@ant-design/icons'
-import {
-  getDateString,
-  getKoreaDateString,
-  initCalender,
-} from '../../utils/calender'
-import {
-  bodyPartColors,
-  ICalender,
-  IWorkOutFormDataList,
-} from '../../utils/types/exercise'
-import { useCalenders, useCalenderFeature } from './hooks/useCalenders'
+
+import { bodyPartColors, ICalender } from '../../utils/types/exercise'
+import { useCalenderFeature } from './hooks/useCalenders'
 import { useRecoilState } from 'recoil'
 import { authLoading } from '../../utils/recoil/ExercisesState'
 
@@ -104,16 +96,15 @@ const Ties = styled.div<{ bodyPart: string }>`
 
 const Calender = ({ calenderList }: ICalender) => {
   const [loading, setLoading] = useRecoilState(authLoading)
-  const { data, isLoading } = useCalenders()
   const {
     currentCalenderList,
     findTies,
     isToday,
     resetCalenderList,
     updateCalenderList,
-  } = useCalenderFeature(calenderList, data)
+  } = useCalenderFeature(calenderList)
 
-  if (loading || isLoading) return <div>loading</div>
+  if (loading) return <div>loading</div>
 
   return (
     <Container>
@@ -139,7 +130,10 @@ const Calender = ({ calenderList }: ICalender) => {
         {currentCalenderList.calenderList.map((list, i) => (
           <DaysColumnsWrapper key={i}>
             {list.map((date, i) => (
-              <DaysItem key={i}>
+              <DaysItem
+                key={i}
+                onClick={() => console.log('click')}
+              >
                 <Days isToday={isToday(date)}>{date}</Days>
                 <TiesWrapper>
                   {findTies(date).map((data) => (

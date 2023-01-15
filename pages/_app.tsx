@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import { Fragment, ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { getExercises } from './api/exercises'
@@ -9,13 +9,11 @@ import { NotificationContextProvider } from '../store/NotificationContext'
 
 // recoil
 import { RecoilRoot } from 'recoil'
-import { exerciseDataList, userInfo } from '../utils/recoil/ExercisesState'
+import { exerciseDataList } from '../utils/recoil/ExercisesState'
 
 // react query
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { getMyAuth } from '../utils/firebase/Auth'
-import Header from '../components/organisms/Header'
 import Layout from '../components/layout/layout'
 import NestedLayout from '../components/layout/nested-layout'
 import { GlobalStyle } from '../styles/GlobalStyles'

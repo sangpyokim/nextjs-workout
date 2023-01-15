@@ -3,42 +3,36 @@ import {
   getKoreaDateString,
   initCalender,
 } from './../../../utils/calender'
-import { useQuery, useIsFetching } from 'react-query'
-import { getUserAllData } from '../../../utils/firebase/FireStore'
+import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 import { userInfo } from '../../../utils/recoil/ExercisesState'
 import { useState } from 'react'
-import { ICalender, IWorkOutFormDataList } from '../../../utils/types/exercise'
+import { IWorkOutFormDataList } from '../../../utils/types/exercise'
+import { getExerciseData } from '../../../firebase/database/calender'
 
 interface temp {
   exerciseData: any
   dietData: never[]
 }
 
-export const useCalenders = () => {
+export const useCalenders = (year: string, month: string) => {
   const [user, setUser] = useRecoilState(userInfo)
   const fallback: any = []
 
+  // 이번달 가져오기
+
   const { data = fallback, isLoading } = useQuery(
-    ['userAllData'],
-    () => {
-      const curDate = getKoreaDateString(new Date())
-      return getUserAllData(user.email.split('@')[0], curDate)
-    },
+    ['userAllData', 'exercises', year, month],
+    () => getExerciseData(user.email, year, month),
     {
       enabled: user.email !== '',
-      staleTime: 600000,
-      cacheTime: 900000,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
     },
   )
 
   return { data, isLoading }
 }
 
-export const useCalenderFeature = (calenderList: number[][], data: temp) => {
+export const useCalenderFeature = (calenderList: number[][]) => {
   const [currentCalenderList, setCurrentCalenderList] = useState({
     calenderList,
     year: new Date().getFullYear(),
@@ -46,6 +40,12 @@ export const useCalenderFeature = (calenderList: number[][], data: temp) => {
     date: new Date(),
   })
   const [counter, setCounter] = useState(0)
+
+  const { data, isLoading } = useCalenders(
+    currentCalenderList.date.getFullYear().toString(),
+    String(currentCalenderList.date.getMonth() + 1),
+  ) // year, month 보내줘야함.
+
   const updateCalenderList = (up: boolean) => {
     let temp = counter
     if (up) {
@@ -95,13 +95,19 @@ export const useCalenderFeature = (calenderList: number[][], data: temp) => {
       currentCalenderList.date.getMonth(),
       date,
     )
-    const strCurDate = getKoreaDateString(curDate)
+    const strCurDate = getKoreaDateString(curDate || null)
 
     const res: IWorkOutFormDataList[] = []
-    for (let x of data.exerciseData) {
-      const prevDate = new Date(x.id)
-      const strPrevDate = getKoreaDateString(prevDate)
-      if (res.length < 4 && strCurDate === strPrevDate) res.push(x)
+
+    for (let key in data) {
+      const monthItem = data[key]
+      for (let k in monthItem) {
+        if (!monthItem[k].id) continue
+        const prevDate = new Date(monthItem[k].id)
+
+        const strPrevDate = getKoreaDateString(prevDate)
+        if (res.length < 4 && strCurDate === strPrevDate) res.push(monthItem[k])
+      }
     }
 
     return res
@@ -113,5 +119,7 @@ export const useCalenderFeature = (calenderList: number[][], data: temp) => {
     resetCalenderList,
     isToday,
     findTies,
+    data,
+    isLoading,
   }
 }

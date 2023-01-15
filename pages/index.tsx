@@ -2,10 +2,6 @@ import { ReactElement } from 'react'
 import { NextPageWithLayout } from './_app'
 import styled from 'styled-components'
 
-// layout
-import Layout from '../components/layout/layout'
-import NestedLayout from '../components/layout/nested-layout'
-
 // components
 import TimerWrapper from '../components/main/TimerWrapper'
 import TodayWorkOutList from '../components/main/TodayWorkOutList'
