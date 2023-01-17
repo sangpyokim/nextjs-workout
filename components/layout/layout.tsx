@@ -53,6 +53,7 @@ const Layout = ({ children }: LayoutProps) => {
         />
         <meta
           name="description"
+          property="og:description"
           content="자신의 운동을 기록하세요."
         />
         <link
