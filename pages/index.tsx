@@ -19,7 +19,6 @@ const Container = styled.div`
 const Home: NextPageWithLayout = (props: any) => {
   return (
     <Container>
-      {/* 데이터 가져와서 initSec 변경 시켜주기 */}
       <TimerWrapper />
 
       <TodayWorkOutList />

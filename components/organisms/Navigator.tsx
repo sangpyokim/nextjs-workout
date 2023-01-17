@@ -8,6 +8,8 @@ import {
   CommentOutlined,
   BankOutlined,
   BankFilled,
+  ReconciliationFilled,
+  ReconciliationOutlined,
 } from '@ant-design/icons'
 import Link from 'next/link'
 import styled from 'styled-components'
@@ -145,6 +147,25 @@ const Navigator = () => {
               />
             )}
             <IconName>운동 학습</IconName>
+          </IconWrapper>
+        </Link>
+      </LinkWrapper>
+
+      <LinkWrapper>
+        <Link href={'/diet'}>
+          <IconWrapper>
+            {router.pathname === '/mypage' ? (
+              <ReconciliationFilled
+                alt="reconciliation-filled"
+                style={styles.icon}
+              />
+            ) : (
+              <ReconciliationOutlined
+                alt="reconciliation-outline"
+                style={styles.icon}
+              />
+            )}
+            <IconName>기록</IconName>
           </IconWrapper>
         </Link>
       </LinkWrapper>

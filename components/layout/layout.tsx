@@ -28,6 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
     const listener = onAuthStateChanged(auth.auth, (user) => {
       if (user) {
         const uid = user.uid
+        console.log(uid)
         setUser({
           email: user.email!,
           displayName: user.displayName!,
@@ -41,7 +42,7 @@ const Layout = ({ children }: LayoutProps) => {
     return () => {
       listener()
     }
-  }, [])
+  })
 
   return (
     <Container>
