@@ -9,7 +9,7 @@ import {
   authLoading,
   userInfo,
   exerciseDataList,
-} from '../../../utils/recoil/ExercisesState'
+} from '../../../recoil/ExercisesState'
 import {
   IExerciseList,
   IWorkOutFormDataList,

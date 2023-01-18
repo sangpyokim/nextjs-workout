@@ -1,6 +1,8 @@
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
-import { NextPageWithLayout } from '../_app'
+import Calender from '../../components/mypage/Calender'
+import MyStory from '../../components/mypage/MyStory'
+import { getDateString, initCalender } from '../../utils/calender'
 
 const Container = styled.div`
   width: 100%;
@@ -12,10 +14,23 @@ const Container = styled.div`
   padding-bottom: 60px;
 `
 
-const MyPage: NextPageWithLayout = (props: any) => {
+export async function getStaticProps() {
+  return {
+    props: {
+      calenderList: initCalender(getDateString()),
+    }, // will be passed to the page component as props
+  }
+}
+interface ICalender {
+  calenderList: number[][]
+}
+
+const MyPage = ({ calenderList }: ICalender) => {
   return (
     <Container>
-      <div>123</div>
+      <Calender calenderList={calenderList} />
+
+      <MyStory />
     </Container>
   )
 }

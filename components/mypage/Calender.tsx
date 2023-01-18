@@ -5,7 +5,7 @@ import { LeftOutlined, RedoOutlined, RightOutlined } from '@ant-design/icons'
 import { bodyPartColors, ICalender } from '../../utils/types/exercise'
 import { useCalenderFeature } from './hooks/useCalenders'
 import { useRecoilState } from 'recoil'
-import { authLoading } from '../../utils/recoil/ExercisesState'
+import { authLoading } from '../../recoil/ExercisesState'
 
 const Container = styled.div`
   max-width: 320px;

@@ -9,7 +9,7 @@ import { NotificationContextProvider } from '../store/NotificationContext'
 
 // recoil
 import { RecoilRoot } from 'recoil'
-import { exerciseDataList } from '../utils/recoil/ExercisesState'
+import { exerciseDataList } from '../recoil/ExercisesState'
 
 // react query
 import { QueryClientProvider } from 'react-query'
@@ -54,7 +54,5 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 }
 
 async function initializeState({ set }: any) {
-  const data = await getExercises().then((res) =>
-    set(exerciseDataList, [...res]),
-  )
+  const data = await getExercises().then((res) => set(exerciseDataList, res))
 }

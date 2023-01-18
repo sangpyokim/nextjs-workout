@@ -1,7 +1,8 @@
+import { atomKeys } from './constants'
 import { atom } from 'recoil'
 
 export const exerciseDataList = atom({
-  key: 'tempState', // unique ID (with respect to other atoms/selectors)
+  key: atomKeys.exerciseDataList, // unique ID (with respect to other atoms/selectors)
   default: [
     {
       bodyPart: '',
@@ -15,7 +16,7 @@ export const exerciseDataList = atom({
 })
 
 export const userInfo = atom({
-  key: 'userInfo',
+  key: atomKeys.userInfo,
   default: {
     email: '',
     displayName: '',
@@ -23,6 +24,6 @@ export const userInfo = atom({
 })
 
 export const authLoading = atom({
-  key: 'authLoading',
+  key: atomKeys.authLoading,
   default: true,
 })

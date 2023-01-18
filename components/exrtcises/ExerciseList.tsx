@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
-import { exerciseDataList } from '../../utils/recoil/ExercisesState'
+import { exerciseDataList } from '../../recoil/ExercisesState'
 
 const Container = styled.div`
   display: grid;

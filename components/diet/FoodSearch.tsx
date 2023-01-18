@@ -8,22 +8,10 @@ const FoodSearch = () => {
   const [customInput, setCustomInput] = useState(false)
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
     setCustomInput(false)
-    await getFoodData(foodNameRef.current!.value)
-      .then((res) => {
-        if (res) setResult(res)
-        else {
-          // 검색결과가 없으면 직접입력
-          setCustomInput(true)
-        }
-        console.log(res)
-      })
-      .catch((e) => {
-        setResult([])
-        setCustomInput(true)
-      })
-      .finally(() => setLoading(false))
+    const res = await getFoodData(foodNameRef.current!.value)
+
+    console.log(res)
   }
 
   if (loading) return <div>loading</div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { isLoggedIn } from '../../utils/firebase/Auth'
+import { isLoggedIn } from '../../firebase/auth/Auth'
 import { IWorkOutFormDataList } from '../../utils/types/exercise'
 import Button from './Button'
 

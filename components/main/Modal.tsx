@@ -1,7 +1,5 @@
 import React, { ReactNode, useRef, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
-import { useModal } from './hooks/useModal'
-import { useTimer } from './hooks/useTimer'
 
 const modalShow = keyframes`
   from {

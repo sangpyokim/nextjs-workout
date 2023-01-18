@@ -2,7 +2,7 @@ import React from 'react'
 import Logo from '../atoms/Logo'
 import HeaderLogIn from '../molecules/HeaderLogIn'
 import { useRecoilState, useRecoilValueLoadable } from 'recoil'
-import { authLoading, userInfo } from '../../utils/recoil/ExercisesState'
+import { authLoading, userInfo } from '../../recoil/ExercisesState'
 import styled from 'styled-components'
 
 type HeaderProps = {}

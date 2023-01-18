@@ -5,16 +5,19 @@ import { IWorkOutFormDataList } from '../../utils/types/exercise'
 
 const getWriteURL = (
   userEmail: string,
+  type: string,
   year: string,
   month: string,
   day: string,
   id?: string,
 ) => {
-  const url = `users/${userEmail}/${year}/${month}/${day}/${id}`
+  const url = `users/${userEmail}/${type}/${year}/${month}/${day}/${id}`
   return url
 }
+
 const getReadURL = (
   userEmail: string,
+  type: string,
   year?: string,
   month?: string,
   day?: string,
@@ -23,13 +26,13 @@ const getReadURL = (
   let url = ''
 
   if (year && month && day) {
-    url = `users/${userEmail}/${year}/${month}/${day}`
+    url = `users/${userEmail}/${type}/${year}/${month}/${day}`
   } else if (year && month) {
-    url = `users/${userEmail}/${year}/${month}`
+    url = `users/${userEmail}/${type}/${year}/${month}`
   } else if (year) {
-    url = `users/${userEmail}/${year}`
+    url = `users/${userEmail}/${type}/${year}`
   } else {
-    url = `users/${userEmail}/${date.getFullYear()}/${
+    url = `users/${userEmail}/${type}/${date.getFullYear()}/${
       date.getMonth() + 1
     }/${date.getDate()}`
   }
@@ -48,7 +51,14 @@ export const writeExerciseData = (
     .split('.')
     .map((l) => l.trim())
   const [year, month, day] = dateArr
-  const url = getWriteURL(newUserEmail[0], year, month, day, data.id)
+  const url = getWriteURL(
+    newUserEmail[0],
+    'exercises',
+    year,
+    month,
+    day,
+    data.id,
+  )
   const updateData = {
     id: data.id,
     targetBody: data.targetBody,
@@ -70,7 +80,7 @@ export const getExerciseData = async (
   // 여기에서 분기처리
   // 년, 월, 일 단위로 데이터 가져오기
   const newUserEmail = userEmail.split('.')
-  let url = getReadURL(newUserEmail[0], year, month, day)
+  let url = getReadURL(newUserEmail[0], 'exercises', year, month, day)
   const db = ref(database)
 
   return new Promise((res, req) => {

@@ -3,13 +3,12 @@ import React from 'react'
 import {
   DashboardFilled,
   DashboardOutlined,
-  HeartOutlined,
-  HeartFilled,
-  CommentOutlined,
   BankOutlined,
   BankFilled,
   ReconciliationFilled,
   ReconciliationOutlined,
+  RestFilled,
+  RestOutlined,
 } from '@ant-design/icons'
 import Link from 'next/link'
 import styled from 'styled-components'
@@ -117,13 +116,13 @@ const Navigator = () => {
         <Link href={'/diet'}>
           <IconWrapper>
             {router.pathname === '/diet' ? (
-              <HeartFilled
-                alt="heart-fill"
+              <RestFilled
+                alt="rest-fill"
                 style={styles.icon}
               />
             ) : (
-              <HeartOutlined
-                alt="heart-outline"
+              <RestOutlined
+                alt="rest-outline"
                 style={styles.icon}
               />
             )}
@@ -152,7 +151,7 @@ const Navigator = () => {
       </LinkWrapper>
 
       <LinkWrapper>
-        <Link href={'/diet'}>
+        <Link href={'/mypage'}>
           <IconWrapper>
             {router.pathname === '/mypage' ? (
               <ReconciliationFilled

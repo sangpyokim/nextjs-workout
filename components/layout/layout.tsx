@@ -4,9 +4,9 @@ import Head from 'next/head'
 
 import Header from '../organisms/Header'
 import Navigator from '../organisms/Navigator'
-import { getMyAuth } from '../../utils/firebase/Auth'
+import { getMyAuth } from '../../firebase/auth/Auth'
 import { onAuthStateChanged } from 'firebase/auth'
-import { authLoading, userInfo } from '../../utils/recoil/ExercisesState'
+import { authLoading, userInfo } from '../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 

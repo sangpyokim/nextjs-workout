@@ -1,8 +1,10 @@
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
-import Calender from '../../components/diet/Calender'
-import { getDateString, initCalender } from '../../utils/calender'
-import FoodSearch from '../../components/organisms/FoodSearch'
+import FoodSearch from '../../components/diet/FoodSearch'
+import { useDiet } from '../../components/diet/hooks/useDiet'
+import TodayDiet from '../../components/diet/TodayDiet'
+
+import MyWeightCard from '../../components/diet/MyWeightCard'
 
 const Container = styled.div`
   width: 100%;
@@ -13,20 +15,18 @@ const Container = styled.div`
   align-items: center;
 `
 
-export async function getStaticProps() {
-  return {
-    props: {
-      calenderList: initCalender(getDateString()),
-    }, // will be passed to the page component as props
-  }
-}
-interface ICalender {
-  calenderList: number[][]
-}
-const Diet = ({ calenderList }: ICalender) => {
+const Diet = () => {
+  // 유저의 다이어트 과정 데이터 가져오기
+  // 유저의 오늘 식단 데이터 가져오기,
+  // 유저 식품 검색하기
+  // 유저 식단 기록하기
+
+  const { data } = useDiet()
+
   return (
     <Container>
-      <Calender calenderList={calenderList} />
+      <MyWeightCard />
+      <TodayDiet />
       <FoodSearch />
     </Container>
   )

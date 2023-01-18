@@ -2,11 +2,11 @@ import {
   getDateString,
   getKoreaDateString,
   initCalender,
-} from './../../../utils/calender'
+} from '../../../utils/calender'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
-import { userInfo } from '../../../utils/recoil/ExercisesState'
-import { useState } from 'react'
+import { userInfo } from '../../../recoil/ExercisesState'
+import { useEffect, useState } from 'react'
 import { IWorkOutFormDataList } from '../../../utils/types/exercise'
 import { getExerciseData } from '../../../firebase/database/calender'
 
@@ -15,12 +15,14 @@ interface temp {
   dietData: never[]
 }
 
-export const useCalenders = (year: string, month: string) => {
+export const useCalenders = (
+  year: string = new Date().getFullYear().toString(),
+  month: string = String(new Date().getMonth() + 1),
+) => {
   const [user, setUser] = useRecoilState(userInfo)
   const fallback: any = []
 
   // 이번달 가져오기
-
   const { data = fallback, isLoading } = useQuery(
     ['userAllData', 'exercises', year, month],
     () => getExerciseData(user.email, year, month),
@@ -31,6 +33,7 @@ export const useCalenders = (year: string, month: string) => {
 
   return { data, isLoading }
 }
+// 클릭하면 현재 주소를 바꾼다.
 
 export const useCalenderFeature = (calenderList: number[][]) => {
   const [currentCalenderList, setCurrentCalenderList] = useState({

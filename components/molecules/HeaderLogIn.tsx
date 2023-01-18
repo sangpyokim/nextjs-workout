@@ -1,5 +1,5 @@
 import React from 'react'
-import { isLoggedIn } from '../../utils/firebase/Auth'
+import { isLoggedIn } from '../../firebase/auth/Auth'
 import GoogleLogInButton from '../atoms/GoogleLogInButton'
 
 interface IHeaderLogIn {

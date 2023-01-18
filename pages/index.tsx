@@ -1,5 +1,4 @@
 import { ReactElement } from 'react'
-import { NextPageWithLayout } from './_app'
 import styled from 'styled-components'
 
 // components
@@ -16,7 +15,7 @@ const Container = styled.div`
   padding-bottom: 60px;
 `
 
-const Home: NextPageWithLayout = (props: any) => {
+const Home = (props: any) => {
   return (
     <Container>
       <TimerWrapper />
