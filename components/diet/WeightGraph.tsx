@@ -1,11 +1,17 @@
 import React from 'react'
+import { useIsFetching } from 'react-query'
 import styled from 'styled-components'
-import { getKoreaDateString } from '../../utils/calender'
 import { useWeightGraph } from './hooks/useWeightGraph'
 
 const Container = styled.section`
   width: 100%;
   height: 140px;
+`
+const DDay = styled.div`
+  font-size: 14px;
+  margin-left: 4px;
+  font-weight: 500;
+  color: #252525;
 `
 const GraphWrapper = styled.div`
   display: flex;
@@ -22,7 +28,7 @@ const ItemWeightWrapper = styled.div<{ view: boolean }>`
   display: ${(props) => (props.view ? 'flex' : 'none')};
   position: relative;
   bottom: 22px;
-  left: -8px;
+  left: -12px;
   height: 0px;
   width: 0px;
 `
@@ -61,49 +67,55 @@ const Line = styled.div<{ bgc: boolean; count: number }>`
 // 끝 지점
 // 현재 지점
 // 지점 개수 = 끝 / 8
-const start1 = `2023. 1. 1`
-const end1 = `2023. 2. 2`
 
-const WeightGraph = ({ start = start1, end = end1 }: any) => {
-  const { getDateDiff, getDayList } = useWeightGraph()
-  const diff = getDateDiff(start, end)
+const WeightGraph = () => {
+  const loading = useIsFetching()
+  const { getDDay, getDayList } = useWeightGraph()
+  const d_day = getDDay()
+  const res = getDayList()
+  if (loading) return <Container></Container>
 
-  const dayList = getDayList(start, end, diff)
+  if (res.length === 0) return <div>데이터가 없습니다</div>
 
   return (
     <Container>
-      <div>디데이: {diff}</div>
-
+      <DDay>디데이: {d_day}</DDay>
       <GraphWrapper>
-        {dayList.map((day, i) => (
-          <>
+        {res.map((day, i) => (
+          <React.Fragment key={i}>
             <ItemWrapper>
               <ItemWeightWrapper
                 view={
-                  new Date().getTime() > new Date(day).getTime() ? true : false
+                  new Date().getTime() > new Date(day.date).getTime()
+                    ? true
+                    : false
                 }
               >
-                <ItemWeight>64kg</ItemWeight>
+                <ItemWeight>{day.weight}</ItemWeight>
               </ItemWeightWrapper>
               <Item
                 borderColor={
-                  new Date().getTime() > new Date(day).getTime() ? true : false
+                  new Date().getTime() > new Date(day.date).getTime()
+                    ? true
+                    : false
                 }
               />
               <ItemDate>
-                {dayList[i].split('. ').slice(1, 3).join('/').split('.')}
+                {day.date.split('. ').slice(1, 3).join('/').split('.')}
               </ItemDate>
             </ItemWrapper>
 
-            {i + 1 === dayList.length ? null : (
+            {i + 1 === res.length ? null : (
               <Line
-                count={dayList.length}
+                count={res.length}
                 bgc={
-                  new Date().getTime() > new Date(day).getTime() ? true : false
+                  new Date().getTime() > new Date(day.date).getTime()
+                    ? true
+                    : false
                 }
               />
             )}
-          </>
+          </React.Fragment>
         ))}
       </GraphWrapper>
     </Container>

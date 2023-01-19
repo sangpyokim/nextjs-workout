@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import React from 'react'
+import { useIsFetching } from 'react-query'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -10,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 8px;
-
+  margin-bottom: 12px;
   font-family: sans-serif;
 
   border: 0;
@@ -31,9 +32,12 @@ const Title = styled.header`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.black};
   border-bottom: 1px solid #252525;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `
 const DynamicWeightGraph = dynamic(() => import('./WeightGraph'), {
+  ssr: false,
+})
+const DynamicGoalList = dynamic(() => import('./GoalList'), {
   ssr: false,
 })
 const MyWeightCard = () => {
@@ -42,6 +46,8 @@ const MyWeightCard = () => {
       <Title>나의 체중 목표</Title>
 
       <DynamicWeightGraph />
+
+      <DynamicGoalList />
     </Container>
   )
 }

@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'styled-components'
 
 const deviceSizes = {
-  mobile: '768px',
+  mobile: '767px',
   tablet: '1264px',
   laptop: `1265px`,
 }
@@ -16,6 +16,7 @@ export const theme: DefaultTheme = {
 
   colors: {
     black: '#252525',
+    blue: '#85a5ff',
     yellow: '#edb83c',
     orange: '#eb7952',
     gray: '#6e6e6e',
