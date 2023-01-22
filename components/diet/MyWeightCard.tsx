@@ -1,7 +1,9 @@
 import dynamic from 'next/dynamic'
 import React from 'react'
 import { useIsFetching } from 'react-query'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
+import { userInfo } from '../../recoil/ExercisesState'
 
 const Container = styled.div`
   @media ${({ theme }) => theme.breakPoint.laptop} {
@@ -41,6 +43,16 @@ const DynamicGoalList = dynamic(() => import('./GoalList'), {
   ssr: false,
 })
 const MyWeightCard = () => {
+  const [user, _] = useRecoilState(userInfo)
+
+  if (user.email === '')
+    return (
+      <Container>
+        <Title>나의 체중 목표</Title>
+        <div>로그인을 해주세요</div>
+      </Container>
+    )
+
   return (
     <Container>
       <Title>나의 체중 목표</Title>
