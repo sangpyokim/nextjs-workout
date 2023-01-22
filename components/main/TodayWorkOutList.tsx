@@ -71,7 +71,6 @@ const TodayWorkOutList = () => {
     removeTempList,
     isLoading,
   } = useWorkOutList()
-
   if (isLoading) return <Container></Container>
 
   return (
@@ -81,7 +80,7 @@ const TodayWorkOutList = () => {
       </TitleWrapper>
 
       {list &&
-        list.map((li, i) => (
+        list.map((li: any, i: number) => (
           <WorkOutItem
             key={li.id}
             id={li.id}

@@ -1,10 +1,7 @@
 import { useState } from 'react'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
-import {
-  getExerciseData,
-  writeExerciseData,
-} from '../../../firebase/database/calender'
+import { writeExerciseData } from '../../../firebase/database/calender'
 import {
   authLoading,
   userInfo,
@@ -22,19 +19,18 @@ const data2 = {
   setTimes: '',
 }
 
-const fetchData = (
+const fetchData = async (
   userEmail: string,
   year: string,
   month: string,
   day: string,
   setList: Function,
 ) => {
-  return getExerciseData(userEmail, year, month, day).then((res: any) => {
-    const temp = []
-    for (let key in res) temp.push(res[key])
-    setList(temp)
-    return temp
-  })
+  const url = `https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userEmail}/exercises/${year}/${month}/${day}.json`
+  const fetchs = await fetch(url)
+  const json = await fetchs.json()
+  setList(json)
+  return json
 }
 
 const useExerciseData = () => {
@@ -53,7 +49,6 @@ const useExerciseData = () => {
       enabled: user.email !== '',
     },
   )
-
   return { list, setList, isLoading }
 }
 
@@ -73,10 +68,9 @@ export const useWorkOutList = () => {
       return temp
     })
 
-    if (user.email.length > 0) {
-      writeExerciseData(user.email, new Date(), data)
-      return
-    }
+    if (user.email.length === 0) return
+
+    writeExerciseData(user.email, new Date(), data)
   }
 
   const addTempList = () => {

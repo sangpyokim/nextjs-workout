@@ -94,9 +94,9 @@ const Navigator = () => {
   return (
     <Container>
       <LinkWrapper>
-        <Link href={'/'}>
+        <Link href={'/timer'}>
           <IconWrapper>
-            {router.pathname === '/' ? (
+            {router.pathname.includes('timer') ? (
               <DashboardFilled
                 alt="timer-fill"
                 style={styles.icon}
@@ -115,7 +115,7 @@ const Navigator = () => {
       <LinkWrapper>
         <Link href={'/diet'}>
           <IconWrapper>
-            {router.pathname === '/diet' ? (
+            {router.pathname.includes('diet') ? (
               <RestFilled
                 alt="rest-fill"
                 style={styles.icon}
@@ -134,7 +134,7 @@ const Navigator = () => {
       <LinkWrapper>
         <Link href={'/community'}>
           <IconWrapper>
-            {router.pathname === '/community' ? (
+            {router.pathname.includes('community') ? (
               <BankFilled
                 alt="learn-exercise-fill"
                 style={styles.icon}
@@ -153,7 +153,7 @@ const Navigator = () => {
       <LinkWrapper>
         <Link href={'/mypage'}>
           <IconWrapper>
-            {router.pathname === '/mypage' ? (
+            {router.pathname.includes('mypage') ? (
               <ReconciliationFilled
                 alt="reconciliation-filled"
                 style={styles.icon}

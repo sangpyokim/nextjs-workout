@@ -1,6 +1,10 @@
 import { ReactElement } from 'react'
 import styled from 'styled-components'
 
+// components
+import TimerWrapper from '../../components/main/TimerWrapper'
+import TodayWorkOutList from '../../components/main/TodayWorkOutList'
+
 const Container = styled.div`
   width: 100%;
   padding: 0 2rem;
@@ -14,7 +18,9 @@ const Container = styled.div`
 const Home = (props: any) => {
   return (
     <Container>
-      <div>Home</div>
+      <TimerWrapper />
+
+      <TodayWorkOutList />
     </Container>
   )
 }

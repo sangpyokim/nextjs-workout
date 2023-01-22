@@ -1,8 +1,6 @@
 import React, { useRef } from 'react'
-import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { useTimer } from './hooks/useTimer'
-import { AMaxTime, AStartTime, AStartToggle } from './recoil/TimerAtom'
 
 const Container = styled.div`
   @media ${({ theme }) => theme.breakPoint.laptop} {
@@ -121,7 +119,7 @@ const TimerQuickSlot = () => {
           </TimeBlock>
         </TimeBlockWrapper>
 
-        <button>바로가기 추가버튼 만들기</button>
+        {/* <button>바로가기 추가버튼 만들기</button> */}
       </TimeQuickSlot>
     </Container>
   )

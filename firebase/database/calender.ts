@@ -1,5 +1,6 @@
+import { async } from '@firebase/util'
 import { getDateString, getKoreaDateString } from './../../utils/calender'
-import { child, get, push, ref, set } from 'firebase/database'
+import { child, get, push, ref, set, update } from 'firebase/database'
 import { database } from '../../firebase'
 import { IWorkOutFormDataList } from '../../utils/types/exercise'
 
@@ -11,7 +12,7 @@ const getWriteURL = (
   day: string,
   id?: string,
 ) => {
-  const url = `users/${userEmail}/${type}/${year}/${month}/${day}/${id}`
+  const url = `users/${userEmail}/${type}/${year}/${month}/${day}`
   return url
 }
 
@@ -40,7 +41,7 @@ const getReadURL = (
 }
 
 // 데이터 쓰기
-export const writeExerciseData = (
+export const writeExerciseData = async (
   userEmail: string,
   date: Date,
   data: IWorkOutFormDataList,
@@ -51,25 +52,22 @@ export const writeExerciseData = (
     .split('.')
     .map((l) => l.trim())
   const [year, month, day] = dateArr
-  const url = getWriteURL(
-    newUserEmail[0],
-    'exercises',
-    year,
-    month,
-    day,
-    data.id,
-  )
+  const url = getWriteURL(newUserEmail[0], 'exercises', year, month, day)
   const updateData = {
     id: data.id,
     targetBody: data.targetBody,
     exercise: data.exercise,
     setTimes: data.setTimes,
   }
-
-  // push(db, )
+  const res: any = await getExerciseData(userEmail)
   const dbRef = ref(db, url)
-  set(dbRef, updateData)
+  if (!res.length) {
+    set(dbRef, [updateData])
+    return
+  }
+  set(dbRef, [...res, updateData])
 }
+
 // 데이터 읽기
 export const getExerciseData = async (
   userEmail: string,

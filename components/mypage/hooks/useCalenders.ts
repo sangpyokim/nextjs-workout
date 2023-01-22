@@ -109,7 +109,12 @@ export const useCalenderFeature = (calenderList: number[][]) => {
         const prevDate = new Date(monthItem[k].id)
 
         const strPrevDate = getKoreaDateString(prevDate)
-        if (res.length < 4 && strCurDate === strPrevDate) res.push(monthItem[k])
+        if (
+          res.length < 4 &&
+          strCurDate === strPrevDate &&
+          !res.find((ele) => ele.targetBody === monthItem[k].targetBody)
+        )
+          res.push(monthItem[k])
       }
     }
 

@@ -8,7 +8,6 @@ export const fetchUserWeightGoalData = async (user: string) => {
 
   const fetchData = await fetch(url)
   const json = await fetchData.json()
-
   return json
 }
 
