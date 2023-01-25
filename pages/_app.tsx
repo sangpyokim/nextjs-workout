@@ -5,7 +5,6 @@ import type { AppProps } from 'next/app'
 import { getExercises } from './api/exercises'
 
 // context
-import { NotificationContextProvider } from '../store/NotificationContext'
 
 // recoil
 import { RecoilRoot } from 'recoil'
@@ -35,21 +34,19 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
   return getLayout(
-    <NotificationContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <RecoilRoot initializeState={initializeState}>
-          <GlobalStyle />
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <NestedLayout>
-                <Component {...pageProps} />
-              </NestedLayout>
-            </Layout>
-          </ThemeProvider>
-        </RecoilRoot>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </NotificationContextProvider>,
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot initializeState={initializeState}>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <NestedLayout>
+              <Component {...pageProps} />
+            </NestedLayout>
+          </Layout>
+        </ThemeProvider>
+      </RecoilRoot>
+      <ReactQueryDevtools />
+    </QueryClientProvider>,
   )
 }
 
