@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useIsFetching } from 'react-query'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
+import { userInfo } from '../../recoil/ExercisesState'
+import { useModal } from '../main/hooks/useModal'
+import Modal from '../main/Modal'
+import DietWeightUpdateModal from './DietWeightUpdateModal'
 import { useWeightGraph } from './hooks/useWeightGraph'
 
 const Container = styled.section`
@@ -19,6 +24,10 @@ const GraphWrapper = styled.div`
   justify-content: center;
   overflow: hidden;
   height: 80px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 const ItemWrapper = styled.div`
   height: 12px;
@@ -69,18 +78,22 @@ const Line = styled.div<{ bgc: boolean; count: number }>`
 // 지점 개수 = 끝 / 8
 
 const WeightGraph = () => {
+  const [user, _] = useRecoilState(userInfo)
   const loading = useIsFetching()
   const { getDDay, getDayList } = useWeightGraph()
   const d_day = getDDay()
   const res = getDayList()
+
+  const { open, setOpen } = useModal()
+
   if (loading) return <Container></Container>
 
-  if (res.length === 0) return <div>데이터가 없습니다</div>
+  if (res.length === 0) return <Container>데이터가 없습니다</Container>
 
   return (
     <Container>
       <DDay>디데이: {d_day}</DDay>
-      <GraphWrapper>
+      <GraphWrapper onClick={() => setOpen(true)}>
         {res.map((day, i) => (
           <React.Fragment key={i}>
             <ItemWrapper>
@@ -118,6 +131,12 @@ const WeightGraph = () => {
           </React.Fragment>
         ))}
       </GraphWrapper>
+
+      <DietWeightUpdateModal
+        open={open}
+        setOpen={setOpen}
+        user={user}
+      />
     </Container>
   )
 }

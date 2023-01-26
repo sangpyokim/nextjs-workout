@@ -7,9 +7,9 @@ export const GlobalStyle = createGlobalStyle`
     outline: none;
     border: none;
   }
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     display: none;
-  }
+  } */
   @font-face {
   font-family: 'timer-font';
   src: url('/fonts/BMEuljiro10yearslater.woff2') format('woff2');

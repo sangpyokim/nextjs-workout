@@ -1,6 +1,5 @@
-import { async } from '@firebase/util'
 import { getDateString, getKoreaDateString } from './../../utils/calender'
-import { child, get, push, ref, set, update } from 'firebase/database'
+import { child, get, ref, set } from 'firebase/database'
 import { database } from '../../firebase'
 import { IWorkOutFormDataList } from '../../utils/types/exercise'
 
@@ -91,5 +90,51 @@ export const getExerciseData = async (
         }
       })
       .catch((error) => req(error))
+  })
+}
+
+export const writeUserSettingDietData = (userEmail: string, data: any) => {
+  const newUserEmail = userEmail.split('.')[0]
+  console.log(newUserEmail)
+  const url = `users/${newUserEmail}/weightGoal`
+
+  const startDate = getKoreaDateString(new Date())
+  const endDate = getKoreaDateString(
+    new Date(new Date().setDate(new Date().getDate() + data.period * 1)),
+  )
+
+  const updateData: any = {
+    goal: data.goal === 'increase' ? '증량' : '감량',
+    period: data.period + '일',
+    startDate,
+    endDate,
+    startWeight: data.startWeight + 'kg',
+    targetWeight: data.targetWeight + 'kg',
+    everyWeek: (data.goal === 'increase' ? '+' : '-') + data.everyWeek + 'kg',
+    weightList: [],
+  }
+
+  const db = ref(database, url)
+  set(db, updateData)
+}
+
+export const writeUserDietWeightData = (userEmail: string, weight: any) => {
+  const newUserEmail = userEmail.split('.')[0]
+  console.log(newUserEmail)
+  const url = `users/${newUserEmail}/weightGoal/weightList`
+
+  const date = getKoreaDateString(new Date())
+
+  const updateData: any = {
+    date,
+    weight: weight + 'kg',
+  }
+
+  const db = ref(database)
+  get(child(db, url)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const temp = [...snapshot.val(), updateData]
+      set(ref(database, url), temp)
+    }
   })
 }

@@ -35,7 +35,8 @@ const Section = styled.section`
   width: 90%;
   max-width: 450px;
   margin: 0 auto;
-  height: 50vh;
+  min-height: 50vh;
+  height: auto;
   border-radius: 0.3rem;
   background-color: #fff;
   /* 팝업이 열릴때 스르륵 열리는 효과 */

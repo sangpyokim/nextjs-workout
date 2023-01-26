@@ -1,13 +1,14 @@
 import { SettingOutlined } from '@ant-design/icons'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { useIsFetching } from 'react-query'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
+import { writeUserSettingDietData } from '../../firebase/database/calender'
 import { userInfo } from '../../recoil/ExercisesState'
 import { useModal } from '../main/hooks/useModal'
-import Modal from '../main/Modal'
+import DietUpdateModal from './DietUpdateModal'
 
 const Container = styled.div`
   @media ${({ theme }) => theme.breakPoint.laptop} {
@@ -48,7 +49,7 @@ const MaxTimeSetForm = styled.form`
   display: flex;
   flex-direction: column;
 `
-const Label = styled.span`
+const Label = styled.label`
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.black};
@@ -69,10 +70,6 @@ const TimeSetInput = styled.input`
     box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.7),
       inset -1px -1px 2px #ddd;
   }
-`
-const MaxTimeSetButton = styled.button`
-  border: 1px solid white;
-  border-radius: 4px;
 `
 
 const DynamicWeightGraph = dynamic(() => import('./WeightGraph'), {
@@ -104,22 +101,11 @@ const MyWeightCard = () => {
         <SettingOutlined onClick={() => setOpen(true)} />
       </Title>
 
-      <Modal
+      <DietUpdateModal
         open={open}
         setOpen={setOpen}
-        header="체중 목표 수정하기"
-      >
-        <MaxTimeSetForm>
-          <Label>목표</Label>
-          <TimeSetInput
-            type="text"
-            pattern="\d*"
-            name="maxTimeSetter"
-            maxLength={5}
-          />
-          <MaxTimeSetButton>확인</MaxTimeSetButton>
-        </MaxTimeSetForm>
-      </Modal>
+        user={user}
+      />
 
       <DynamicWeightGraph />
 
