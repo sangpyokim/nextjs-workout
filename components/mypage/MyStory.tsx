@@ -1,9 +1,13 @@
 import React from 'react'
 import { useCalenders } from './hooks/useCalenders'
+import { useMyStory } from './hooks/useMyStory'
 
-const MyStory = () => {
+const MyStory = ({ curFocus }: any) => {
   const { data, isLoading } = useCalenders()
-  return <div>MyStory</div>
+
+  return (
+    <div>{curFocus ? <div></div> : <div>{new Date().getFullYear()}</div>}</div>
+  )
 }
 
 export default MyStory

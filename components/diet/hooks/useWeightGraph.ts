@@ -2,6 +2,7 @@ import { userInfo } from './../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { getKoreaDateString } from './../../../utils/calender'
 import { useQuery } from 'react-query'
+import { useEffect, useState } from 'react'
 
 export const fetchUserWeightGoalData = async (user: string) => {
   const url = `https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/${user}/weightGoal.json`
@@ -13,9 +14,14 @@ export const fetchUserWeightGoalData = async (user: string) => {
 
 export const useWeightGraph = () => {
   const [user, _] = useRecoilState(userInfo)
+  const [innerWidth, setInnerWidth] = useState(0)
+
+  useEffect(() => {
+    setInnerWidth(window.innerWidth)
+  }, [])
 
   const { data = [] } = useQuery(
-    ['weightGoal', user],
+    ['weightGoal'],
     () => fetchUserWeightGoalData(user.email.split('.')[0]),
     {
       enabled: user.email.length !== 0,
@@ -49,7 +55,6 @@ export const useWeightGraph = () => {
     const dayList = [start]
 
     let count = 0
-    const innerWidth = window.innerWidth
 
     if (innerWidth >= 1265) count = 7
     else if (innerWidth >= 768) count = 5

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { LeftOutlined, RedoOutlined, RightOutlined } from '@ant-design/icons'
 
@@ -51,6 +51,9 @@ const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const DaysGridContainer = styled.div`
@@ -68,6 +71,9 @@ const DaysItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  &:hover {
+    cursor: pointer;
+  }
 `
 const Days = styled.div<{ isToday: boolean }>`
   display: flex;
@@ -94,7 +100,7 @@ const Ties = styled.div<{ bodyPart: string }>`
   margin-bottom: 2px;
 `
 
-const Calender = ({ calenderList }: ICalender) => {
+const Calender = ({ calenderList, setCurFocus }: ICalender) => {
   const [loading, setLoading] = useRecoilState(authLoading)
   const {
     currentCalenderList,
@@ -104,7 +110,7 @@ const Calender = ({ calenderList }: ICalender) => {
     updateCalenderList,
   } = useCalenderFeature(calenderList)
 
-  if (loading) return <div>loading</div>
+  // if (loading) return <div>loading</div>
 
   return (
     <Container>
@@ -129,10 +135,19 @@ const Calender = ({ calenderList }: ICalender) => {
       <DaysGridContainer>
         {currentCalenderList.calenderList.map((list, i) => (
           <DaysColumnsWrapper key={i}>
-            {list.map((date, i) => (
+            {list.map((date, j) => (
               <DaysItem
-                key={i}
-                onClick={() => console.log('click')}
+                key={j}
+                onClick={() =>
+                  setCurFocus({
+                    i,
+                    j,
+                    currentCalenderList,
+                    curDate: new Date(
+                      `${currentCalenderList.month} ${currentCalenderList.calenderList[i][j]}, ${currentCalenderList.year}`,
+                    ),
+                  })
+                }
               >
                 <Days isToday={isToday(date)}>{date}</Days>
                 <TiesWrapper>

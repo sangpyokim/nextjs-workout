@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import styled from 'styled-components'
 import Calender from '../../components/mypage/Calender'
 import MyStory from '../../components/mypage/MyStory'
@@ -26,11 +26,15 @@ interface ICalender {
 }
 
 const MyPage = ({ calenderList }: ICalender) => {
+  const [curFocus, setCurFocus] = useState()
   return (
     <Container>
-      <Calender calenderList={calenderList} />
+      <Calender
+        calenderList={calenderList}
+        setCurFocus={setCurFocus}
+      />
 
-      <MyStory />
+      <MyStory curFocus={curFocus} />
     </Container>
   )
 }

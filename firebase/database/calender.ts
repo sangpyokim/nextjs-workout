@@ -1,3 +1,4 @@
+import { IFood } from './../../components/diet/hooks/useFoodSearch'
 import { getDateString, getKoreaDateString } from './../../utils/calender'
 import { child, get, ref, set } from 'firebase/database'
 import { database } from '../../firebase'
@@ -95,7 +96,7 @@ export const getExerciseData = async (
 
 export const writeUserSettingDietData = (userEmail: string, data: any) => {
   const newUserEmail = userEmail.split('.')[0]
-  console.log(newUserEmail)
+
   const url = `users/${newUserEmail}/weightGoal`
 
   const startDate = getKoreaDateString(new Date())
@@ -120,7 +121,6 @@ export const writeUserSettingDietData = (userEmail: string, data: any) => {
 
 export const writeUserDietWeightData = (userEmail: string, weight: any) => {
   const newUserEmail = userEmail.split('.')[0]
-  console.log(newUserEmail)
   const url = `users/${newUserEmail}/weightGoal/weightList`
 
   const date = getKoreaDateString(new Date())
@@ -135,6 +135,25 @@ export const writeUserDietWeightData = (userEmail: string, weight: any) => {
     if (snapshot.exists()) {
       const temp = [...snapshot.val(), updateData]
       set(ref(database, url), temp)
+    }
+  })
+}
+
+export const writeUserFoodList = (userEmail: string, data: IFood) => {
+  const newUserEmail = userEmail.split('.')[0]
+  const date = new Date()
+  const year = String(date.getFullYear())
+  const month = String(date.getMonth() + 1)
+  const day = String(date.getDate())
+  const url = getWriteURL(newUserEmail, 'diet', year, month, day)
+
+  const db = ref(database)
+  return get(child(db, url)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const temp = [...snapshot.val(), data]
+      set(ref(database, url), temp)
+    } else {
+      set(ref(database, url), [data])
     }
   })
 }

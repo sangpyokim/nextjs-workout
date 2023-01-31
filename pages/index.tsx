@@ -14,7 +14,7 @@ const Container = styled.div`
 const Home = (props: any) => {
   return (
     <Container>
-      <div>Home</div>
+      <div>랜딩 페이지 고민.</div>
     </Container>
   )
 }

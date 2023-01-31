@@ -42,35 +42,6 @@ const Title = styled.header`
   border-bottom: 1px solid #252525;
   margin-bottom: 16px;
 `
-const MaxTimeSetForm = styled.form`
-  padding: 16px;
-  border-bottom: 1px solid #dee2e6;
-  border-top: 1px solid #dee2e6;
-  display: flex;
-  flex-direction: column;
-`
-const Label = styled.label`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.black};
-  margin-right: 8px;
-`
-const TimeSetInput = styled.input`
-  width: 60px;
-  height: 18px;
-  margin: 8px 0;
-  border: 0;
-  border-radius: 4px;
-
-  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.7),
-    inset -5px -5px 10px #ddd;
-  transition: all 0.2s ease-in-out;
-
-  &:focus {
-    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.7),
-      inset -1px -1px 2px #ddd;
-  }
-`
 
 const DynamicWeightGraph = dynamic(() => import('./WeightGraph'), {
   ssr: false,
@@ -85,10 +56,6 @@ const MyWeightCard = () => {
   if (user.email === '')
     return (
       <Container>
-        <Title>
-          <div>나의 체중 목표</div>
-          <div>&gt;</div>
-        </Title>
         <div>로그인을 해주세요</div>
       </Container>
     )

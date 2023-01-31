@@ -35,13 +35,13 @@ const Section = styled.section`
   width: 90%;
   max-width: 450px;
   margin: 0 auto;
-  min-height: 50vh;
+  min-height: fit-content;
   height: auto;
-  border-radius: 0.3rem;
+  border-radius: 4px;
   background-color: #fff;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
-  overflow: hidden;
+  /* overflow: hidden; */
 `
 const Header = styled.header`
   position: relative;
@@ -87,16 +87,17 @@ const Modal = ({ open, setOpen, children, header }: IModal) => {
     <Container open={open}>
       {open ? (
         <Section>
-          <Header>
-            {header}
-            <button
-              className="close"
-              onClick={() => setOpen(false)}
-            >
-              &times;
-            </button>
-          </Header>
-
+          {header ? (
+            <Header>
+              {header}
+              <button
+                className="close"
+                onClick={() => setOpen(false)}
+              >
+                &times;
+              </button>
+            </Header>
+          ) : null}
           {children}
 
           <Footer>

@@ -9,8 +9,12 @@ export const getFoodData = async (searchWord: string) => {
   const json = await data.json()
 
   const FoodList: any = []
+  if (!json.body.items) return FoodList
   const map = new Map()
+
   for (let item of json.body.items) {
+    if (item.SERVING_WT == 0) continue
+
     if (map.has(item.DESC_KOR)) {
       if (map.get(item.DESC_KOR)[0] < item.BGN_YEAR) {
         const FoodItem = new Food(item)

@@ -29,6 +29,7 @@ export interface IWorkOutTempItemProps {
 }
 export interface ICalender {
   calenderList: number[][]
+  setCurFocus: Function
 }
 export const bodyPartColors: IBodyPartColors = {
   등: '#b37feb',
