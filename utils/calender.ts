@@ -1,3 +1,12 @@
+// 캘린더
+
+class Day {
+  constructor() {}
+}
+class Calender {
+  constructor() {}
+}
+
 // curDate = 월 / 일 / 년
 export const initCalender = (curDate: string) => {
   const date = new Date(curDate)

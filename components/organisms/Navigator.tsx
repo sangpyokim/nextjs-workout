@@ -94,9 +94,9 @@ const Navigator = () => {
   return (
     <Container>
       <LinkWrapper>
-        <Link href={'/timer'}>
+        <Link href={'/'}>
           <IconWrapper>
-            {router.pathname.includes('timer') ? (
+            {router.pathname === '/' ? (
               <DashboardFilled
                 alt="timer-fill"
                 style={styles.icon}

@@ -83,7 +83,6 @@ export const useCalenderFeature = (calenderList: number[][]) => {
 
   const isToday = (date: number) => {
     const temp = new Date()
-
     return (
       temp.getFullYear() === currentCalenderList.year &&
       temp.toLocaleDateString('en-US', { month: 'long' }) ===
