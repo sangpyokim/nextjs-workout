@@ -1,8 +1,16 @@
-import React, { ReactElement, useState } from 'react'
+import axios from 'axios'
+import React, { ReactElement, useEffect, useState } from 'react'
+import { QueryClient, useQuery } from 'react-query'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import Calender from '../../components/mypage/Calender'
 import MyStory from '../../components/mypage/MyStory'
-import { getDateString, initCalender } from '../../utils/calender'
+import { userInfo } from '../../recoil/ExercisesState'
+import {
+  CalenderMaker,
+  getDateString,
+  initCalender,
+} from '../../utils/calender'
 
 const Container = styled.div`
   width: 100%;
@@ -14,27 +22,15 @@ const Container = styled.div`
   padding-bottom: 60px;
 `
 
-export async function getStaticProps() {
-  return {
-    props: {
-      calenderList: initCalender(getDateString()),
-    }, // will be passed to the page component as props
-  }
-}
-interface ICalender {
-  calenderList: number[][]
-}
+const MyPage = () => {
+  const [user, _] = useRecoilState(userInfo)
+  const calenderMaker = new CalenderMaker()
 
-const MyPage = ({ calenderList }: ICalender) => {
-  const [curFocus, setCurFocus] = useState()
   return (
     <Container>
-      <Calender
-        calenderList={calenderList}
-        setCurFocus={setCurFocus}
-      />
+      <Calender calenderMaker={calenderMaker} />
 
-      <MyStory curFocus={curFocus} />
+      <MyStory calenderMaker={calenderMaker} />
     </Container>
   )
 }

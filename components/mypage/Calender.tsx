@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { LeftOutlined, RedoOutlined, RightOutlined } from '@ant-design/icons'
 
 import { bodyPartColors, ICalender } from '../../utils/types/exercise'
-import { useCalenderFeature } from './hooks/useCalenders'
 import { useRecoilState } from 'recoil'
-import { authLoading } from '../../recoil/ExercisesState'
+import { authLoading, curFocusDay, userInfo } from '../../recoil/ExercisesState'
+import { CalenderMaker, Day } from '../../utils/calender'
+import { useMutation, useQuery } from 'react-query'
+import axios from 'axios'
 
 const Container = styled.div`
   max-width: 320px;
@@ -67,24 +69,28 @@ const DaysColumnsWrapper = styled.div`
   width: 100%;
   grid-template-columns: repeat(7, 1fr);
 `
-const DaysItem = styled.div`
+const DaysItem = styled.div<{ isThisMonth: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   &:hover {
-    cursor: pointer;
+    cursor: ${(props) => (props.isThisMonth ? 'pointer' : 'null')};
   }
 `
-const Days = styled.div<{ isToday: boolean }>`
+const Days = styled.div<{
+  curFocus: () => string
+  existDietData: () => string
+  isThisMonth: boolean
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 1/1;
-  background-color: ${(props) => (props.isToday ? '#333333' : '#f2f2f2')};
-  color: ${(props) => (props.isToday ? '#f2f2f2' : '#333333')};
+  background-color: ${(props) => props.existDietData()};
+  color: ${(props) => props.curFocus()};
   width: 50%;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: ${(props) => (props.isThisMonth ? '500' : '400')};
 `
 const TiesWrapper = styled.div`
   display: flex;
@@ -99,64 +105,145 @@ const Ties = styled.div<{ bodyPart: string }>`
   background-color: ${(props) => bodyPartColors[props.bodyPart]};
   margin-bottom: 2px;
 `
+const getDiet = async (userEmail: string, year: number, month: number) => {
+  const url = `https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userEmail}/diet/${year}/${month}.json`
+  const res = (await axios.get(url)) || []
+  const data: any[] = []
 
-const Calender = ({ calenderList, setCurFocus }: ICalender) => {
-  const [loading, setLoading] = useRecoilState(authLoading)
-  const {
-    currentCalenderList,
-    findTies,
-    isToday,
-    resetCalenderList,
-    updateCalenderList,
-  } = useCalenderFeature(calenderList)
+  for (let key in res.data) {
+    data[Number(key)] = res.data[key]
+  }
+  return data
+}
+const getExercise = async (userEmail: string, year: number, month: number) => {
+  const url = `https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userEmail}/exercises/${year}/${month}.json`
+  const res = (await axios.get(url)) || []
+  const data: any[] = []
 
-  // if (loading) return <div>loading</div>
+  for (let key in res.data) {
+    data[Number(key)] = res.data[key]
+  }
+  return data
+}
 
+const Calender = ({ calenderMaker }: ICalender) => {
+  const [user, _] = useRecoilState(userInfo)
+  const [curFocus, setCurFocus] = useRecoilState(curFocusDay)
+  const [key, setKey] = useState(-1)
+
+  const { data: dietData = [], isLoading: dietLoading } = useQuery(
+    [
+      'userAllData',
+      'diet',
+      calenderMaker.year + '',
+      calenderMaker.month + 1 + '',
+    ],
+    () =>
+      getDiet(
+        user.email.split('.')[0],
+        calenderMaker.year,
+        calenderMaker.month + 1,
+      ),
+    {
+      enabled: user.email !== '',
+    },
+  )
+  const { data: exerciseData = [], isLoading: exerciseLoading } = useQuery(
+    [
+      'userAllData',
+      'exercises',
+      calenderMaker.year + '',
+      calenderMaker.month + 1 + '',
+    ],
+    () =>
+      getExercise(
+        user.email.split('.')[0],
+        calenderMaker.year,
+        calenderMaker.month + 1,
+      ),
+    {
+      enabled: user.email !== '',
+    },
+  )
+  if (!dietLoading && !exerciseLoading) {
+    calenderMaker.setList(0, exerciseData, dietData)
+  }
+
+  const resetCalenderList = () => {
+    calenderMaker.init(new Date())
+    setKey(key + 1)
+  }
+  const updateCalenderList = (divider: -1 | 0 | 1 = 0) => {
+    calenderMaker.setList(divider)
+    setKey(key + 1)
+  }
+  const onClick = (day: Day) => {
+    calenderMaker.curFocus = day.day
+    setKey(key + 1)
+    setCurFocus(day)
+  }
+
+  const daysBackGroundColor = (day: Day) => {
+    if (day.isToday) return '#333333'
+    if (calenderMaker.curFocus === day.day && day.isThisMonth) return '#85a5ff'
+    if (day.dietData.length > 0) return '#ffd591'
+    if (day.isThisMonth) return '#e8e8e8'
+    return '#f8f8f8'
+  }
+  const daysColor = (day: Day) => {
+    if (day.isToday) return '#f2f2f2'
+    if (!day.isThisMonth) return '#ccc'
+    if (calenderMaker.curFocus === day.day || day.dietData.length > 0)
+      return '#fff'
+
+    return '#252525'
+  }
   return (
     <Container>
       <TitleContainer>
         <TimeContainer>
-          <Month>{currentCalenderList.month}</Month>
-          <Year>{currentCalenderList.year}</Year>
+          <Month>{calenderMaker.monthString}</Month>
+          <Year>{calenderMaker.year}</Year>
         </TimeContainer>
         <IconContainer>
           <IconWrapper onClick={() => resetCalenderList()}>
             <RedoOutlined style={{ fontSize: '12px' }} />
           </IconWrapper>
-          <IconWrapper onClick={() => updateCalenderList(false)}>
+          <IconWrapper onClick={() => updateCalenderList(-1)}>
             <LeftOutlined style={{ fontSize: '12px' }} />
           </IconWrapper>
-          <IconWrapper onClick={() => updateCalenderList(true)}>
+          <IconWrapper onClick={() => updateCalenderList(1)}>
             <RightOutlined style={{ fontSize: '12px' }} />
           </IconWrapper>
         </IconContainer>
       </TitleContainer>
 
       <DaysGridContainer>
-        {currentCalenderList.calenderList.map((list, i) => (
+        {calenderMaker.getList().map((arr, i) => (
           <DaysColumnsWrapper key={i}>
-            {list.map((date, j) => (
+            {arr.map((day, j) => (
               <DaysItem
-                key={j}
-                onClick={() =>
-                  setCurFocus({
-                    i,
-                    j,
-                    currentCalenderList,
-                    curDate: new Date(
-                      `${currentCalenderList.month} ${currentCalenderList.calenderList[i][j]}, ${currentCalenderList.year}`,
-                    ),
-                  })
-                }
+                isThisMonth={day.isThisMonth}
+                key={day.day}
+                onClick={() => (day.isThisMonth ? onClick(day) : -1)}
               >
-                <Days isToday={isToday(date)}>{date}</Days>
+                <Days
+                  curFocus={() => daysColor(day)}
+                  existDietData={() => daysBackGroundColor(day)}
+                  isThisMonth={day.isThisMonth}
+                >
+                  {day.day}
+                </Days>
                 <TiesWrapper>
-                  {findTies(date).map((data) => (
-                    <Ties
-                      key={data.id}
-                      bodyPart={data.targetBody}
-                    />
-                  ))}
+                  {day.exerciseTag &&
+                    [...new Set(day.exerciseTag.map((l) => l.targetBody))].map(
+                      (tag) => (
+                        <Ties
+                          key={tag}
+                          bodyPart={tag}
+                        />
+                      ),
+                    )}
                 </TiesWrapper>
               </DaysItem>
             ))}

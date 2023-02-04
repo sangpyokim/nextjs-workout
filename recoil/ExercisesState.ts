@@ -1,5 +1,6 @@
 import { atomKeys } from './constants'
 import { atom } from 'recoil'
+import { Day } from '../utils/calender'
 
 export const exerciseDataList = atom({
   key: atomKeys.exerciseDataList, // unique ID (with respect to other atoms/selectors)
@@ -26,4 +27,9 @@ export const userInfo = atom({
 export const authLoading = atom({
   key: atomKeys.authLoading,
   default: true,
+})
+
+export const curFocusDay = atom({
+  key: atomKeys.curFocusDay,
+  default: new Day(-1, false, false),
 })

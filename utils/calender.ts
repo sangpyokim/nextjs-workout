@@ -1,20 +1,144 @@
-// 캘린더
-// 기능
-// [] 이번 달 보여주기
-// [] 다음 달 넘어가기
-// [] 이전 달 넘어가기
-// [] 이번 달로 돌아오기
-// [] 오늘 표시하기
-// [] 운동 태그 표시하기
-// [] 현재 월에 해당하는 데이터 가져오기
-// [] 클릭하면 그날 했던 운동, 식단 가져오기
-// [] 클릭한 날 하이라이트 주기
+export class Day {
+  day
+  isToday
+  isThisMonth
+  exerciseTag: any[]
+  dietData: any[]
 
-class Day {
-  constructor() {}
+  constructor(
+    day: number,
+    isToday: boolean,
+    isThisMonth: boolean,
+    exerciseTag: any[] = [],
+    dietData: any[] = [],
+  ) {
+    this.day = day
+    this.isToday = isToday
+    this.isThisMonth = isThisMonth
+    this.exerciseTag = exerciseTag
+    this.dietData = dietData
+  }
 }
-class Calender {
-  constructor() {}
+export class CalenderMaker {
+  date: Date = new Date()
+  year: number = -1
+  month: number = -1
+  curFocus: number = -1
+  monthString: string = ''
+  list: Day[][]
+
+  constructor() {
+    const D = new Date()
+    this.init(D)
+    this.list = this.setList()
+  }
+  init(D: Date) {
+    this.date = D
+    this.year = D.getFullYear()
+    this.month = D.getMonth()
+    this.monthString = D.toLocaleDateString('en-US', { month: 'long' })
+  }
+  // 이번 달 달력만들기, divider = -1 | 0 | 1 이전, 현재, 이후 달
+  // force = 강제 업데이트 => 달은 그대로인데 안의 요소가 바뀔 수 있음
+  // 데이터 받아오면 강제 업데이트 해야함
+  setList(
+    divider: -1 | 0 | 1 = 0,
+    exerciseData: any[] = [],
+    dietData: any[] = [],
+  ) {
+    // 마지막 일, 첫 일 요일, 이번달의 주의 개수
+    const D = new Date(this.year, this.month + divider, this.date.getDate())
+    const monthLastDate = new Date(this.year, this.month + divider, 0).getDate()
+    const monthStartDay = new Date(this.year, this.month + divider, 1).getDay()
+    const monthWeekCount = Math.ceil((monthStartDay + monthLastDate) / 7)
+
+    const prevMonthLastDate = new Date(
+      this.year,
+      this.month + divider,
+      0,
+    ).getDate()
+    const nextMonthStartDay = new Date(
+      this.year,
+      this.month + divider + 1,
+      1,
+    ).getDay()
+
+    // 다른 멤버 수정
+    this.init(D)
+    // list 수정
+    this.listInit(monthWeekCount)
+    this.setListPrevMonth(monthStartDay, prevMonthLastDate)
+    this.setListNextMonth(nextMonthStartDay)
+    this.setListCurMonth(exerciseData, dietData)
+
+    return this.list
+  }
+
+  private setListCurMonth(exerciseData: any[] = [], dietData: any[] = []) {
+    if (!exerciseData) exerciseData = []
+    if (!dietData) dietData = []
+    const today = this.date.getDate()
+    const isToday = this.isToday()
+
+    let days = 1
+    for (let j in this.list) {
+      for (let k in this.list[j]) {
+        if (this.list[j][k] === undefined) {
+          this.list[j][k] = new Day(
+            days,
+            days === today && isToday ? true : false,
+            true,
+            exerciseData[days],
+            dietData[days],
+          )
+          days += 1
+        }
+      }
+    }
+  }
+  private isToday() {
+    const curMonth = new Date().getMonth()
+    const thisMonth = this.month
+    if (curMonth !== thisMonth) return false
+    return true
+  }
+
+  private listInit(monthWeekCount: number) {
+    this.list = Array.from({ length: monthWeekCount }, () =>
+      new Array(7).fill(undefined),
+    )
+  }
+  private setListPrevMonth(days: number, endDate: number) {
+    const res: Day[] = Array.from({ length: 7 })
+    const startDate = endDate - days + 1
+    let j = 0
+    for (let i = startDate; i <= endDate; i++) {
+      res[j] = new Day(i, false, false)
+      j += 1
+    }
+    this.list[0] = res
+  }
+
+  private setListNextMonth(days: number) {
+    const res: Day[] = Array.from({ length: 7 })
+    if (days === 0) return res
+    let j = 1
+    for (let i = days; i < 7; i++) {
+      res[i] = new Day(i, false, false)
+      j++
+    }
+    this.list[this.list.length - 1] = res
+  }
+
+  getList(): Day[][] {
+    return this.list
+  }
+  getYear() {
+    return this.year
+  }
+  getMonth() {
+    return this.month
+  }
 }
 
 // curDate = 월 / 일 / 년
@@ -47,6 +171,7 @@ export const initCalender = (curDate: string) => {
       }
     }
   }
+
   return dateList
 }
 

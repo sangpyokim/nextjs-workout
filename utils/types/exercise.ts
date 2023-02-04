@@ -1,3 +1,4 @@
+import { CalenderMaker, Day } from './../calender'
 export interface IExerciseItem {
   bodyPart: string
   equipment: string
@@ -28,8 +29,7 @@ export interface IWorkOutTempItemProps {
   exerciseList: IExerciseList[]
 }
 export interface ICalender {
-  calenderList: number[][]
-  setCurFocus: Function
+  calenderMaker: CalenderMaker
 }
 export const bodyPartColors: IBodyPartColors = {
   등: '#b37feb',
