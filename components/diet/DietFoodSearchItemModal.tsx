@@ -8,8 +8,7 @@ const ChildWrapper = styled.form`
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 50vh;
-
+  padding-top: 42px;
   flex-direction: column;
 `
 const Title = styled.div`

@@ -10,12 +10,17 @@ import { useMutation, useQuery } from 'react-query'
 import axios from 'axios'
 
 const Container = styled.div`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    width: 100%;
+    max-width: 420px;
+  }
+
   max-width: 320px;
   width: 100%;
   height: fit-content;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
   padding: 4px;
   display: flex;
   align-items: center;
@@ -24,6 +29,9 @@ const Container = styled.div`
   margin-bottom: 8px;
 `
 const TitleContainer = styled.div`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    height: 42px;
+  }
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,12 +45,19 @@ const TimeContainer = styled.div`
   justify-content: center;
 `
 const Month = styled.div`
-  font-size: 14px;
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    font-size: 20px;
+  }
+  font-size: 18px;
   margin-right: 4px;
+  font-weight: 600;
 `
 const Year = styled.div`
-  font-size: 18px;
-  font-weight: 600;
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    font-size: 16px;
+  }
+  font-size: 14px;
+  font-weight: 500;
 `
 const IconContainer = styled.div`
   display: flex;
@@ -56,6 +71,24 @@ const IconWrapper = styled.div`
   &:hover {
     cursor: pointer;
   }
+`
+const IconReset = styled(RedoOutlined)`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    font-size: 14px;
+  }
+  font-size: 12px;
+`
+const IconLeft = styled(LeftOutlined)`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    font-size: 14px;
+  }
+  font-size: 12px;
+`
+const IconRight = styled(RightOutlined)`
+  @media ${({ theme }) => theme.breakPoint.laptop} {
+    font-size: 14px;
+  }
+  font-size: 12px;
 `
 
 const DaysGridContainer = styled.div`
@@ -91,6 +124,7 @@ const Days = styled.div<{
   width: 50%;
   font-size: 12px;
   font-weight: ${(props) => (props.isThisMonth ? '500' : '400')};
+  border-radius: 2px;
 `
 const TiesWrapper = styled.div`
   display: flex;
@@ -207,13 +241,13 @@ const Calender = ({ calenderMaker }: ICalender) => {
         </TimeContainer>
         <IconContainer>
           <IconWrapper onClick={() => resetCalenderList()}>
-            <RedoOutlined style={{ fontSize: '12px' }} />
+            <IconReset />
           </IconWrapper>
           <IconWrapper onClick={() => updateCalenderList(-1)}>
-            <LeftOutlined style={{ fontSize: '12px' }} />
+            <IconLeft />
           </IconWrapper>
           <IconWrapper onClick={() => updateCalenderList(1)}>
-            <RightOutlined style={{ fontSize: '12px' }} />
+            <IconRight />
           </IconWrapper>
         </IconContainer>
       </TitleContainer>
