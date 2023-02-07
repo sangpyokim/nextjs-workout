@@ -53,7 +53,6 @@ export const useWeightGraph = () => {
     const diff = getDateDiff()
     const start = data.startDate
     const dayList = [start]
-
     let count = 0
 
     if (innerWidth >= 1265) count = 7

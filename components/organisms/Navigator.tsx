@@ -132,9 +132,9 @@ const Navigator = () => {
       </LinkWrapper>
 
       <LinkWrapper>
-        <Link href={'/community'}>
+        <Link href={'/learn'}>
           <IconWrapper>
-            {router.pathname.includes('community') ? (
+            {router.pathname.includes('learn') ? (
               <BankFilled
                 alt="learn-exercise-fill"
                 style={styles.icon}

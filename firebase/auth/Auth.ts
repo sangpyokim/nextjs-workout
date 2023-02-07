@@ -6,6 +6,10 @@ import {
 } from 'firebase/auth'
 import { app } from '../../firebase'
 
+export const signOut = async () => {
+  const auth = getAuth(app)
+  auth.signOut()
+}
 export const isLoggedIn = () => {
   const auth = getAuth(app)
   return auth ? true : false

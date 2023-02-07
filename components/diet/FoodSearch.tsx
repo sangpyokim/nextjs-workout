@@ -104,7 +104,8 @@ const FoodSearch = () => {
   })
   const foodNameRef = useRef<HTMLInputElement>(null)
 
-  const { data, refetch, formSubmitHandler, writeFoodList } = useFoodSearch()
+  const { user, data, refetch, formSubmitHandler, writeFoodList } =
+    useFoodSearch()
   const { open, setOpen } = useModal()
   const { open: open2, setOpen: setOpen2 } = useModal()
   const isLoading = useIsFetching()
@@ -172,6 +173,7 @@ const FoodSearch = () => {
       />
 
       <DietWriteFoodItem
+        user={user}
         open={open2}
         setOpen={setOpen2}
         item={curFocusItem}

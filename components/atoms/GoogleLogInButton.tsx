@@ -20,19 +20,15 @@ const GoogleLogInButton = () => {
 
   const handleLogIn = () => {
     // setImageState(Pressed)
-    if (isPlatformPC()) {
-      pcLogIn()
-    } else {
-      mobileLogIn()
-    }
+    // if (isPlatformPC()) {
+    // } else {
+    //   mobileLogIn()
+    // }
+    pcLogIn()
   }
 
   return (
-    <Container
-      onClick={() => handleLogIn()}
-      onTouchStart={() => handleLogIn()}
-      onTouchEnd={() => setImageState(Normal)}
-    >
+    <Container onClick={() => handleLogIn()}>
       <Image
         src={imageState}
         alt="google login button"

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { userInfo } from '../../recoil/ExercisesState'
 import Modal from '../main/Modal'
 import { IFood } from './hooks/useFoodSearch'
 
@@ -34,12 +35,20 @@ const SubItem = styled.div`
 `
 
 interface IDietWriteFoodItem {
+  user: {
+    email: string
+  }
   item: IFood
   open: boolean
   setOpen: Function
 }
 
-const DietWriteFoodItem = ({ item, open, setOpen }: IDietWriteFoodItem) => {
+const DietWriteFoodItem = ({
+  user,
+  item,
+  open,
+  setOpen,
+}: IDietWriteFoodItem) => {
   return (
     <Modal
       open={open}
@@ -82,11 +91,11 @@ const DietWriteFoodItem = ({ item, open, setOpen }: IDietWriteFoodItem) => {
         </SubItem>
 
         <div>
-          <div>얼마나 먹엇니</div>
+          <div>{user.email === '' ? '로그인을 해주세요' : '얼마나 먹엇니'}</div>
           <input type={'number'} />
           <input
             type={'submit'}
-            value="등록하기"
+            value={'등록하기'}
           />
         </div>
       </ChildWrapper>

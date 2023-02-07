@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { curFocusDay } from '../../recoil/ExercisesState'
+import { isLoggedIn } from '../../firebase/auth/Auth'
+import { curFocusDay, userInfo } from '../../recoil/ExercisesState'
 import { CalenderMaker, Day } from '../../utils/calender'
 import DietFoodSearchItemModal from '../diet/DietFoodSearchItemModal'
 import { IFood } from '../diet/hooks/useFoodSearch'
@@ -11,6 +12,11 @@ import { useMyStory } from './hooks/useMyStory'
 
 const Container = styled.div`
   width: 100%;
+`
+const ContainerTitle = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  margin: 12px 0;
 `
 
 const ItemContainer = styled.div`
@@ -97,7 +103,9 @@ interface IMyStory {
   calenderMaker: CalenderMaker
 }
 
+// curFocus에 모든 정보 다 넣기 -> 전역상태화
 const MyStory = ({ calenderMaker }: IMyStory) => {
+  const [user, setUser] = useRecoilState(userInfo)
   const [curFocus, setCurFocus] = useRecoilState(curFocusDay)
   const [curItem, setCurItem] = useState({
     name: '',
@@ -122,21 +130,42 @@ const MyStory = ({ calenderMaker }: IMyStory) => {
 
   return (
     <Container>
-      <div>{`${calenderMaker.getYear()}년 ${calenderMaker.getMonth() + 1}월 ${
-        curFocus.day
-      }일의 데이터`}</div>
+      <ContainerTitle>
+        {user.email === ''
+          ? '로그인을 해주세요'
+          : `${calenderMaker.getYear()}년 ${calenderMaker.getMonth() + 1}월 ${
+              curFocus.day === -1 ? new Date().getDate() : curFocus.day
+            }일의 데이터`}
+      </ContainerTitle>
+
       <ItemContainer>
         <Title>운동</Title>
-        <div>{curFocus.exerciseTag.map((l) => l.exercise)}</div>
+        {curFocus.exerciseTag.map((l, i) => (
+          <FoodItem key={i}>
+            <FoodItemInfo>
+              <div>{l.targetBody}</div>
+              <div>{l.exercise}</div>
+              <div>{l.setTimes}</div>
+            </FoodItemInfo>
+          </FoodItem>
+        ))}
       </ItemContainer>
 
       <ItemContainer>
         <Title>
           <div>식단</div>
-          <TotalKcal>총 칼로리</TotalKcal>
+          {curFocus.dietData.length > 0 && (
+            <TotalKcal>
+              총 칼로리:
+              {curFocus.dietData
+                .map((a) => Math.ceil(a.kcal * 1))
+                .reduce((prev, cur) => prev + cur)}
+              kcal
+            </TotalKcal>
+          )}
         </Title>
-        {curFocus.dietData.map((l: IFood) => (
-          <FoodItem key={l.name}>
+        {curFocus.dietData.map((l: IFood, i) => (
+          <FoodItem key={i}>
             <FoodItemInfo>
               <div>{l.name}</div>
               <div>{l.kcal}kcal</div>

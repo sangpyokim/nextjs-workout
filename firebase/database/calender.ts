@@ -104,6 +104,13 @@ export const writeUserSettingDietData = (userEmail: string, data: any) => {
     new Date(new Date().setDate(new Date().getDate() + data.period * 1)),
   )
 
+  const weightList = [
+    {
+      date: `${data.startWeight}`,
+      weight: `${data.startWeight}kg`,
+    },
+  ]
+
   const updateData: any = {
     goal: data.goal === 'increase' ? '증량' : '감량',
     period: data.period + '일',
@@ -112,7 +119,7 @@ export const writeUserSettingDietData = (userEmail: string, data: any) => {
     startWeight: data.startWeight + 'kg',
     targetWeight: data.targetWeight + 'kg',
     everyWeek: (data.goal === 'increase' ? '+' : '-') + data.everyWeek + 'kg',
-    weightList: [],
+    weightList,
   }
 
   const db = ref(database, url)

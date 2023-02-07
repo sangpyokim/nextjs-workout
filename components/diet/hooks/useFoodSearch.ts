@@ -28,6 +28,7 @@ const fetchData = async (userEmail: string) => {
   const url = `https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userEmail}/diet/${year}/${month}.json`
   const fetchs = await fetch(url)
   const json = await fetchs.json()
+  if (!json) return []
   return json
 }
 
@@ -70,6 +71,7 @@ export const useFoodSearch = () => {
   }
 
   return {
+    user,
     data,
     refetch,
     isLoading,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { isLoggedIn } from '../../firebase/auth/Auth'
+import { isLoggedIn, signOut } from '../../firebase/auth/Auth'
 import GoogleLogInButton from '../atoms/GoogleLogInButton'
 
 interface IHeaderLogIn {
@@ -10,7 +10,7 @@ const HeaderLogIn = ({ user }: IHeaderLogIn) => {
   return (
     <div>
       {user ? (
-        <div>{`${user}님`}</div>
+        <div onClick={() => signOut()}>{`${user}님`}</div>
       ) : (
         <div>
           <GoogleLogInButton />
