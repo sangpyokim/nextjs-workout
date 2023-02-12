@@ -18,9 +18,9 @@ const Container = styled.div`
 const Home = (props: any) => {
   return (
     <Container>
-      <TimerWrapper />
+      {/* <TimerWrapper /> */}
 
-      <TodayWorkOutList />
+      {/* <TodayWorkOutList /> */}
     </Container>
   )
 }

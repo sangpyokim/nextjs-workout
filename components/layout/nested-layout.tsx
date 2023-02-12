@@ -7,17 +7,19 @@ type NestedLayoutProps = {
 }
 
 const Container = styled.div`
-  @media ${({ theme }) => theme.breakPoint.tablet} {
+  /* @media ${({ theme }) => theme.breakPoint.tablet} {
     max-width: 640px;
     margin: 0 auto 0;
     padding-top: 55px;
-  }
+  } */
 
-  max-width: 840px;
+  max-width: 1060px;
   box-sizing: border-box;
   margin: 0 auto 0;
-  padding-top: 55px;
-  background-color: #f4f4f4;
+  padding: 20px;
+  /* background-color: #f4f4f4; */
+  border-left: 1px solid white;
+  border-right: 1px solid white;
   min-height: calc(var(--vh, 1vh) * 100);
 `
 

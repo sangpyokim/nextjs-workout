@@ -29,6 +29,20 @@ export const GlobalStyle = createGlobalStyle`
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     background-color: white;
 
+
+    /* 스크롤바 ui 없애기 */
+    ::-webkit-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      display: none;
+      width: 0;  /* Remove scrollbar space */
+      height: 0;
+      background: transparent;  /* Optional: just make scrollbar invisible */
+      -webkit-appearance: none;
+    } 
+
+
+
     /* 드래그 제거 */
     -webkit-user-select: none;
     -moz-user-select: none;

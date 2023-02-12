@@ -16,7 +16,11 @@ const Container = styled.div`
 const ExerciseContainer = styled.div`
   width: 100%;
 `
-const Tag = styled.div``
+const Details = styled.details``
+const Tag = styled.summary`
+  font-size: 20px;
+  height: 40px;
+`
 
 const ExerciseList = () => {
   const [items, setItems] = useRecoilState(exerciseDataList)
@@ -48,21 +52,33 @@ const ExerciseList = () => {
       }
       setCategory(obj)
     }
-  }, [])
+  }, [exerciseDataList])
 
   if (items[0].bodyPart.length === 0) return <div>loading</div>
 
   return (
     <Container>
+      <div>운동 부위별 학습하기</div>
       {Object.keys(category).map((c) => (
         <ExerciseContainer key={c}>
-          <Tag>{c}</Tag>
-
-          {category[c].map((item: IExerciseItem) => (
-            <>
-              <ExerciseItem {...item} />
-            </>
-          ))}
+          {/* {console.log(category[c])} */}
+          <Details>
+            <Tag>{c}</Tag>
+            {category[c].map((item: IExerciseItem, i: number) => (
+              <Link
+                key={i}
+                href={{
+                  pathname: `/learn/[slug]`,
+                  query: { slug: item.id },
+                }}
+              >
+                <ExerciseItem
+                  {...item}
+                  key={i}
+                />
+              </Link>
+            ))}
+          </Details>
         </ExerciseContainer>
       ))}
     </Container>

@@ -1,12 +1,18 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import LogoSVG from '../../images/logo.svg'
 
 const Logo = () => {
   return (
-    <div>
-        <Image alt='logo' src={LogoSVG} height={26} priority={true} />
-    </div>
+    <Link href={'/'}>
+      <Image
+        alt="logo"
+        src={LogoSVG}
+        height={26}
+        priority={true}
+      />
+    </Link>
   )
 }
 

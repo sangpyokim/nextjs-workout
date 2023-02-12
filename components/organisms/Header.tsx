@@ -29,7 +29,7 @@ const Header = ({}: HeaderProps) => {
     <Container>
       <Logo />
 
-      {loading ? null : <HeaderLogIn user={user.displayName} />}
+      {/* {loading ? null : <HeaderLogIn user={user.displayName} />} */}
     </Container>
   )
 }

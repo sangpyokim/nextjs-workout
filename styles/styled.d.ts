@@ -13,11 +13,13 @@ declare module 'styled-components' {
 
     colors: {
       black: string
+      white: string
       blue: string
       yellow: string
       orange: string
       gray: string
       gray_background: string
+      red: string
     }
 
     neumorphism: {

@@ -9,6 +9,9 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { authLoading, userInfo } from '../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
+import TempNav from '../organisms/TempNav'
+import { useAuth } from './useAuth'
+import { useAuthInit } from './useAuthInit'
 
 type LayoutProps = {
   children: ReactElement
@@ -16,33 +19,12 @@ type LayoutProps = {
 
 const Container = styled.div`
   width: 100%;
+  background-color: ${(props) => props.theme.colors.black};
   margin: 0 auto 0;
 `
 
 const Layout = ({ children }: LayoutProps) => {
-  const [loading, setLoading] = useRecoilState(authLoading)
-  const [user, setUser] = useRecoilState(userInfo)
-
-  useEffect(() => {
-    const auth = getMyAuth()
-    const listener = onAuthStateChanged(auth.auth, (user) => {
-      if (user) {
-        const uid = user.uid
-        setUser({
-          email: user.email!,
-          displayName: user.displayName!,
-        })
-        setLoading(false)
-      } else {
-        setLoading(false)
-      }
-    })
-
-    return () => {
-      listener()
-    }
-  }, [])
-
+  useAuthInit()
   return (
     <Container>
       <Head>
@@ -69,11 +51,13 @@ const Layout = ({ children }: LayoutProps) => {
           title={'title'}
         />
       )} */}
-      <Header />
+
+      {/* <Header /> */}
+      <TempNav />
 
       {children}
 
-      <Navigator />
+      {/* <Navigator /> */}
     </Container>
   )
 }

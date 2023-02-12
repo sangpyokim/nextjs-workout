@@ -37,7 +37,7 @@ const Section = styled.section`
   margin: 0 auto;
   min-height: fit-content;
   height: auto;
-  border-radius: 4px;
+  border-radius: 2px;
   background-color: #fff;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
@@ -46,9 +46,11 @@ const Section = styled.section`
 const Header = styled.header`
   position: relative;
   padding: 16px 64px 12px 16px;
-  background-color: #f1f1f1;
+  /* background-color: #; */
   font-weight: 700;
   min-height: 46px;
+  border-bottom: 1px solid black;
+  color: black;
 
   & button {
     position: absolute;
@@ -70,7 +72,7 @@ const Footer = styled.footer`
     padding: 6px 12px;
     color: #fff;
     background-color: #6c757d;
-    border-radius: 5px;
+    border-radius: 2px;
     font-size: 13px;
   }
 `
