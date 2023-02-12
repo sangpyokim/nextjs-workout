@@ -6,14 +6,17 @@ import { useEffect, useState } from 'react'
 // 교체
 // 총 초, 시:분:초
 
-type TTimerState = 'ready' | 'running' | 'stop'
+type TTimerState = 'ready' | 'running' | 'stop' | 'end'
 export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 초만 표시
 export type TTimerMode = 'single' | 'double'
 
 export const useFlatTimer = () => {
-  const [timerState, setTimerState] = useState<TTimerState>('running')
+  const [timerState, setTimerState] = useState<TTimerState>('stop')
   const [timerMode, setTimerMode] = useState<TTimerMode>('double')
   const [showMode, setShowMode] = useState<TShowMode>('normal')
+  const [constTime, setConstTime] = useState(2)
+  const [constSecondTime, setConstSecondTime] = useState(5)
+
   const [time, setTime] = useState(2) // time에서 변경이 일어나면 바로 normalRemainTime 변경 시키기
   const [secondTime, setSecondTime] = useState(5)
   const [normalRemainTime, setNormalRemainTime] = useState({
@@ -29,18 +32,35 @@ export const useFlatTimer = () => {
     if (timerMode === 'single') setTimerMode('double')
     else if (timerMode === 'double') setTimerMode('single')
   }
+  const init = () => {
+    setTime(constTime)
+    setSecondTime(constSecondTime)
 
+    const clone = structuredClone(normalRemainTime)
+    const strTime1 = _convertTimer(constTime)
+    const strTime2 = _convertTimer(constSecondTime)
+    clone.first = strTime1
+    clone.second = strTime2
+    setNormalRemainTime(clone)
+  }
   // 타입체크, 분기처리
   const toggleTimerState = () => {
     if (timerState === 'running') setTimerState('stop')
     else if (timerState === 'stop') setTimerState('running')
+    else if (timerState === 'end') {
+      console.log('A')
+      init()
+      setTimerState('ready')
+    } else {
+      setTimerState('running')
+    }
   }
   const setTimer = (mode: boolean, type: TShowMode) => {}
 
   const _countDown = () => {
     if (time === 0) {
       if (secondTime > 0) return _secondCountDown()
-      else return setTimerState('ready')
+      else return setTimerState('end')
     }
 
     if (showMode === 'normal') {

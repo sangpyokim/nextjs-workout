@@ -35,9 +35,9 @@ const Toggle = ({ open, setOpen }: IToggle) => {
     <ToggleSwitch
       htmlFor="toggle"
       onClick={() => setOpen()}
-      open={open === 'single' || open === 'normal'}
+      open={open === 'double' || open === 'normal'}
     >
-      <ToggleButton open={open === 'single' || open === 'normal'} />
+      <ToggleButton open={open === 'double' || open === 'normal'} />
     </ToggleSwitch>
   )
 }
