@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { authLoading, userInfo } from '../../recoil/ExercisesState'
 import Logo from '../atoms/Logo'
 import { useAuth } from '../layout/useAuth'
 import HeaderLogIn from '../molecules/HeaderLogIn'
@@ -11,14 +9,16 @@ import HeaderLogIn from '../molecules/HeaderLogIn'
 const Wrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid white;
+
+  overflow: hidden; // 임시.
 `
 const Container = styled.div`
   max-width: 1060px;
+
   height: 50px;
   margin: 0 auto 0;
   color: ${(props) => props.theme.colors.white};
-
-  /* background-color: #555; */
+  background-color: ${(props) => props.theme.colors.black};
 
   display: flex;
   align-items: center;

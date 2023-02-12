@@ -10,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   /* ::-webkit-scrollbar {
     display: none;
   } */
+
   @font-face {
   font-family: 'timer-font';
   src: url('/fonts/BMEuljiro10yearslater.woff2') format('woff2');
@@ -22,12 +23,13 @@ export const GlobalStyle = createGlobalStyle`
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  
   body {
     padding: 0;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background-color: white;
+    background-color: black;
 
 
     /* 스크롤바 ui 없애기 */
@@ -37,7 +39,7 @@ export const GlobalStyle = createGlobalStyle`
       display: none;
       width: 0;  /* Remove scrollbar space */
       height: 0;
-      background: transparent;  /* Optional: just make scrollbar invisible */
+      background: black;  /* Optional: just make scrollbar invisible */
       -webkit-appearance: none;
     } 
 

@@ -12,19 +12,20 @@ import styled from 'styled-components'
 import TempNav from '../organisms/TempNav'
 import { useAuth } from './useAuth'
 import { useAuthInit } from './useAuthInit'
+import { setScreenSize } from '../../utils/window/screen'
 
 type LayoutProps = {
   children: ReactElement
 }
 
 const Container = styled.div`
-  width: 100%;
+  /* width: 100%; */
   background-color: ${(props) => props.theme.colors.black};
-  margin: 0 auto 0;
 `
 
 const Layout = ({ children }: LayoutProps) => {
   useAuthInit()
+
   return (
     <Container>
       <Head>

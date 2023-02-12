@@ -1,25 +1,29 @@
-import { ReactElement } from 'react'
+import { ReactElement, useRef } from 'react'
 import styled from 'styled-components'
 
 // components
+import FlatTimer from '../components/main/FlatTimer'
 import TimerWrapper from '../components/main/TimerWrapper'
 import TodayWorkOutList from '../components/main/TodayWorkOutList'
 
 const Container = styled.div`
   width: 100%;
-  padding: 0 2rem;
-  flex: 1;
+  padding: 1rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 60px;
+  /* flex-wrap: wrap;
+  align-items: flex-start; */
+  /* padding-bottom: 60px; */
 `
 
 const Home = (props: any) => {
   return (
     <Container>
-      {/* <TimerWrapper /> */}
+      <FlatTimer />
 
+      {/* <TimerWrapper /> */}
       {/* <TodayWorkOutList /> */}
     </Container>
   )

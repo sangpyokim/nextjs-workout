@@ -16,10 +16,12 @@ const Container = styled.div`
   max-width: 1060px;
   box-sizing: border-box;
   margin: 0 auto 0;
+
   padding: 20px;
-  /* background-color: #f4f4f4; */
+  background-color: transparent;
   border-left: 1px solid white;
   border-right: 1px solid white;
+
   min-height: calc(var(--vh, 1vh) * 100);
 `
 
