@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react'
 import ExerciseList from '../../components/exrtcises/ExerciseList'
 
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
-    fallback: false,
-  }
-}
+// export async function getStaticPaths() {
+//   return {
+//     paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
+//     fallback: false,
+//   }
+// }
 
 const Community = () => {
   return (
