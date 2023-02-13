@@ -73,7 +73,7 @@ const RegisterModal = ({ open, setOpen }: IRegisterModal) => {
       setOpen={setOpen}
     >
       <ModalContent>
-        <LogInForm onSubmit={(e) => summitRegister(e, setOpen)}>
+        <LogInForm onSubmit={(e) => summitRegister(e)}>
           <FormItem>
             <Label htmlFor="password">이름</Label>
             <div>
