@@ -22,6 +22,14 @@ export const GlobalStyle = createGlobalStyle`
     font-display: fallback;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+
+    @media ${({ theme }) => theme.breakPoint.mobile} {
+      font-size: 8px;
+    }
+    @media ${({ theme }) => theme.breakPoint.tablet} {
+      font-size: 14px;
+    }
   }
   
   body {

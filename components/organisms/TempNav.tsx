@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   max-width: 1060px;
 
+  padding: 0 8px;
   height: 50px;
   margin: 0 auto 0;
   color: ${(props) => props.theme.colors.white};

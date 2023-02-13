@@ -36,8 +36,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return getLayout(
     <QueryClientProvider client={queryClient}>
       <RecoilRoot initializeState={initializeState}>
-        <GlobalStyle />
         <ThemeProvider theme={theme}>
+          <GlobalStyle />
           <Layout>
             <NestedLayout>
               <Component {...pageProps} />

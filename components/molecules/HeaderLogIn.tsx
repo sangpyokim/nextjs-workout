@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { isLoggedIn, signOut } from '../../firebase/auth/Auth'
 import GoogleLogInButton from '../atoms/GoogleLogInButton'
+import FlatModal from '../main/FlatModal'
 import { useModal } from '../main/hooks/useModal'
-import Modal from '../main/Modal'
+import RegisterModal from './RegisterModal'
 
 const Container = styled.div<{ open: boolean }>`
   display: flex;
@@ -12,7 +13,7 @@ const Container = styled.div<{ open: boolean }>`
   width: 100px;
 
   &:hover {
-    cursor: ${(props) => (props.open ? '' : 'pointer')};
+    cursor: ${(props) => (props.open ? 'pointer' : '')};
   }
 `
 const ModalContent = styled.div`
@@ -102,23 +103,25 @@ const HeaderLogIn = ({
   logIn,
   authState,
 }: IHeaderLogIn) => {
+  const { open: rOpen, setOpen: rSetOpen } = useModal()
+
   const idRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
-  if (verifying) return <Container open={open} />
+  if (verifying) return <Container open={false} />
 
   if (user)
     return (
-      <Container open={open}>
+      <Container open={true}>
         <div onClick={signOut}>{`${user}님`}</div>
       </Container>
     )
 
   return (
-    <Container open={open}>
+    <Container open={true}>
       <div onClick={() => setOpen(!open)}>로그인</div>
 
-      <Modal
+      <FlatModal
         header={'로그인'}
         open={open}
         setOpen={setOpen}
@@ -135,11 +138,12 @@ const HeaderLogIn = ({
               <div>
                 <Input
                   ref={idRef}
+                  autoFocus
                   id="user-id"
                   type="text"
                   autoComplete=""
                   name="userFormItem"
-                  pattern="^[a-zA-Z0-9]+$" // 숫자 + 영문 만
+                  pattern={'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'} // 숫자 + 영문 만
                   required
                 />
               </div>
@@ -164,13 +168,20 @@ const HeaderLogIn = ({
             </div>
           </LogInForm>
 
-          <RegisterButton>회원가입</RegisterButton>
+          <RegisterButton onClick={() => rSetOpen(true)}>
+            회원가입
+          </RegisterButton>
 
           <ErrorContainer>
             {authState.length > 0 ? authState : ''}
           </ErrorContainer>
         </ModalContent>
-      </Modal>
+      </FlatModal>
+
+      <RegisterModal
+        open={rOpen}
+        setOpen={rSetOpen}
+      />
     </Container>
   )
 }

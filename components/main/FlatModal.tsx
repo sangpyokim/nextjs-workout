@@ -88,7 +88,10 @@ const FlatModal = ({ open, setOpen, children, header }: IModal) => {
   return (
     <Container
       open={open}
-      onClick={() => setOpen()}
+      onClick={(e) => {
+        e.stopPropagation()
+        setOpen()
+      }}
     >
       {open ? (
         <Section onClick={(e) => e.stopPropagation()}>

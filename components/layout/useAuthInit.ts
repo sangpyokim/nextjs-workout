@@ -15,7 +15,7 @@ export const useAuthInit = () => {
         const uid = user.uid
         setUser({
           email: user.email!,
-          displayName: user.displayName!,
+          displayName: user.displayName || '김상표',
         })
         setLoading(false)
       } else {

@@ -18,7 +18,7 @@ const Container = styled.div`
   /* padding-bottom: 60px; */
 `
 
-const Home = (props: any) => {
+const Home = () => {
   return (
     <Container>
       <FlatTimer />

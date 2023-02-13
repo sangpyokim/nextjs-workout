@@ -14,8 +14,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  background-color: red;
 `
 const TimerWrapper = styled.div`
   display: flex;
@@ -50,7 +48,7 @@ const InfoModal = styled.div`
   color: black;
   padding: 12px;
   font-size: 1rem;
-
+  min-height: 8rem;
   & div {
     line-height: 1.5rem;
   }
@@ -60,27 +58,39 @@ const Item = styled.div`
   width: 100%;
   justify-content: space-between;
 `
+const ItemInput = styled.input`
+  max-width: 120px;
+`
 
 const FlatTimer = () => {
   const {
     timerState,
+    toggleTimerState,
     timerMode,
     toggleTimerMode,
     showMode,
+    toggleShowMode,
     time,
     secondTime,
     normalRemainTime,
-    toggleShowMode,
-    toggleTimerState,
+    T1Ref,
+    T2Ref,
+    constTime,
+    setConstTime,
+    constSecondTime,
+    setConstSecondTime,
+    onTimerChange,
   } = useFlatTimer()
+
   const { open: infoOpen, setOpen: setInfoOpen } = useFlatModal()
   const { open: timerSettingOpen, setOpen: setTimerSettingSetOpen } =
     useFlatModal()
-  const { open: toggleOpen, setOpen: setToggleOpen } = useFlatModal()
-  const { open: toggleOpen2, setOpen: setToggleOpen2 } = useFlatModal()
 
   return (
-    <Container onClick={toggleTimerState}>
+    <Container
+      onClick={toggleTimerState}
+      onDoubleClick={() => setTimerSettingSetOpen(true)}
+    >
       <TimerWrapper>
         {showMode === 'normal' ? (
           <TimerContainer>
@@ -98,25 +108,14 @@ const FlatTimer = () => {
           </TimerContainer>
         )}
         <IconContainer onClick={(e) => e.stopPropagation()}>
-          <InfoCircleOutlined onClick={() => setTimerSettingSetOpen(true)} />
+          <InfoCircleOutlined onClick={() => setInfoOpen(true)} />
         </IconContainer>
       </TimerWrapper>
 
       <FlatModal
-        open={infoOpen}
-        setOpen={setInfoOpen}
-        header={'타이머 설명'}
-      >
-        <InfoModal>
-          <div>왼쪽 클릭: 타이머 시작, 정지</div>
-          <div>오른쪽 클릭: 타이머 설정</div>
-        </InfoModal>
-      </FlatModal>
-
-      <FlatModal
         open={timerSettingOpen}
         setOpen={setTimerSettingSetOpen}
-        header={'타이머 설명'}
+        header={'타이머 설정'}
       >
         <InfoModal>
           <Item>
@@ -133,8 +132,43 @@ const FlatTimer = () => {
               setOpen={toggleShowMode}
             />
           </Item>
-          <Item>타이머1 시간 설정</Item>
-          <Item>타이머2 시간 설정, 모드가 더블일 경우</Item>
+          <Item>
+            <div>타이머1 시간 설정</div>
+            <ItemInput
+              ref={T1Ref}
+              defaultValue={constTime}
+              type={'text'}
+              maxLength={5}
+              pattern="\d*"
+              onChange={(e) => onTimerChange('single')}
+            />
+          </Item>
+          {timerMode === 'double' ? (
+            <Item>
+              <div>타이머2 시간 설정, 모드가 더블일 경우</div>
+              <ItemInput
+                ref={T2Ref}
+                defaultValue={constSecondTime}
+                type={'text'}
+                maxLength={5}
+                pattern="\d*"
+                onChange={(e) => onTimerChange('double')}
+              />
+            </Item>
+          ) : null}
+        </InfoModal>
+      </FlatModal>
+
+      <FlatModal
+        open={infoOpen}
+        setOpen={setInfoOpen}
+        header={'타이머 설명'}
+      >
+        <InfoModal>
+          <div>싱글 타이머: 일반적인 타이머</div>
+          <div>더블 타이머: 두개의 타이머</div>
+          <div>왼쪽 클릭: 타이머 시작, 정지</div>
+          <div>더블 클릭: 타이머 설정</div>
         </InfoModal>
       </FlatModal>
     </Container>
