@@ -1,5 +1,6 @@
 import { InfoCircleOutlined, SettingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
+import RippleEffect from '../RippleEffect'
 import FlatModal from './FlatModal'
 import { useFlatModal } from './hooks/useFlatModal'
 import { useFlatTimer } from './hooks/useFlatTimer'
@@ -14,6 +15,10 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 const TimerWrapper = styled.div`
   display: flex;
@@ -91,86 +96,88 @@ const FlatTimer = () => {
       onClick={toggleTimerState}
       onDoubleClick={() => setTimerSettingSetOpen(true)}
     >
-      <TimerWrapper>
-        {showMode === 'normal' ? (
-          <TimerContainer>
-            <FirstRemainTime>{normalRemainTime.first}</FirstRemainTime>
-            {timerMode === 'double' ? (
-              <SecondRemainTime>{normalRemainTime.second}</SecondRemainTime>
-            ) : null}
-          </TimerContainer>
-        ) : (
-          <TimerContainer>
-            <FirstRemainTime>{time}</FirstRemainTime>
-            {timerMode === 'double' ? (
-              <SecondRemainTime>{secondTime}</SecondRemainTime>
-            ) : null}
-          </TimerContainer>
-        )}
-        <IconContainer onClick={(e) => e.stopPropagation()}>
-          <InfoCircleOutlined onClick={() => setInfoOpen(true)} />
-        </IconContainer>
-      </TimerWrapper>
+      <RippleEffect>
+        <TimerWrapper>
+          {showMode === 'normal' ? (
+            <TimerContainer>
+              <FirstRemainTime>{normalRemainTime.first}</FirstRemainTime>
+              {timerMode === 'double' ? (
+                <SecondRemainTime>{normalRemainTime.second}</SecondRemainTime>
+              ) : null}
+            </TimerContainer>
+          ) : (
+            <TimerContainer>
+              <FirstRemainTime>{time}</FirstRemainTime>
+              {timerMode === 'double' ? (
+                <SecondRemainTime>{secondTime}</SecondRemainTime>
+              ) : null}
+            </TimerContainer>
+          )}
+          <IconContainer onClick={(e) => e.stopPropagation()}>
+            <InfoCircleOutlined onClick={() => setInfoOpen(true)} />
+          </IconContainer>
+        </TimerWrapper>
 
-      <FlatModal
-        open={timerSettingOpen}
-        setOpen={setTimerSettingSetOpen}
-        header={'타이머 설정'}
-      >
-        <InfoModal>
-          <Item>
-            <div>타이머 모드 ( 싱글 | 더블 )</div>
-            <Toggle
-              open={timerMode}
-              setOpen={toggleTimerMode}
-            />
-          </Item>
-          <Item>
-            <div>타이머 시간 표기 ( 일반 | 초 )</div>
-            <Toggle
-              open={showMode}
-              setOpen={toggleShowMode}
-            />
-          </Item>
-          <Item>
-            <div>타이머1 시간 설정</div>
-            <ItemInput
-              ref={T1Ref}
-              defaultValue={constTime}
-              type={'text'}
-              maxLength={5}
-              pattern="\d*"
-              onChange={(e) => onTimerChange('single')}
-            />
-          </Item>
-          {timerMode === 'double' ? (
+        <FlatModal
+          open={timerSettingOpen}
+          setOpen={setTimerSettingSetOpen}
+          header={'타이머 설정'}
+        >
+          <InfoModal>
             <Item>
-              <div>타이머2 시간 설정, 모드가 더블일 경우</div>
+              <div>타이머 모드 ( 싱글 | 더블 )</div>
+              <Toggle
+                open={timerMode}
+                setOpen={toggleTimerMode}
+              />
+            </Item>
+            <Item>
+              <div>타이머 시간 표기 ( 일반 | 초 )</div>
+              <Toggle
+                open={showMode}
+                setOpen={toggleShowMode}
+              />
+            </Item>
+            <Item>
+              <div>타이머1 시간 설정</div>
               <ItemInput
-                ref={T2Ref}
-                defaultValue={constSecondTime}
+                ref={T1Ref}
+                defaultValue={constTime}
                 type={'text'}
                 maxLength={5}
                 pattern="\d*"
-                onChange={(e) => onTimerChange('double')}
+                onChange={(e) => onTimerChange('single')}
               />
             </Item>
-          ) : null}
-        </InfoModal>
-      </FlatModal>
+            {timerMode === 'double' ? (
+              <Item>
+                <div>타이머2 시간 설정, 모드가 더블일 경우</div>
+                <ItemInput
+                  ref={T2Ref}
+                  defaultValue={constSecondTime}
+                  type={'text'}
+                  maxLength={5}
+                  pattern="\d*"
+                  onChange={(e) => onTimerChange('double')}
+                />
+              </Item>
+            ) : null}
+          </InfoModal>
+        </FlatModal>
 
-      <FlatModal
-        open={infoOpen}
-        setOpen={setInfoOpen}
-        header={'타이머 설명'}
-      >
-        <InfoModal>
-          <div>싱글 타이머: 일반적인 타이머</div>
-          <div>더블 타이머: 두개의 타이머</div>
-          <div>왼쪽 클릭: 타이머 시작, 정지</div>
-          <div>더블 클릭: 타이머 설정</div>
-        </InfoModal>
-      </FlatModal>
+        <FlatModal
+          open={infoOpen}
+          setOpen={setInfoOpen}
+          header={'타이머 설명'}
+        >
+          <InfoModal>
+            <div>싱글 타이머: 일반적인 타이머</div>
+            <div>더블 타이머: 두개의 타이머</div>
+            <div>왼쪽 클릭: 타이머 시작, 정지</div>
+            <div>더블 클릭: 타이머 설정</div>
+          </InfoModal>
+        </FlatModal>
+      </RippleEffect>
     </Container>
   )
 }
