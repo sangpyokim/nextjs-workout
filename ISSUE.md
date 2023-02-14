@@ -19,7 +19,7 @@
 ui와 로직을 분리하면 테스트, 유지보수 등 관리하기 좋다는데 나는 왜 체감을 못 하는걸까. <br>
 테스트 도구 같은 것을 사용해서 테스트를 사용하지않아서일까? 그럴수도있겠다.
 
-유지보수에서 어려움을 겪는 것같다. ui와 로직을 custom hooks로 분리하는 것은 알겠다. 말은 굉장히 간단한 것같다.
+유지보수에서 어려움을 겪는 것같다. ui와 로직을 custom hooks로 분리하는 것은 알겠다. 말은 굉장히 간단한 것같다. 복잡하다.
 
 먼저 re-render 이슈랑 비슷한거같은데 생각해보자. <br>
 부모 컴포넌트가 하나 있고, 그 안에 컴포넌트가 둘있다. <br>
@@ -28,3 +28,90 @@ ui와 로직을 분리하면 테스트, 유지보수 등 관리하기 좋다는�
 하지만 값을 공유하는 컴포넌트가 많다면 props내려주기, 컴포넌트합성으로는 어렵다. 이때 전역상태관리 라이브러리를 사용해서 값을 관리하고 필요할 때 해당 컴포넌트에서 사용한다.
 
 쓰다보니 생각의 정리가 된것같다. 컴포넌트 하나를 만들때도 oop적인 생각을 하면 좋을 것같다. 똑같은것같기도...
+
+## cannot assign to read only property 'numtime' of object '#<workoutlistitem>'
+
+현재 선택된 아이템이 있고, 타이머가 흐르면 현재 선택된 아이템의 타이머도 증가하는 즉, 누적 시간을 표시하는 기능을 개발하려고 서버에서 목록들을 받아왔다. 서버에서오는데이터와 사용하는 데이터의 양식과 조금 달라서 클래스로 객체를 만들어 양식을 변형시켜주면 되겠다! 라고 생각해서 아래 클래스를 만들었다.
+
+```typescript
+// 서버데아터
+interface IWorkOurListItem {
+  id: number
+  title: string
+  set: number
+  time: number
+}
+
+// 구현한 클래스
+class WorkOutListItem {
+  id: number
+  title: string
+  set: number
+  _timeNum: number
+  time: string
+
+  constructor({ id, title, set, time }) {
+    this.id = id
+    this.title = title
+    this.set = set
+    this._timeNum = time
+    this.time = this._convertTime(time)
+  }
+
+  _convertTime = (num: number) => {
+    const hours = Math.floor(num / 3600)
+    const mins = Math.floor((num % 3600) / 60)
+    const sec = Math.floor((num % 3600) % 60)
+    const h = hours >= 10 ? hours : `0${hours}`
+    const m = mins >= 10 ? mins : `0${mins}`
+    const s = sec >= 10 ? sec : `0${sec}`
+    return `${h}:${m}:${s}`
+  }
+  countUp() {
+    const sum = _sumOne(this._timeNum)
+    this._timeNum = sum
+    this.time = this._convertTime(sum)
+  }
+  _sumOne(num: number) {
+    return num + 1
+  }
+}
+```
+
+이렇게 구현을 하고 각 객체를 배열안에 넣어 recoil로 setState 시켜 타이머도 접근할 수 있고, 목록도 표시할 수 있도록했다.
+타이머도 접근할 수 있고, 목록도 표시할 수 있었지만 목표하던 기능인 누적시간표시에서 에러가 발생했다.
+타이머에서 시간이 증가할때 선택된 객체를 복사하고 countUp 메소드를 실행시켜 객체의 시간을 증가시키고 다시 목록에 넣어 기능을 구현하려했지만 멤버변수가 readonly로 설정되어 변경할 수 없다는 에러가 발생했다.
+[검색1](https://velog.io/@rkio/React-TypeError-Cannot-assign-to-read-only-property-0-of-object-object-Array) 결과 전역상태관리 라이브러리의 상태들은 setState되면 readonly처리 되어있고, 변경하기위해서는 깊은복사를 하여 수정해야한다는 것이다.
+그래서 스프래드 연산자, map 메소드, slice + map 메소드를 사용해서 복사를 하고 객체 수정을 해보려했지만 여전히 에러가 발생하고 있어서 더 읽어보니 중첩된 객체는 깊은 복사가 되지않아서 에러가 생기는 것이였다. 해결하려고 새로운 객체를 생성하고 변경되는 값을 넣어주고 새로운 배열을 만들어서 setState를 했지만 여전히 에러가 발생해서 class를 인터페이스로 걷어내고 메소드는 따로 함수로 분리를 하여 해결를 했습니다.
+
+```typescript
+// 클래스 -> 인터페이스
+interface WorkOutListItem {
+  id: number
+  title: string
+  set: number
+  timeNum: number
+  time: string
+}
+// 클래스메소드 -> hook로 분리
+const _updateList = () => {
+  const itemIndex = list.findIndex((ele) => ele.id === selectedItem?.id)
+  if (itemIndex !== -1) {
+    const newList = list.map((item, index) => {
+      if (itemIndex === index) {
+        const newObj: WorkOutListItem = {
+          timeNum: item.timeNum + 1,
+          time: convertTimer(item.timeNum + 1),
+          id: item.id,
+          title: item.title,
+          set: item.set,
+        }
+        return newObj
+      }
+      return item
+    })
+
+    setList(newList)
+  }
+}
+```

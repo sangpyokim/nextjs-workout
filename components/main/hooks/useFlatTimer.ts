@@ -1,25 +1,40 @@
+import {
+  ASelectedWorkOutListItem,
+  AWorkOutList,
+} from './../../../recoil/AllAtom'
+import { WorkOutListItem } from './useNewWorkOutList'
 import { useEffect, useRef, useState } from 'react'
 import { TIMER_KEY } from '../../../localstorage/Constants'
 import {
   getTimerSettingValueInLocalStorage,
   updateTimerSettingValueInLocalStorage,
 } from '../../../localstorage/LocalStorage'
+import { useRecoilState } from 'recoil'
+import { ATimerState } from '../../../recoil/AllAtom'
+import { convertTimer } from '../../../utils/tempUtil'
 
 // 로컬스토리지에서 값 가져오기
 // 로컬스토리지 값 갱신하기
 // 서버에서 값 가져오기
 // 서버 값 갱신하기
 
-type TTimerState = 'ready' | 'running' | 'stop' | 'end'
+export type TTimerState = 'ready' | 'running' | 'stop' | 'end'
 export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 초만 표시
 export type TTimerMode = 'single' | 'double'
 
 export const useFlatTimer = () => {
-  const [timerState, setTimerState] = useState<TTimerState>('stop')
+  // const [selectedItem, setSelectedItem] = useRecoilState(
+  //   selectedWorkOutListItem,
+  // )
+  const [list, setList] = useRecoilState(AWorkOutList)
+  const [timerState, setTimerState] = useRecoilState(ATimerState)
+  const [selectedItem, setSelectedItem] = useRecoilState(
+    ASelectedWorkOutListItem,
+  )
   const [timerMode, setTimerMode] = useState<TTimerMode>('double')
   const [showMode, setShowMode] = useState<TShowMode>('normal')
-  const [constTime, setConstTime] = useState(2)
-  const [constSecondTime, setConstSecondTime] = useState(5)
+  const [constTime, setConstTime] = useState(0)
+  const [constSecondTime, setConstSecondTime] = useState(0)
 
   //ref
   const T1Ref = useRef<HTMLInputElement>(null)
@@ -55,7 +70,7 @@ export const useFlatTimer = () => {
 
   const _start = async () => {
     // 1. 로컬 스토리지에서 값 가져오기
-    console.log('localstorage check')
+    console.log('localStorage check')
     const val = getTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting)
     if (val !== '') {
       onFirstLoad(val.mode, val.type, val.t1, val.t2)
@@ -162,8 +177,30 @@ export const useFlatTimer = () => {
       clone.first = strTime
       setNormalRemainTime(clone)
     }
-
+    // 리스트에서 선택된거 찾고 복사하고 변경시키고 덮어쓰기
     setTime(time - 1)
+    _updateList()
+  }
+
+  const _updateList = () => {
+    const itemIndex = list.findIndex((ele) => ele.id === selectedItem?.id)
+    if (itemIndex !== -1) {
+      const newList = list.map((item, index) => {
+        if (itemIndex === index) {
+          const newObj: WorkOutListItem = {
+            timeNum: item.timeNum + 1,
+            time: convertTimer(item.timeNum + 1),
+            id: item.id,
+            title: item.title,
+            set: item.set,
+          }
+          return newObj
+        }
+        return item
+      })
+
+      setList(newList)
+    }
   }
 
   const _secondCountDown = () => {
@@ -194,7 +231,6 @@ export const useFlatTimer = () => {
       if (timerState === 'running') {
         _countDown()
       }
-      console.log('setInterval')
     }, 1000)
 
     return () => clearInterval(interval)
@@ -217,6 +253,7 @@ export const useFlatTimer = () => {
     constSecondTime,
     setConstSecondTime,
     onTimerChange,
+    selectedItem,
   }
 }
 

@@ -1,9 +1,11 @@
 import { InfoCircleOutlined, SettingOutlined } from '@ant-design/icons'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import RippleEffect from '../RippleEffect'
 import FlatModal from './FlatModal'
 import { useFlatModal } from './hooks/useFlatModal'
 import { useFlatTimer } from './hooks/useFlatTimer'
+import { WorkOutListItem } from './hooks/useNewWorkOutList'
 import Toggle from './Toggle'
 
 const Container = styled.div`
@@ -16,12 +18,20 @@ const Container = styled.div`
   justify-content: center;
   flex-direction: column;
 
+  margin-bottom: 24px;
+
   &:hover {
     cursor: pointer;
   }
 `
+const Title = styled.div`
+  height: 2rem;
+  font-weight: 500;
+  font-size: 2rem;
+`
 const TimerWrapper = styled.div`
   display: flex;
+  margin-top: 12px;
 `
 const TimerContainer = styled.div`
   display: flex;
@@ -85,6 +95,7 @@ const FlatTimer = () => {
     constSecondTime,
     setConstSecondTime,
     onTimerChange,
+    selectedItem,
   } = useFlatTimer()
 
   const { open: infoOpen, setOpen: setInfoOpen } = useFlatModal()
@@ -97,6 +108,8 @@ const FlatTimer = () => {
       onDoubleClick={() => setTimerSettingSetOpen(true)}
     >
       <RippleEffect>
+        <Title>{selectedItem?.title}</Title>
+
         <TimerWrapper>
           {showMode === 'normal' ? (
             <TimerContainer>
