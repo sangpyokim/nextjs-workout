@@ -23,9 +23,6 @@ export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 
 export type TTimerMode = 'single' | 'double'
 
 export const useFlatTimer = () => {
-  // const [selectedItem, setSelectedItem] = useRecoilState(
-  //   selectedWorkOutListItem,
-  // )
   const [list, setList] = useRecoilState(AWorkOutList)
   const [timerState, setTimerState] = useRecoilState(ATimerState)
   const [selectedItem, setSelectedItem] = useRecoilState(
@@ -168,7 +165,7 @@ export const useFlatTimer = () => {
   const _countDown = () => {
     if (time === 0) {
       if (timerMode === 'double' && secondTime > 0) return _secondCountDown()
-      else return setTimerState('end')
+      else return _countDownEnd()
     }
 
     if (showMode === 'normal') {
@@ -179,9 +176,34 @@ export const useFlatTimer = () => {
     }
     // 리스트에서 선택된거 찾고 복사하고 변경시키고 덮어쓰기
     setTime(time - 1)
+    // 쉬는 시간 포함?
     _updateList()
   }
+  const _countDownEnd = () => {
+    setTimerState('end')
+    _updateSetList()
+  }
+  const _updateSetList = () => {
+    const itemIndex = list.findIndex((ele) => ele.id === selectedItem?.id)
+    if (itemIndex !== -1) {
+      const newList = list.map((item, index) => {
+        if (itemIndex === index) {
+          const newObj: WorkOutListItem = {
+            timeNum: item.timeNum,
+            time: item.time,
+            id: item.id,
+            title: item.title,
+            set: item.set + 1,
+          }
+          setSelectedItem(newObj)
+          return newObj
+        }
+        return item
+      })
 
+      setList(newList)
+    }
+  }
   const _updateList = () => {
     const itemIndex = list.findIndex((ele) => ele.id === selectedItem?.id)
     if (itemIndex !== -1) {
@@ -194,11 +216,11 @@ export const useFlatTimer = () => {
             title: item.title,
             set: item.set,
           }
+          setSelectedItem(newObj)
           return newObj
         }
         return item
       })
-
       setList(newList)
     }
   }
@@ -214,6 +236,9 @@ export const useFlatTimer = () => {
     }
 
     setSecondTime(secondTime - 1)
+    // --------------------------------------------------
+    // 쉬는 시간 포함
+    _updateList()
   }
 
   const _convertTimer = (num: number) => {
@@ -238,6 +263,7 @@ export const useFlatTimer = () => {
 
   return {
     timerState,
+    setTimerState,
     toggleTimerState,
     timerMode,
     toggleTimerMode,

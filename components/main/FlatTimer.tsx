@@ -80,6 +80,7 @@ const ItemInput = styled.input`
 const FlatTimer = () => {
   const {
     timerState,
+    setTimerState,
     toggleTimerState,
     timerMode,
     toggleTimerMode,
@@ -105,7 +106,10 @@ const FlatTimer = () => {
   return (
     <Container
       onClick={toggleTimerState}
-      onDoubleClick={() => setTimerSettingSetOpen(true)}
+      onDoubleClick={() => {
+        setTimerState('stop')
+        setTimerSettingSetOpen(true)
+      }}
     >
       <RippleEffect>
         <Title>{selectedItem?.title}</Title>

@@ -4,6 +4,8 @@ import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { ASelectedWorkOutListItem, ATimerState } from '../../recoil/AllAtom'
 import RippleEffect from '../RippleEffect'
+import FlatModal from './FlatModal'
+import { useFlatModal } from './hooks/useFlatModal'
 import useNewWorkOutList, { WorkOutListItem } from './hooks/useNewWorkOutList'
 import { ProcessIcon } from './ProcessIcon'
 
@@ -50,27 +52,81 @@ const ItemSubWrapper = styled.div`
 const ItemSet = styled.div``
 const ItemTotalTime = styled.div``
 
+const InfoModal = styled.div`
+  color: black;
+  padding: 12px;
+  font-size: 1rem;
+  min-height: 8rem;
+  & div {
+    line-height: 1.5rem;
+  }
+`
+
 const NewWorkOutList = () => {
-  const { list, selectedItem, setSelectedItem } = useNewWorkOutList()
+  const {
+    writeMode,
+    settingOpen,
+    setSettingOpen,
+    addOpen,
+    setAddOpen,
+    onClickSettingButton,
+    list,
+    selectedItem,
+    setSelectedItem,
+    onClickWriteMode,
+    selectedUpdateItem,
+    selectedUpdateItemIndex,
+    onChangeTitle,
+    onKeyPress,
+    onBlur,
+  } = useNewWorkOutList()
+
   return (
     <Container>
-      {list.map((item) => (
+      {list.map((item, i) => (
         <Item
           key={item.title}
           onClick={() => setSelectedItem(item)}
         >
           <RippleEffect>
             <ItemWrapper>
-              <ItemTitle>{item.title}</ItemTitle>
+              <ItemTitle>
+                {selectedUpdateItemIndex === i && writeMode ? (
+                  <input
+                    autoFocus
+                    value={selectedUpdateItem?.title}
+                    onChange={(e) => onChangeTitle(e)}
+                    onKeyDown={(e) => onKeyPress(e)}
+                    onBlur={() => onBlur()}
+                  />
+                ) : (
+                  item.title
+                )}
+              </ItemTitle>
               <ItemSubWrapper>
                 <ItemSet>{item.set} 세트</ItemSet>
                 <ItemTotalTime>{item.time}</ItemTotalTime>
-                <MoreOutlined />
+                <div onClick={(e) => onClickSettingButton(i, e)}>
+                  <MoreOutlined />
+                </div>
               </ItemSubWrapper>
             </ItemWrapper>
           </RippleEffect>
         </Item>
       ))}
+
+      <button onClick={() => setAddOpen(true)}>추가</button>
+
+      <FlatModal
+        open={settingOpen}
+        setOpen={setSettingOpen}
+        header={'타이머 설명'}
+      >
+        <InfoModal>
+          <button onClick={() => onClickWriteMode()}>수정</button>
+          <button>삭제</button>
+        </InfoModal>
+      </FlatModal>
     </Container>
   )
 }
