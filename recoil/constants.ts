@@ -7,4 +7,5 @@ export const atomKeys = {
   timerState: 'timerState',
   selectWorkOutItem: 'selectWorkOutItem',
   workOutList: 'workOutList',
+  remainTime: 'remainTime',
 }

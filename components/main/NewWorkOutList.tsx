@@ -1,4 +1,4 @@
-import { MoreOutlined } from '@ant-design/icons'
+import { MoreOutlined, RedoOutlined } from '@ant-design/icons'
 import React, { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
@@ -47,7 +47,9 @@ const ItemTitle = styled.div``
 const ItemSubWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 300px;
+  & div {
+    margin-right: 8px;
+  }
 `
 const ItemSet = styled.div``
 const ItemTotalTime = styled.div``
@@ -61,14 +63,23 @@ const InfoModal = styled.div`
     line-height: 1.5rem;
   }
 `
+const Button = styled.button`
+  width: 100%;
+  height: 5rem;
+  margin-bottom: 4px;
+  background-color: black;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 500;
+  border-radius: 2px;
+`
+const ButtonWrapper = styled.div``
 
 const NewWorkOutList = () => {
   const {
     writeMode,
     settingOpen,
     setSettingOpen,
-    addOpen,
-    setAddOpen,
     onClickSettingButton,
     list,
     selectedItem,
@@ -79,65 +90,63 @@ const NewWorkOutList = () => {
     onChangeTitle,
     onKeyPress,
     onBlur,
+    onClickDeleteButton,
+    onClickAddButton,
   } = useNewWorkOutList()
 
   return (
     <Container>
-      {list.map((item, i) => (
-        <Item
-          key={item.title}
-          onClick={() => setSelectedItem(item)}
-        >
-          <RippleEffect>
-            <ItemWrapper>
-              <ItemTitle>
-                {selectedUpdateItemIndex === i && writeMode ? (
-                  <input
-                    autoFocus
-                    value={selectedUpdateItem?.title}
-                    onChange={(e) => onChangeTitle(e)}
-                    onKeyDown={(e) => onKeyPress(e)}
-                    onBlur={() => onBlur()}
-                  />
-                ) : (
-                  item.title
-                )}
-              </ItemTitle>
-              <ItemSubWrapper>
-                <ItemSet>{item.set} 세트</ItemSet>
-                <ItemTotalTime>{item.time}</ItemTotalTime>
-                <div onClick={(e) => onClickSettingButton(i, e)}>
-                  <MoreOutlined />
-                </div>
-              </ItemSubWrapper>
-            </ItemWrapper>
-          </RippleEffect>
-        </Item>
-      ))}
-
-      <button onClick={() => setAddOpen(true)}>추가</button>
+      {list &&
+        list.map((item, i) => (
+          <Item
+            key={item.title}
+            onClick={() => setSelectedItem(item)}
+          >
+            <RippleEffect>
+              <ItemWrapper>
+                <ItemTitle>
+                  {selectedUpdateItemIndex === i && writeMode ? (
+                    <input
+                      autoFocus
+                      value={selectedUpdateItem?.title}
+                      onChange={(e) => onChangeTitle(e)}
+                      onKeyDown={(e) => onKeyPress(e)}
+                      onBlur={() => onBlur()}
+                    />
+                  ) : (
+                    item.title
+                  )}
+                </ItemTitle>
+                <ItemSubWrapper>
+                  <ItemSet>{item.set} 세트</ItemSet>
+                  <ItemTotalTime>{item.time}</ItemTotalTime>
+                  <div onClick={(e) => onClickSettingButton(i, e)}>
+                    <MoreOutlined />
+                  </div>
+                </ItemSubWrapper>
+              </ItemWrapper>
+            </RippleEffect>
+          </Item>
+        ))}
 
       <FlatModal
         open={settingOpen}
         setOpen={setSettingOpen}
-        header={'타이머 설명'}
       >
         <InfoModal>
-          <button onClick={() => onClickWriteMode()}>수정</button>
-          <button>삭제</button>
+          <Button onClick={() => onClickWriteMode()}>아이템 수정</Button>
+          <Button onClick={() => onClickDeleteButton()}>아이템 삭제</Button>
         </InfoModal>
       </FlatModal>
+
+      <ButtonWrapper>
+        <Button onClick={() => onClickAddButton()}>추가</Button>
+      </ButtonWrapper>
     </Container>
   )
 }
 
 export default NewWorkOutList
 
-// 아이콘 이름 세트 시간
-// 1. 오토포커스, 무조껀 하나는 생성되어잇음 회원 생성할때 데이터베이스 추가
-// 2. [x] 하나만 선택가능
-// 3. [x] 선택된 거 시간 증가
-// 5. [] 선택하면 타이머 초기화, 상태 초기화
-// 6. 목록 수정 이름만
-// 7. 목록 삭제
-// 8. 하나만 남았다면 삭제 불가
+// 타이머를 언제 업데이트 시킬것인가..
+// 10초마다?

@@ -16,6 +16,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   /* flex-wrap: wrap;
   align-items: flex-start; */
   /* padding-bottom: 60px; */

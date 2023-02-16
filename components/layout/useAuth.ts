@@ -4,14 +4,16 @@ import { userInfo, authLoading } from '../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { getMyAuth, pcLogIn } from '../../firebase/auth/Auth'
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
+import { useRouter } from 'next/router'
 
 export const useAuth = () => {
   const [user, setUser] = useRecoilState(userInfo)
   const [loading, setLoading] = useRecoilState(authLoading)
   const [authState, setAuthState] = useState('')
   const { auth } = getMyAuth()
-
   const { open, setOpen } = useModal()
+
+  const router = useRouter()
 
   const modalClose = (open: boolean) => {
     setOpen(open)
@@ -20,6 +22,7 @@ export const useAuth = () => {
 
   const signOut = () => {
     auth.signOut()
+    router.reload()
   }
   const googleLogIn = () => {
     // setImageState(Pressed)
@@ -42,6 +45,7 @@ export const useAuth = () => {
         // Signed in
         const user = userCredential.user
         // ...
+        router.reload()
       })
       .catch((error) => {
         const errorCode = error.code

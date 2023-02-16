@@ -3,6 +3,10 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
 import { authLoading, userInfo } from '../../recoil/ExercisesState'
 import { getMyAuth } from '../../firebase/auth/Auth'
+import {
+  clearTimerValue,
+  updateUserEmail,
+} from '../../localstorage/LocalStorage'
 
 export const useAuthInit = () => {
   const [user, setUser] = useRecoilState(userInfo)
@@ -13,12 +17,14 @@ export const useAuthInit = () => {
     const listener = onAuthStateChanged(auth.auth, (user) => {
       if (user) {
         const uid = user.uid
+        updateUserEmail(user.email!.split('.')[0])
         setUser({
           email: user.email!,
           displayName: user.displayName || '김상표',
         })
         setLoading(false)
       } else {
+        clearTimerValue()
         setUser({ email: '', displayName: '' })
         setLoading(false)
       }

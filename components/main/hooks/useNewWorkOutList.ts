@@ -1,3 +1,4 @@
+import { getUserEmail } from './../../../localstorage/LocalStorage'
 import {
   ASelectedWorkOutListItem,
   AWorkOutList,
@@ -7,13 +8,11 @@ import { useRecoilState } from 'recoil'
 import { ATimerState } from '../../../recoil/AllAtom'
 import { convertTimer } from '../../../utils/tempUtil'
 import { useFlatModal } from './useFlatModal'
-
-interface IWorkOurListItem {
-  id: number
-  title: string
-  set: number
-  time: number
-}
+import {
+  getTimerListToday,
+  updateWorkOutList,
+} from '../../../firebase/database/newDatabase'
+import { TIMER_KEY } from '../../../localstorage/Constants'
 
 export interface WorkOutListItem {
   id: number
@@ -25,7 +24,6 @@ export interface WorkOutListItem {
 
 const useNewWorkOutList = () => {
   const { open: settingOpen, setOpen: setSettingOpen } = useFlatModal()
-  const { open: addOpen, setOpen: setAddOpen } = useFlatModal()
 
   const [timerState, setTimerState] = useRecoilState(ATimerState)
   const [list, setList] = useRecoilState(AWorkOutList)
@@ -40,23 +38,10 @@ const useNewWorkOutList = () => {
   const [writeMode, setWriteMode] = useState(false)
 
   const fetchData = async () => {
-    const res = await fetch(
-      'https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/rlatkdvy12@gmail/timer/list/2023/2/14.json',
-    )
+    const userEmail = localStorage.getItem(TIMER_KEY.userEmail)
+    const res = (await getTimerListToday(userEmail)) || []
 
-    const json = await res.json()
-    setList(
-      json.map((item: IWorkOurListItem) => {
-        const obj = {
-          timeNum: item.time,
-          time: convertTimer(item.time),
-          id: item.id,
-          title: item.title,
-          set: item.set,
-        }
-        return obj
-      }),
-    )
+    setList(res)
   }
 
   // 버튼 클릭 -> 현재상태 저장, 모달 띄우기 -> 수정, 삭제버튼 -> 수정모드 진입, 삭제
@@ -105,15 +90,41 @@ const useNewWorkOutList = () => {
     const newArr = list.slice()
     newArr.splice(selectedUpdateItemIndex, 1, selectedUpdateItem!)
     setList(newArr)
+    _updateWorkOutList(newArr)
+
     setWriteMode(false)
 
     // 선택된거랑 같다면 바꿈
     if (selectedItem?.id === selectedUpdateItem?.id)
       setSelectedItem(selectedUpdateItem)
   }
+  const _updateWorkOutList = (newArr: WorkOutListItem[]) => {
+    const userEmail = localStorage.getItem(TIMER_KEY.userEmail)
+    updateWorkOutList(userEmail!, newArr)
+  }
 
-  const addList = (newItem: WorkOutListItem) => {
+  const onClickDeleteButton = () => {
+    const tempArr = [...list]
+    tempArr.splice(selectedUpdateItemIndex, 1)
+
+    _updateWorkOutList(tempArr)
+    setList(tempArr)
+    setSettingOpen(false)
+  }
+  const onClickAddButton = () => {
+    // 쓰기모드, 선택 아이템 ,리스트 추가
+    const newItem: WorkOutListItem = {
+      id: new Date().getTime(),
+      set: 1,
+      timeNum: 0,
+      time: '00:00:00',
+      title: '',
+    }
+
     setList([...list, newItem])
+    setSelectedUpdateItem(newItem)
+    setSelectedUpdateItemIndex(list.length)
+    setWriteMode(true)
   }
 
   useEffect(() => {
@@ -124,8 +135,6 @@ const useNewWorkOutList = () => {
     writeMode,
     settingOpen,
     setSettingOpen,
-    addOpen,
-    setAddOpen,
     onClickSettingButton,
     list,
     selectedItem,
@@ -136,6 +145,8 @@ const useNewWorkOutList = () => {
     onChangeTitle,
     onKeyPress,
     onBlur,
+    onClickDeleteButton,
+    onClickAddButton,
   }
 }
 

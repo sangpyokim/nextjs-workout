@@ -1,4 +1,5 @@
 import {
+  ARemainTime,
   ASelectedWorkOutListItem,
   AWorkOutList,
 } from './../../../recoil/AllAtom'
@@ -7,11 +8,14 @@ import { useEffect, useRef, useState } from 'react'
 import { TIMER_KEY } from '../../../localstorage/Constants'
 import {
   getTimerSettingValueInLocalStorage,
+  getUserEmail,
   updateTimerSettingValueInLocalStorage,
 } from '../../../localstorage/LocalStorage'
 import { useRecoilState } from 'recoil'
 import { ATimerState } from '../../../recoil/AllAtom'
 import { convertTimer } from '../../../utils/tempUtil'
+import { getTimerSettingValue } from '../../../firebase/database/newDatabase'
+import { userInfo } from '../../../recoil/ExercisesState'
 
 // 로컬스토리지에서 값 가져오기
 // 로컬스토리지 값 갱신하기
@@ -28,6 +32,8 @@ export const useFlatTimer = () => {
   const [selectedItem, setSelectedItem] = useRecoilState(
     ASelectedWorkOutListItem,
   )
+  const [normalRemainTime, setNormalRemainTime] = useRecoilState(ARemainTime)
+
   const [timerMode, setTimerMode] = useState<TTimerMode>('double')
   const [showMode, setShowMode] = useState<TShowMode>('normal')
   const [constTime, setConstTime] = useState(0)
@@ -39,10 +45,6 @@ export const useFlatTimer = () => {
 
   const [time, setTime] = useState(0) // time에서 변경이 일어나면 바로 normalRemainTime 변경 시키기
   const [secondTime, setSecondTime] = useState(0)
-  const [normalRemainTime, setNormalRemainTime] = useState({
-    first: '00:00:00',
-    second: '00:00:00',
-  })
 
   const onFirstLoad = (
     mode: TShowMode,
@@ -52,7 +54,14 @@ export const useFlatTimer = () => {
   ) => {
     setShowMode(mode)
     setTimerMode(type)
-    _init(t1, t2)
+    // 현재시간 로컬스토리지에서 확인, 로컬스토리지에 값이있으면 const 시간빼고 바꿔주기
+    const LT1 = localStorage.getItem(TIMER_KEY.firstTime)
+    const LT2 = localStorage.getItem(TIMER_KEY.secondTime)
+
+    if (LT1 && LT2) _init(Number(LT1), Number(LT2))
+    else if (LT1 && !LT2) _init(Number(LT1), t2)
+    else _init(t1, t2)
+
     _constTimeInit(t1, t2)
   }
 
@@ -75,11 +84,11 @@ export const useFlatTimer = () => {
     }
 
     console.log('server check')
+    const userEmail = getUserEmail()
+    if (!userEmail) return
     // 2. 없다면 서버에서 가져오기
-    const res = await fetch(
-      'https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/rlatkdvy12@gmail/settings/timer.json',
-    )
-    const settings = await res.json()
+    const settings = await getTimerSettingValue(userEmail!)
+
     onFirstLoad(settings.mode, settings.type, settings.t1, settings.t2)
     // 3. 로컬 스토리지에 값 넣어놓기
     updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
@@ -160,7 +169,7 @@ export const useFlatTimer = () => {
       t1: t1,
       t2: t2,
     }
-    updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
+    // updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
   }
   const _countDown = () => {
     if (time === 0) {
@@ -169,15 +178,22 @@ export const useFlatTimer = () => {
     }
 
     if (showMode === 'normal') {
-      const clone = structuredClone(normalRemainTime)
+      const clone = JSON.parse(JSON.stringify(normalRemainTime))
       const strTime = _convertTimer(time - 1)
       clone.first = strTime
       setNormalRemainTime(clone)
     }
     // 리스트에서 선택된거 찾고 복사하고 변경시키고 덮어쓰기
     setTime(time - 1)
+    _updateFirstTimeLocalStorage()
     // 쉬는 시간 포함?
     _updateList()
+  }
+  const _updateFirstTimeLocalStorage = () => {
+    localStorage.setItem(TIMER_KEY.firstTime, String(time))
+  }
+  const _updateSecondTimeLocalStorage = () => {
+    localStorage.setItem(TIMER_KEY.secondTime, String(secondTime))
   }
   const _countDownEnd = () => {
     setTimerState('end')
@@ -250,16 +266,28 @@ export const useFlatTimer = () => {
     const s = sec >= 10 ? sec : `0${sec}`
     return `${h}:${m}:${s}`
   }
+  const onClickResetButton = () => {
+    _init(constTime, constSecondTime)
+    setTimerState('ready')
+    localStorage.setItem(TIMER_KEY.firstTime, String(constTime))
+    localStorage.setItem(TIMER_KEY.secondTime, String(constSecondTime))
+  }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (timerState === 'running') {
-        _countDown()
-      }
-    }, 1000)
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (timerState === 'running') {
+  //       _countDown()
+  //     }
+  //   }, 1000)
 
-    return () => clearInterval(interval)
-  })
+  //   return () => clearInterval(interval)
+  // })
+
+  useInterval(() => {
+    if (timerState === 'running') {
+      _countDown()
+    }
+  }, 1000)
 
   return {
     timerState,
@@ -280,8 +308,28 @@ export const useFlatTimer = () => {
     setConstSecondTime,
     onTimerChange,
     selectedItem,
+    onClickResetButton,
   }
 }
 
 // 숫자 -> 시 : 분 : 초
 // 시분초 -> 숫자
+function useInterval(callback: () => void, delay: number) {
+  const savedCallback = useRef(() => {})
+
+  // Remember the latest function.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      if (savedCallback) savedCallback.current()
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [delay])
+}

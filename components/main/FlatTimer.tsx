@@ -1,4 +1,8 @@
-import { InfoCircleOutlined, SettingOutlined } from '@ant-design/icons'
+import {
+  InfoCircleOutlined,
+  RedoOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import RippleEffect from '../RippleEffect'
@@ -54,9 +58,11 @@ const IconContainer = styled.div`
   position: relative;
   right: -1rem;
   display: flex;
-  width: 100%;
+  flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 50%;
   font-size: 1.3rem;
 `
 const InfoModal = styled.div`
@@ -97,6 +103,7 @@ const FlatTimer = () => {
     setConstSecondTime,
     onTimerChange,
     selectedItem,
+    onClickResetButton,
   } = useFlatTimer()
 
   const { open: infoOpen, setOpen: setInfoOpen } = useFlatModal()
@@ -132,6 +139,7 @@ const FlatTimer = () => {
           )}
           <IconContainer onClick={(e) => e.stopPropagation()}>
             <InfoCircleOutlined onClick={() => setInfoOpen(true)} />
+            <RedoOutlined onClick={onClickResetButton} />
           </IconContainer>
         </TimerWrapper>
 
@@ -188,6 +196,7 @@ const FlatTimer = () => {
           header={'타이머 설명'}
         >
           <InfoModal>
+            <div>설명</div>
             <div>싱글 타이머: 일반적인 타이머</div>
             <div>더블 타이머: 두개의 타이머</div>
             <div>왼쪽 클릭: 타이머 시작, 정지</div>

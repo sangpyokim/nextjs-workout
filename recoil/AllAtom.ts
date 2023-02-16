@@ -17,3 +17,11 @@ export const AWorkOutList = atom<WorkOutListItem[] | []>({
   key: atomKeys.workOutList,
   default: [],
 })
+
+export const ARemainTime = atom({
+  key: atomKeys.remainTime,
+  default: {
+    first: '00:00:00',
+    second: '00:00:00',
+  },
+})
