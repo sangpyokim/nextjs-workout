@@ -13,6 +13,14 @@
 |    스타일    |  Styled-Component   |
 | 데이터베이스 |      firebase       |
 
+**깃 커밋 메시지 컨벤션**
+
+- [feat]: 새로운 기능추가
+- [bug]: 버그 수정
+- [layout, style]: html, css 변경
+- [refact, refactor]: 코드 리팩토링
+- [doc]: .md 파일 수정
+
 웹사이트: Work Out. [here](https://nextjs-workout.vercel.app/)
 
 <br />
