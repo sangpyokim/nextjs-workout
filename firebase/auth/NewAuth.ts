@@ -27,7 +27,6 @@ export const getUserProfile = async () => {
 
 export const updateUserProfile = async (profile: IProfile) => {
   const { auth } = getMyAuth()
-
   await updateProfile(auth.currentUser!, {
     displayName: profile.name,
   })
@@ -36,6 +35,7 @@ export const updateUserProfile = async (profile: IProfile) => {
       // ...
     })
     .catch((error) => {
+      console.log('a')
       // An error occurred
       // ...
     })
@@ -48,14 +48,18 @@ export const updateUserProfile = async (profile: IProfile) => {
 export const registerUser = async (profile: IProfile, setState: Function) => {
   await _makeUser(profile, setState)
   await updateUserProfile(profile)
+  return true
 }
 
 const _makeUser = async (profile: IProfile, setState: Function) => {
   const auth = getAuth()
   createUserWithEmailAndPassword(auth, profile.email, profile.password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user
+      // await updateProfile(user, {
+      //   displayName: profile.name,
+      // })
       // ...
     })
     .catch((error) => {

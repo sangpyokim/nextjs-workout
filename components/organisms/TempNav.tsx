@@ -63,7 +63,7 @@ const TempNav = () => {
         <Menu>
           <Routes>
             <Route href={'/'}>홈</Route>
-            <Route href={'/'}>경로2</Route>
+            <Route href={'/learn'}>경로2</Route>
             <Route href={'/'}>경로3</Route>
             <Route href={'/'}>경로4</Route>
           </Routes>

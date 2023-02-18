@@ -1,14 +1,18 @@
+import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
+import { useRecoilState } from 'recoil'
 import {
   getUserProfile,
   IProfile,
   registerUser,
 } from '../../firebase/auth/NewAuth'
 import { writeUserData } from '../../firebase/database/newDatabase'
+import { userInfo } from '../../recoil/ExercisesState'
 import { useModal } from '../main/hooks/useModal'
 
 export const useRegisterModal = () => {
   const [authState, setAuthState] = useState('')
+  const router = useRouter()
 
   const nameRef = useRef<HTMLInputElement>(null)
   const emailRef = useRef<HTMLInputElement>(null)
@@ -23,8 +27,8 @@ export const useRegisterModal = () => {
     }
 
     // 회원 기본정보 데이터베이스 만들기. 이멜 기반
-    await registerUser(profile, setAuthState)
     await writeUserData(profile.email)
+    await registerUser(profile, setAuthState).then((res) => router.reload())
   }
 
   return {

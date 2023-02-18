@@ -12,7 +12,6 @@ export const useAuthInit = () => {
   const [user, setUser] = useRecoilState(userInfo)
   const [loading, setLoading] = useRecoilState(authLoading)
   const auth = getMyAuth()
-
   useEffect(() => {
     const listener = onAuthStateChanged(auth.auth, (user) => {
       if (user) {
@@ -20,7 +19,7 @@ export const useAuthInit = () => {
         updateUserEmail(user.email!.split('.')[0])
         setUser({
           email: user.email!,
-          displayName: user.displayName || '김상표',
+          displayName: user.displayName!,
         })
         setLoading(false)
       } else {

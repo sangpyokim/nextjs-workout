@@ -28,10 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
   useAuthInit()
 
   return (
-    <Container
-      onBlur={() => console.log('click')}
-      onFocus={() => console.log(focus)}
-    >
+    <Container>
       <Header />
       {/* {activeNotification && (
         <Notification

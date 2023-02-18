@@ -1,3 +1,4 @@
+import { getUserProfile } from './../../../firebase/auth/NewAuth'
 import {
   ARemainTime,
   ASelectedWorkOutListItem,
@@ -16,11 +17,15 @@ import { ATimerState } from '../../../recoil/AllAtom'
 import { convertTimer } from '../../../utils/tempUtil'
 import { getTimerSettingValue } from '../../../firebase/database/newDatabase'
 import { userInfo } from '../../../recoil/ExercisesState'
+import axios from 'axios'
 
 // 로컬스토리지에서 값 가져오기
 // 로컬스토리지 값 갱신하기
 // 서버에서 값 가져오기
 // 서버 값 갱신하기
+// 중지: 서버에 데이터 갱신: (constTime - time) + (constSecondTime - secondTime) 으로 같은 값 덮어쓰기
+// 끝: 서버에 데이터 갱신: (constTime - time) + (constSecondTime - secondTime) 으로 값 push
+// timer/history/날짜 만들어서 넣기
 
 export type TTimerState = 'ready' | 'running' | 'stop' | 'end'
 export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 초만 표시
@@ -88,7 +93,7 @@ export const useFlatTimer = () => {
     if (!userEmail) return
     // 2. 없다면 서버에서 가져오기
     const settings = await getTimerSettingValue(userEmail!)
-
+    console.log(settings, userEmail)
     onFirstLoad(settings.mode, settings.type, settings.t1, settings.t2)
     // 3. 로컬 스토리지에 값 넣어놓기
     updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
@@ -183,6 +188,15 @@ export const useFlatTimer = () => {
       clone.first = strTime
       setNormalRemainTime(clone)
     }
+
+    axios.put(
+      'https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/rlatkdvy123@naver/temp/temp.json',
+      {
+        sumTime: new Date().getTime().toFixed(10),
+        focusTime: 12312,
+      },
+    )
+
     // 리스트에서 선택된거 찾고 복사하고 변경시키고 덮어쓰기
     setTime(time - 1)
     _updateFirstTimeLocalStorage()

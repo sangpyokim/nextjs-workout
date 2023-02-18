@@ -1,3 +1,4 @@
+import { INITIAL_VALUE } from '../initialValue'
 import axios from 'axios'
 import { set, ref } from 'firebase/database'
 import { TShowMode, TTimerMode } from '../../components/main/hooks/useFlatTimer'
@@ -21,18 +22,10 @@ export const getMyDB = () => {
 export const writeUserData = async (email: string) => {
   const db = getMyDB()
 
-  await set(ref(db, `users/${email.split('@')[0]}/settings`), {
-    timer: {
-      mode: 'normal',
-      type: 'double',
-      t1: 90,
-      t2: 30,
-    },
-  })
+  await set(ref(db, `users/${email.split('.')[0]}/settings`), INITIAL_VALUE)
 }
 export const getTimerSettingValue = async (userEmail: string) => {
   const fn = getUrl('users')
-
   const url = fn.userTimerSettingUrl!(userEmail)
 
   const res = await axios(url)
