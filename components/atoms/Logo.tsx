@@ -10,7 +10,7 @@ const Logo = () => {
         alt="logo"
         src={LogoSVG}
         priority={true}
-        style={{ width: '10rem', height: '6rem' }}
+        style={{ height: '50px', width: '9rem' }}
       />
     </Link>
   )

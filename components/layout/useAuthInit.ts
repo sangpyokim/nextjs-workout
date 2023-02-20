@@ -9,7 +9,7 @@ import {
 } from '../../localstorage/LocalStorage'
 
 export const useAuthInit = () => {
-  const [user, setUser] = useRecoilState(userInfo)
+  const [_, setUser] = useRecoilState(userInfo)
   const [loading, setLoading] = useRecoilState(authLoading)
   const auth = getMyAuth()
   useEffect(() => {

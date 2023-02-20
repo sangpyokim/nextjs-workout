@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
 import Logo from '../atoms/Logo'
@@ -28,13 +29,12 @@ const Container = styled.div`
 const Menu = styled.div`
   display: flex;
   height: 100%;
+  width: 200px;
 `
 const Routes = styled.div`
   display: flex;
-  width: 400px;
-  height: 100%;
   align-items: center;
-  justify-content: space-evenly;
+  height: 100%;
 `
 const Route = styled(Link)`
   display: flex;
@@ -54,30 +54,26 @@ const TempNav = () => {
     logIn,
     authState,
   } = useAuth()
-
   return (
     <Wrapper>
       <Container>
-        <Logo />
-
         <Menu>
+          <Logo />
           <Routes>
             <Route href={'/'}>홈</Route>
-            <Route href={'/learn'}>경로2</Route>
-            <Route href={'/'}>경로3</Route>
-            <Route href={'/'}>경로4</Route>
+            <Route href={`/statistics/${user.email}`}>통계</Route>
+            {/* <Route href={'/'}>경로3</Route> */}
           </Routes>
-
-          <HeaderLogIn
-            open={open}
-            setOpen={modalClose}
-            user={user.displayName}
-            verifying={verifying}
-            signOut={signOut}
-            logIn={logIn}
-            authState={authState}
-          />
         </Menu>
+        <HeaderLogIn
+          open={open}
+          setOpen={modalClose}
+          user={user.displayName}
+          verifying={verifying}
+          signOut={signOut}
+          logIn={logIn}
+          authState={authState}
+        />
       </Container>
     </Wrapper>
   )

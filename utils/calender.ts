@@ -142,7 +142,7 @@ export class CalenderMaker {
 }
 
 // curDate = 월 / 일 / 년
-export const initCalender = (curDate: string) => {
+export const initCalender = (curDate: any) => {
   const date = new Date(curDate)
   const year = date.getFullYear()
   const month = date.getMonth()

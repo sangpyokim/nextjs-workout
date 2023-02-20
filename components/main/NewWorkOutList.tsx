@@ -100,7 +100,11 @@ const NewWorkOutList = () => {
         list.map((item, i) => (
           <Item
             key={item.title}
-            onClick={() => setSelectedItem(item)}
+            onClick={() =>
+              selectedItem?.id === item.id
+                ? setSelectedItem(undefined)
+                : setSelectedItem(item)
+            }
           >
             <RippleEffect>
               <ItemWrapper>
@@ -147,6 +151,3 @@ const NewWorkOutList = () => {
 }
 
 export default NewWorkOutList
-
-// 타이머를 언제 업데이트 시킬것인가..
-// 10초마다?

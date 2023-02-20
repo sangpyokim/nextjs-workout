@@ -15,7 +15,13 @@ import {
 import { useRecoilState } from 'recoil'
 import { ATimerState } from '../../../recoil/AllAtom'
 import { convertTimer } from '../../../utils/tempUtil'
-import { getTimerSettingValue } from '../../../firebase/database/newDatabase'
+import {
+  getTimerSettingValue,
+  ITimeLineItem,
+  pushWorkOutItemInTimeLine,
+  updateWorkOutList,
+  writeUserData,
+} from '../../../firebase/database/newDatabase'
 import { userInfo } from '../../../recoil/ExercisesState'
 import axios from 'axios'
 
@@ -32,6 +38,7 @@ export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 
 export type TTimerMode = 'single' | 'double'
 
 export const useFlatTimer = () => {
+  const [user, setUser] = useRecoilState(userInfo)
   const [list, setList] = useRecoilState(AWorkOutList)
   const [timerState, setTimerState] = useRecoilState(ATimerState)
   const [selectedItem, setSelectedItem] = useRecoilState(
@@ -77,6 +84,13 @@ export const useFlatTimer = () => {
 
     _init(t1, t2)
     _constTimeInit(t1, t2)
+    const timer = {
+      mode: showMode,
+      type: timerMode,
+      t1,
+      t2,
+    }
+    writeUserData(user.email, { timer })
   }
 
   const _start = async () => {
@@ -93,7 +107,7 @@ export const useFlatTimer = () => {
     if (!userEmail) return
     // 2. 없다면 서버에서 가져오기
     const settings = await getTimerSettingValue(userEmail!)
-    console.log(settings, userEmail)
+
     onFirstLoad(settings.mode, settings.type, settings.t1, settings.t2)
     // 3. 로컬 스토리지에 값 넣어놓기
     updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
@@ -105,7 +119,7 @@ export const useFlatTimer = () => {
   }, [])
 
   const toggleShowMode = () => {
-    const settings = {
+    const timer = {
       mode: showMode,
       type: timerMode,
       t1: constTime,
@@ -113,17 +127,18 @@ export const useFlatTimer = () => {
     }
 
     if (showMode === 'normal') {
-      settings.mode = 'second'
+      timer.mode = 'second'
       setShowMode('second')
     } else if (showMode === 'second') {
-      settings.mode = 'normal'
+      timer.mode = 'normal'
       setShowMode('normal')
     }
 
-    updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
+    updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, timer)
+    writeUserData(user.email, { timer })
   }
   const toggleTimerMode = () => {
-    const settings = {
+    const timer = {
       mode: showMode,
       type: timerMode,
       t1: constTime,
@@ -131,26 +146,41 @@ export const useFlatTimer = () => {
     }
 
     if (timerMode === 'single') {
-      settings.type = 'double'
+      timer.type = 'double'
       setTimerMode('double')
     } else if (timerMode === 'double') {
-      settings.type = 'single'
+      timer.type = 'single'
       setTimerMode('single')
     }
 
-    updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
+    updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, timer)
+    writeUserData(user.email, { timer })
   }
 
   const toggleTimerState = () => {
-    if (timerState === 'running') setTimerState('stop')
-    else if (timerState === 'stop') setTimerState('running')
-    else if (timerState === 'end') {
+    if (timerState === 'running') {
+      setTimerState('stop')
+      _pushTimeLine('stop')
+    } else if (timerState === 'stop') {
+      setTimerState('running')
+      _pushTimeLine('running')
+    } else if (timerState === 'end') {
       _init(constTime, constSecondTime)
       setTimerState('ready')
     } else if (timerState === 'ready') {
       // 현재 값이랑 로컬스토리지 값이랑 비교하고 다르다면 서버에 저장
       setTimerState('running')
+      _pushTimeLine('running')
+      // 현재 선택된 아이템 서버에 푸시 / 없다면 타이틀빼고 푸시
     }
+  }
+  const _pushTimeLine = async (type: TTimerState) => {
+    const item: ITimeLineItem = {
+      title: selectedItem?.title || '타이머',
+      type,
+      time: new Date().toISOString(),
+    }
+    pushWorkOutItemInTimeLine(user.email, item)
   }
 
   const _constTimeInit = (t1: number, t2: number) => {
@@ -188,14 +218,8 @@ export const useFlatTimer = () => {
       clone.first = strTime
       setNormalRemainTime(clone)
     }
-
-    axios.put(
-      'https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/rlatkdvy123@naver/temp/temp.json',
-      {
-        sumTime: new Date().getTime().toFixed(10),
-        focusTime: 12312,
-      },
-    )
+    // ------------------- 리스트 풋하기
+    updateWorkOutList(user.email, list)
 
     // 리스트에서 선택된거 찾고 복사하고 변경시키고 덮어쓰기
     setTime(time - 1)

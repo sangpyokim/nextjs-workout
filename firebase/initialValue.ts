@@ -1,4 +1,6 @@
-const timer = {
+import { ITimerSettingValue } from './database/newDatabase'
+
+const timer: ITimerSettingValue = {
   mode: 'normal',
   type: 'double',
   t1: 90,

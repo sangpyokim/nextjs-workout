@@ -1,12 +1,16 @@
 import { INITIAL_VALUE } from '../initialValue'
 import axios from 'axios'
 import { set, ref } from 'firebase/database'
-import { TShowMode, TTimerMode } from '../../components/main/hooks/useFlatTimer'
+import {
+  TShowMode,
+  TTimerMode,
+  TTimerState,
+} from '../../components/main/hooks/useFlatTimer'
 import { WorkOutListItem } from '../../components/main/hooks/useNewWorkOutList'
 import { getUrl } from '../firebaseUrl'
 import { database } from './../../firebase'
 
-interface ITimerSettingValue {
+export interface ITimerSettingValue {
   mode: TShowMode
   type: TTimerMode
   t1: number
@@ -19,10 +23,10 @@ export const getMyDB = () => {
   return db
 }
 // ------------------------ settings/timer
-export const writeUserData = async (email: string) => {
+export const writeUserData = async (email: string, data = INITIAL_VALUE) => {
   const db = getMyDB()
 
-  await set(ref(db, `users/${email.split('.')[0]}/settings`), INITIAL_VALUE)
+  await set(ref(db, `users/${email.split('.')[0]}/settings`), data)
 }
 export const getTimerSettingValue = async (userEmail: string) => {
   const fn = getUrl('users')
@@ -56,5 +60,24 @@ export const updateWorkOutList = async (
   const res = await axios.put(url, arr)
 }
 
-// 수정 -> url얻기, 덮어씌울 데이터 받기, put하기
-// 삭제 구현
+// ---------------------------------------
+// statistics
+// [x] statistics/timeline/날짜
+// [x] statistics/prefixSum/날짜
+// [] statistics/realtime
+
+export interface ITimeLineItem {
+  title: string
+  time: string
+  type: TTimerState
+}
+
+export const pushWorkOutItemInTimeLine = async (
+  userEmail: string,
+  item: ITimeLineItem,
+) => {
+  const fn = getUrl('statistics')
+  const url = fn.userStatisticsTimeline!(userEmail, item.time)
+
+  const res = await axios.post(url, item)
+}
