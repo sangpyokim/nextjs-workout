@@ -64,7 +64,7 @@ export const useAllGroup = () => {
   }
 }
 
-const _dataValidator = (data: { [k: string]: FormDataEntryValue }) => {
+const _dataValidator = (data: any) => {
   for (let key in data) {
     if (key == 'title' && data[key].length < 2)
       return '제목은 2자 이상으로 작성해주세요.'
