@@ -82,9 +82,10 @@ interface IModal {
   setOpen: Function
   children: ReactNode
   header?: string
+  onSubmit?: Function
 }
 
-const Modal = ({ open, setOpen, children, header }: IModal) => {
+const Modal = ({ open, setOpen, children, header, onSubmit }: IModal) => {
   return (
     <Container open={open}>
       {open ? (
@@ -103,12 +104,21 @@ const Modal = ({ open, setOpen, children, header }: IModal) => {
           {children}
 
           <Footer>
-            <button
-              className="close"
-              onClick={() => setOpen(false)}
-            >
-              close
-            </button>
+            {onSubmit ? (
+              <button
+                className="close"
+                onClick={() => onSubmit()}
+              >
+                완료
+              </button>
+            ) : (
+              <button
+                className="close"
+                onClick={() => setOpen(false)}
+              >
+                close
+              </button>
+            )}
           </Footer>
         </Section>
       ) : null}

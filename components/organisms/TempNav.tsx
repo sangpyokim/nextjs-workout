@@ -35,6 +35,11 @@ const Routes = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+  font-weight: 500;
+  @media ${(props) => props.theme.breakPoint.mobile} {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
 `
 const Route = styled(Link)`
   display: flex;
@@ -54,6 +59,7 @@ const TempNav = () => {
     logIn,
     authState,
   } = useAuth()
+
   return (
     <Wrapper>
       <Container>
@@ -62,7 +68,7 @@ const TempNav = () => {
           <Routes>
             <Route href={'/'}>홈</Route>
             <Route href={`/statistics/${user.email}`}>통계</Route>
-            {/* <Route href={'/'}>경로3</Route> */}
+            <Route href={`/group/${user.email}`}>그룹</Route>
           </Routes>
         </Menu>
         <HeaderLogIn

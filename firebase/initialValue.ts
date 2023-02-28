@@ -6,7 +6,8 @@ const timer: ITimerSettingValue = {
   t1: 90,
   t2: 30,
 }
-
 export const INITIAL_VALUE = {
-  timer,
+  settings: {
+    timer,
+  },
 }

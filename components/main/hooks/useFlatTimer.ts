@@ -90,7 +90,12 @@ export const useFlatTimer = () => {
       t1,
       t2,
     }
-    writeUserData(user.email, { timer })
+    const INITIAL_VALUE = {
+      settings: {
+        timer,
+      },
+    }
+    writeUserData(user.email, INITIAL_VALUE)
   }
 
   const _start = async () => {
@@ -107,6 +112,7 @@ export const useFlatTimer = () => {
     if (!userEmail) return
     // 2. 없다면 서버에서 가져오기
     const settings = await getTimerSettingValue(userEmail!)
+    if (!settings) return
 
     onFirstLoad(settings.mode, settings.type, settings.t1, settings.t2)
     // 3. 로컬 스토리지에 값 넣어놓기
@@ -135,7 +141,13 @@ export const useFlatTimer = () => {
     }
 
     updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, timer)
-    writeUserData(user.email, { timer })
+
+    const INITIAL_VALUE = {
+      settings: {
+        timer,
+      },
+    }
+    writeUserData(user.email, INITIAL_VALUE)
   }
   const toggleTimerMode = () => {
     const timer = {
@@ -154,7 +166,13 @@ export const useFlatTimer = () => {
     }
 
     updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, timer)
-    writeUserData(user.email, { timer })
+
+    const INITIAL_VALUE = {
+      settings: {
+        timer,
+      },
+    }
+    writeUserData(user.email, INITIAL_VALUE)
   }
 
   const toggleTimerState = () => {

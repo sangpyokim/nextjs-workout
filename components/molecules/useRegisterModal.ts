@@ -29,7 +29,9 @@ export const useRegisterModal = () => {
 
     // 회원 기본정보 데이터베이스 만들기. 이멜 기반
     await writeUserData(profile.email)
-    await registerUser(profile, setAuthState).then(() => router.reload())
+    await registerUser(profile, setAuthState)
+      .then(() => router.reload())
+      .catch((e) => console.log(e))
   }
 
   return {

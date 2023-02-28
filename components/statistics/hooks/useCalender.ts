@@ -1,11 +1,22 @@
+import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-interface IDay {
+import { userInfo } from '../../../recoil/ExercisesState'
+import { useRecoilState } from 'recoil'
+import { getTimeLine } from '../../../firebase/database/newDatabase'
+
+export interface IObj {
+  time: string
+  title: string
+  type: string
+}
+
+export interface IDay {
   day: string
   month: string
   thisMonth: boolean
   isToday: boolean
   isFocus: boolean
-  data: []
+  data: any[][] | null
 }
 interface IMonth {
   month: string
@@ -14,57 +25,127 @@ interface IMonth {
   totalTime?: number
 }
 export interface ICalender {
+  curYear: string
+  curMonth: string
+  setCurYear: Function
+  setCurMonth: Function
   calender: IDay[][]
+  selectedDate: IDay
+  setSelectedDate: Function
+  isLoading: boolean
 }
 
 export const useCalender = () => {
-  const [curMonth, setCurMonth] = useState()
-  const [curYear, setCurYear] = useState()
+  const [user, _] = useRecoilState(userInfo)
 
-  const initCalender = (curDate: any = new Date()) => {
-    const date = new Date(curDate)
-    const year = date.getFullYear()
-    const month = date.getMonth()
-    const monthLastDate = new Date(year, month, 0).getDate()
-    const monthStartDay = new Date(year, month, 1).getDay()
-    const monthWeekCount = Math.ceil((monthStartDay + monthLastDate) / 7)
+  const [curDate, setCurDate] = useState(new Date().getDate())
+  const [curMonth, setCurMonth] = useState(new Date().getMonth() + 1)
+  const [curYear, setCurYear] = useState(new Date().getFullYear())
+  const [selectedDate, setSelectedDate] = useState<IDay>()
 
-    const prevMonthLastDate = new Date(year, month, 0).getDate()
-    const nextMonthStartDay = new Date(year, month + 1, 1).getDay()
+  // -------------------- 할일
+  // 총 공부시간 계산하기
 
-    const dateList: IDay[][] = Array.from({ length: monthWeekCount }, () =>
-      new Array(7).fill(undefined),
-    )
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+  } = useQuery(
+    [user.email, curYear, curMonth],
+    async () => {
+      const res = await getTimeLine(
+        user.email,
+        curYear.toString(),
+        curMonth.toString(),
+      )
+      return _initCalender(
+        res,
+        setSelectedDate,
+        `${curYear}/${curMonth}/${curDate}`,
+      )
+    },
+    {
+      enabled: user.email !== '',
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    },
+  )
 
-    const prevDateList = _getPrevCalenderArr(
-      monthStartDay,
-      prevMonthLastDate,
-      month - 1,
-    )
-    const nextDateList = _getNextCalenderArr(nextMonthStartDay, month + 1)
-    dateList[0] = prevDateList
-    dateList[dateList.length - 1] = nextDateList
+  // 로그인안해도 사용할 수 있게...?
+  return {
+    curYear,
+    curMonth,
+    curDate,
+    setCurYear,
+    setCurMonth,
+    setCurDate,
+    selectedDate,
+    setSelectedDate,
+    data,
+    isLoading: user.email === '' || isLoading,
+    isFetching,
+  }
+}
 
-    let count = 1
-    dateList.forEach((arr, weeks) =>
-      arr.forEach((item, days) => {
-        if (dateList[weeks][days] === undefined) {
-          dateList[weeks][days] = {
-            day: count.toString(),
-            isFocus: false,
-            isToday: false,
-            month: (month + 1).toString(),
-            thisMonth: true,
-            data: [],
-          }
-          count += 1
+const _initCalender = (
+  d: any,
+  setSelectedDate: Function,
+  curDate: any = new Date(),
+) => {
+  const date = new Date(curDate)
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const monthLastDate = new Date(year, month, 0).getDate()
+  const monthStartDay = new Date(year, month, 1).getDay()
+  const monthWeekCount = Math.ceil((monthStartDay + monthLastDate) / 7)
+
+  const prevMonthLastDate = new Date(year, month, 0).getDate()
+  const nextMonthStartDay = new Date(year, month + 1, 1).getDay()
+
+  const dateList: IDay[][] = Array.from({ length: monthWeekCount }, () =>
+    new Array(7).fill(undefined),
+  )
+
+  const prevDateList = _getPrevCalenderArr(
+    monthStartDay,
+    prevMonthLastDate,
+    month - 1,
+  )
+  const nextDateList = _getNextCalenderArr(nextMonthStartDay, month + 1)
+
+  dateList[0] = prevDateList
+  dateList[dateList.length - 1] = nextDateList
+
+  let count = 1
+
+  dateList.forEach((arr, weeks) =>
+    arr.forEach((item, days) => {
+      if (!dateList[weeks][days]) {
+        dateList[weeks][days] = {
+          day: count.toString(),
+          isFocus: false,
+          isToday: count === date.getDate(),
+          month: (month + 1).toString(),
+          thisMonth: true,
+          data:
+            d && d[count] ? _orderToTimeZone(Object.values(d[count])) : null,
         }
-      }),
-    )
-    return dateList
+        if (dateList[weeks][days].isToday)
+          setSelectedDate(dateList[weeks][days])
+        count += 1
+      }
+    }),
+  )
+  return dateList
+}
+const _orderToTimeZone = (d: IObj[] = []) => {
+  const res = Array.from({ length: 24 }, () => new Array())
+  for (let obj of d) {
+    const index = Number(obj.time.slice(11, 13))
+    res[index].push(obj)
   }
 
-  return { initCalender }
+  return res
 }
 
 const _getPrevCalenderArr = (days: number, endDate: number, month: number) => {
@@ -78,7 +159,7 @@ const _getPrevCalenderArr = (days: number, endDate: number, month: number) => {
       isToday: false,
       month: (month + 1).toString(),
       thisMonth: false,
-      data: [],
+      data: null,
     }),
       (j += 1)
   }
@@ -96,7 +177,7 @@ const _getNextCalenderArr = (days: number, month: number) => {
       isToday: false,
       month: (month + 1).toString(),
       thisMonth: false,
-      data: [],
+      data: null,
     }),
       j++
   }

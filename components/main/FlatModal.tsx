@@ -82,15 +82,26 @@ interface IModal {
   setOpen: Function
   children: ReactNode
   header?: string
+  onSubmit?: Function
+  getFooter?: boolean
 }
 
-const FlatModal = ({ open, setOpen, children, header }: IModal) => {
+const FlatModal = ({
+  open,
+  setOpen,
+  children,
+  header,
+  onSubmit,
+  getFooter = true,
+}: IModal) => {
   return (
     <Container
       open={open}
       onClick={(e) => {
         e.stopPropagation()
-        setOpen()
+
+        const response = window.confirm('정말 닫으시겠습니까?')
+        if (response) setOpen()
       }}
     >
       {open ? (
@@ -100,7 +111,10 @@ const FlatModal = ({ open, setOpen, children, header }: IModal) => {
               {header}
               <button
                 className="close"
-                onClick={() => setOpen()}
+                onClick={() => {
+                  const response = window.confirm('정말 닫으시겠습니까?')
+                  if (response) setOpen()
+                }}
               >
                 &times;
               </button>
@@ -109,14 +123,30 @@ const FlatModal = ({ open, setOpen, children, header }: IModal) => {
 
           {children}
 
-          <Footer>
-            <button
-              className="close"
-              onClick={() => setOpen()}
-            >
-              close
-            </button>
-          </Footer>
+          {getFooter && (
+            <Footer>
+              {onSubmit ? (
+                <button
+                  className="submit"
+                  onClick={() => {
+                    const response = window.confirm('제출 하시겠습니까?')
+                    if (response) onSubmit()
+                  }}
+                >
+                  완료
+                </button>
+              ) : (
+                <button
+                  className="close"
+                  onClick={() => {
+                    setOpen()
+                  }}
+                >
+                  close
+                </button>
+              )}
+            </Footer>
+          )}
         </Section>
       ) : null}
     </Container>

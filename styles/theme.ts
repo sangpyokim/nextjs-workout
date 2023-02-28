@@ -21,6 +21,7 @@ export const theme: DefaultTheme = {
     yellow: '#ffd591',
     orange: '#eb7952',
     gray: '#303030',
+    gray_white: '#626262',
     gray_background: '#f5f5f5',
     red: '#f5222d',
   },

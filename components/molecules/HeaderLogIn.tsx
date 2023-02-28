@@ -78,7 +78,12 @@ const RegisterButton = styled.div`
     cursor: pointer;
   }
 `
-
+const Name = styled.div`
+  @media ${(props) => props.theme.breakPoint.mobile} {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+`
 interface IHeaderLogIn {
   open: boolean
   setOpen: Function
@@ -113,7 +118,7 @@ const HeaderLogIn = ({
   if (user)
     return (
       <Container open={true}>
-        <div onClick={signOut}>{`${user}님`}</div>
+        <Name onClick={signOut}>{`${user}님`}</Name>
       </Container>
     )
 

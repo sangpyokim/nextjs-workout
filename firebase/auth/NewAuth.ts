@@ -46,7 +46,11 @@ export const updateUserProfile = async (profile: IProfile) => {
 // uid로 데이터 가져오기
 
 export const registerUser = async (profile: IProfile, setState: Function) => {
-  await _makeUser(profile, setState)
+  try {
+    await _makeUser(profile, setState)
+  } catch (error) {
+    throw error
+  }
   // await updateUserProfile(profile)
 }
 
@@ -63,9 +67,13 @@ const _makeUser = async (profile: IProfile, setState: Function) => {
     .catch((error) => {
       const errorCode = error.code
       const errorMessage = error.message
-      if (errorCode === 'auth/email-already-in-use')
+      if (errorCode === 'auth/email-already-in-use') {
         setState('이미 존재하는 이메일 입니다.')
-      else setState('회원가입에 실패하였습니다.')
+        throw errorCode
+      } else {
+        setState('회원가입에 실패하였습니다.')
+        throw errorCode
+      }
       // ..
     })
 }

@@ -142,3 +142,7 @@ const _updateList = () => {
 [검색1 유튜브](https://www.youtube.com/watch?v=2tUdyY5uBSw) <br>
 [검색2 설명](https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
 useEffect안에 setInterval, clearInterval을 작성해서 구현을 했다. 이렇게 구현을 한것이 검색2의 첫번째 시도에 정확히 똑같이 예제가 있엇다.
+
+## 크로스 브라우징 관련 모음
+
+### new Date, 사파리

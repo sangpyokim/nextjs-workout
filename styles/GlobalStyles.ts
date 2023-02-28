@@ -52,7 +52,6 @@ export const GlobalStyle = createGlobalStyle`
     } 
 
 
-
     /* 드래그 제거 */
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -61,7 +60,10 @@ export const GlobalStyle = createGlobalStyle`
     /* 아이폰 터치 하이라이트 제거 */
     -webkit-tap-highlight-color: transparent;
     /* min-height: calc(var(--vh, 1vh)); */
-    }
+  }
+  textarea {
+    resize: none;
+  }
 
   a {
     color: inherit;

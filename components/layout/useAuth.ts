@@ -22,6 +22,7 @@ export const useAuth = () => {
 
   const signOut = () => {
     auth.signOut()
+    localStorage.clear()
     router.reload()
   }
   const googleLogIn = () => {
