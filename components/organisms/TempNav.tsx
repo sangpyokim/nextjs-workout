@@ -71,6 +71,7 @@ const TempNav = () => {
             <Route href={`/group/${user.email}`}>그룹</Route>
           </Routes>
         </Menu>
+
         <HeaderLogIn
           open={open}
           setOpen={modalClose}

@@ -4,6 +4,8 @@ import { isLoggedIn, signOut } from '../../firebase/auth/Auth'
 import GoogleLogInButton from '../atoms/GoogleLogInButton'
 import FlatModal from '../main/FlatModal'
 import { useModal } from '../main/hooks/useModal'
+import useHeaderLogIn from './hooks/useHeaderLogIn'
+import LogInDropDown from './LogInDropDown'
 import RegisterModal from './RegisterModal'
 
 const Container = styled.div<{ open: boolean }>`
@@ -108,17 +110,30 @@ const HeaderLogIn = ({
   logIn,
   authState,
 }: IHeaderLogIn) => {
-  const { open: rOpen, setOpen: rSetOpen } = useModal()
-
-  const idRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
+  const {
+    rOpen,
+    rSetOpen,
+    dropDown,
+    setDropDown,
+    dropDownRef,
+    idRef,
+    passwordRef,
+  } = useHeaderLogIn()
 
   if (verifying) return <Container open={false} />
 
   if (user)
     return (
       <Container open={true}>
-        <Name onClick={signOut}>{`${user}님`}</Name>
+        <Name
+          ref={dropDownRef}
+          onClick={() => setDropDown((prev) => !prev)}
+        >{`${user}님`}</Name>
+        <LogInDropDown
+          signOut={signOut}
+          dropDown={dropDown}
+          setDropDown={setDropDown}
+        />
       </Container>
     )
 
