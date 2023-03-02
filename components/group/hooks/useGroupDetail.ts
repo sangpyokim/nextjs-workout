@@ -48,6 +48,7 @@ const useGroupDetail = () => {
   }
 
   return {
+    router,
     data,
     userData,
     onClickProfile,
