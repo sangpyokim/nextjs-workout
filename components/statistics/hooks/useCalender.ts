@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { userInfo } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { getTimeLine } from '../../../firebase/database/newDatabase'
+import { useRouter } from 'next/router'
 
 export interface IObj {
   time: string
@@ -27,15 +28,16 @@ interface IMonth {
 export interface ICalender {
   curYear: string
   curMonth: string
-  setCurYear: Function
-  setCurMonth: Function
   calender: IDay[][]
   selectedDate: IDay
   setSelectedDate: Function
   isLoading: boolean
+  onClickPrevMonth: Function
+  onClickNextMonth: Function
 }
 
 export const useCalender = () => {
+  const router = useRouter()
   const [user, _] = useRecoilState(userInfo)
 
   const [curDate, setCurDate] = useState(new Date().getDate())
@@ -51,17 +53,17 @@ export const useCalender = () => {
     isLoading,
     isFetching,
   } = useQuery(
-    [user.email, curYear, curMonth],
+    [router.query.id, curYear, curMonth],
     async () => {
       const res = await getTimeLine(
-        user.email,
+        String(router.query.id),
         curYear.toString(),
         curMonth.toString(),
       )
       return _initCalender(
         res,
         setSelectedDate,
-        `${curYear}/${curMonth}/${curDate}`,
+        new Date(`${curYear}/${curMonth}/${curDate}`),
       )
     },
     {
@@ -70,6 +72,17 @@ export const useCalender = () => {
       refetchOnReconnect: false,
     },
   )
+
+  const onClickPrevMonth = () => {
+    const newDate = new Date(`${curYear}/${curMonth - 1}/${curDate}`)
+    setCurYear(newDate.getFullYear())
+    setCurMonth(newDate.getMonth() + 1)
+  }
+  const onClickNextMonth = () => {
+    const newDate = new Date(`${curYear}/${curMonth + 1}/${curDate}`)
+    setCurYear(newDate.getFullYear())
+    setCurMonth(newDate.getMonth() + 1)
+  }
 
   // 로그인안해도 사용할 수 있게...?
   return {
@@ -84,6 +97,8 @@ export const useCalender = () => {
     data,
     isLoading: user.email === '' || isLoading,
     isFetching,
+    onClickPrevMonth,
+    onClickNextMonth,
   }
 }
 
@@ -124,7 +139,9 @@ const _initCalender = (
         dateList[weeks][days] = {
           day: count.toString(),
           isFocus: false,
-          isToday: count === date.getDate(),
+          isToday:
+            count === date.getDate() &&
+            new Date().getMonth() === date.getMonth(),
           month: (month + 1).toString(),
           thisMonth: true,
           data:

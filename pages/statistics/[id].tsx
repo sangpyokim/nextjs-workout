@@ -14,21 +14,20 @@ const _ = () => {
   const {
     curYear,
     curMonth,
-    setCurYear,
-    setCurMonth,
     selectedDate,
     setSelectedDate,
     data,
     isLoading,
-    isFetching,
+    onClickPrevMonth,
+    onClickNextMonth,
   } = useCalender()
   return (
     <Container>
       <Calender
+        onClickPrevMonth={onClickPrevMonth}
+        onClickNextMonth={onClickNextMonth}
         curYear={String(curYear)}
         curMonth={String(curMonth)}
-        setCurYear={setCurYear}
-        setCurMonth={setCurMonth}
         calender={data}
         selectedDate={selectedDate!}
         setSelectedDate={setSelectedDate}

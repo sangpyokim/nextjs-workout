@@ -11,7 +11,7 @@ import { RecoilRoot } from 'recoil'
 import { exerciseDataList } from '../recoil/ExercisesState'
 
 // react query
-import { QueryClientProvider } from 'react-query'
+import { Hydrate, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import Layout from '../components/layout/layout'
 import NestedLayout from '../components/layout/nested-layout'
@@ -35,17 +35,19 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <QueryClientProvider client={queryClient}>
-      <RecoilRoot initializeState={initializeState}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Layout>
-            <NestedLayout>
-              <Component {...pageProps} />
-            </NestedLayout>
-          </Layout>
-        </ThemeProvider>
-      </RecoilRoot>
-      <ReactQueryDevtools />
+      <Hydrate state={pageProps.dehydratedProps}>
+        <RecoilRoot initializeState={initializeState}>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Layout>
+              <NestedLayout>
+                <Component {...pageProps} />
+              </NestedLayout>
+            </Layout>
+          </ThemeProvider>
+        </RecoilRoot>
+        <ReactQueryDevtools />
+      </Hydrate>
     </QueryClientProvider>,
   )
 }

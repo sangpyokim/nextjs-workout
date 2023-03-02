@@ -24,7 +24,7 @@ const GroupList = styled.div`
   width: 100%;
   margin-bottom: 12px;
 `
-const GroupItem = styled.div`
+const GroupItem = styled(Link)`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -74,14 +74,16 @@ const _ = () => {
   const router = useRouter()
 
   const { data: myGroup, mutate } = useMyGroup()
-  console.log(myGroup)
 
   return (
     <Container>
       <Title onClick={() => mutate()}>내 그룹</Title>
       <GroupList>
-        {myGroup.map((group) => (
-          <GroupItem key={group.info.id}>
+        {myGroup.map(([key, group]) => (
+          <GroupItem
+            key={group.info.id}
+            href={`/group/detail/${key}`}
+          >
             <GroupItemLeft>
               <GroupItemTitle>{group.info.title}</GroupItemTitle>
               <GroupItemChief>{group.info.chief.displayName}</GroupItemChief>

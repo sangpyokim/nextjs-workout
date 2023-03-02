@@ -90,23 +90,19 @@ const Button = styled.div`
 const Calender = ({
   curYear,
   curMonth,
-  setCurYear,
-  setCurMonth,
   calender,
   selectedDate,
   setSelectedDate,
   isLoading,
+  onClickPrevMonth,
+  onClickNextMonth,
 }: ICalender) => {
   return (
     <Container>
       <Header>
-        <Button onClick={() => setCurMonth((pre: number) => pre - 1)}>
-          〈
-        </Button>
+        <Button onClick={() => onClickPrevMonth()}>〈</Button>
         <CurDate>{`${curYear} ${curMonth}`}</CurDate>
-        <Button onClick={() => setCurMonth((pre: number) => pre + 1)}>
-          〉
-        </Button>
+        <Button onClick={() => onClickNextMonth()}>〉</Button>
       </Header>
       <Date>
         {['일', '월', '화', '수', '목', '금', '토'].map((item: string) => (

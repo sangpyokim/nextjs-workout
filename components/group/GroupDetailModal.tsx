@@ -50,29 +50,31 @@ interface IGroupDetailModal {
 
 const GroupDetailModal = ({ open, setOpen, curGroup }: IGroupDetailModal) => {
   const { data, isLoading, JoinGroup } = useGroupDetailModal(curGroup)
-  console.log(data, isLoading)
 
   if (isLoading) return null
 
   return (
     <FlatModal
-      header={data[0].info.title}
+      header={data[0][1].info.title}
       open={open}
       setOpen={setOpen}
       getFooter={false}
     >
       <Container>
         <Info>
-          <div>카테고리: {data[0].info.tag[0]}</div>
-          <div>그룹장: {data[0].info.chief.displayName}</div>
+          <div>카테고리: {data[0][1].info.tag[0]}</div>
+          <div>그룹장: {data[0][1].info.chief.displayName}</div>
           <div>
-            {`인원: ${Object.keys(data[0].users).length}/${
-              data[0].info.capacity
+            {`인원: ${Object.keys(data[0][1].users).length}/${
+              data[0][1].info.capacity
             }명`}
           </div>
+          <div>{`그룹 생성일: ${new Intl.DateTimeFormat('ko', {
+            dateStyle: 'full',
+          }).format(new Date(Number(data[0][1].info.id)))}`}</div>
         </Info>
 
-        <Des>{data[0].info.description}</Des>
+        <Des>{data[0][1].info.description}</Des>
 
         <Footer>
           <JoinButton onClick={() => JoinGroup()}>참여하기</JoinButton>

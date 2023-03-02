@@ -122,10 +122,26 @@ export const getTimeLine = async (
 // [x] getAllGroup
 // [x] create
 // [x] join
-
+// [] getGroupUsersData
 // [] delete
 // [] update
+export const getGroupUsersData = async (groupID: string) => {
+  const userListUrl = `https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/groups/${groupID}/users.json`
 
+  const res = await axios(userListUrl)
+  const userList = Object.keys(res.data)
+
+  const userInfoUrl = userList.map((email: string) => getUserInfoUrl(email))
+  const result = await axios.all(userInfoUrl.map((url) => axios(url)))
+
+  return userList.map((email: string, i: number) => [email, result[i].data])
+}
+const getUserInfoUrl = (userEmail: string) => {
+  const userListUrl = `https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app/users/${
+    userEmail.split('.')[0]
+  }.json`
+  return userListUrl
+}
 export const getAllGroup = async () => {
   const fn = getUrl('groups')
   const url = fn.getAllGroup!()
@@ -153,7 +169,8 @@ export const getGroup = async (groupIDArr: string[]) => {
 
   const res = await axios.all(urlArr.map((url) => axios(url)))
   const data = res.map((r) => r.data)
-  return data
+
+  return data.map((d, i) => [groupIDArr[i], d])
 }
 
 // create

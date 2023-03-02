@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -6,6 +7,7 @@ import { userInfo } from '../../../recoil/ExercisesState'
 
 export const useGroupDetailModal = (groupId: string) => {
   const [user, _] = useRecoilState(userInfo)
+  const router = useRouter()
 
   const { data = [], isLoading } = useQuery(
     ['groupDetail', groupId],
@@ -21,6 +23,8 @@ export const useGroupDetailModal = (groupId: string) => {
     if (!result) return
 
     await joinGroup(user.email, user.displayName, groupId)
+      .then(() => window.alert('가입되었습니다.'))
+      .then(() => router.reload())
   }
 
   return {

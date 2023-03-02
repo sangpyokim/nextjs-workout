@@ -137,6 +137,12 @@ const GroupSearch = () => {
                       group.info.capacity
                     }명`}
                   </AllGroupItemSubItem>
+                  <AllGroupItemSubItem>{`그룹 생성일: ${new Intl.DateTimeFormat(
+                    'ko',
+                    { dateStyle: 'long' },
+                  ).format(
+                    new Date(Number(group.info.id)),
+                  )}`}</AllGroupItemSubItem>
                 </AllGroupItemSub>
                 <AllGroupItemDes>{group.info.description}</AllGroupItemDes>
               </div>
