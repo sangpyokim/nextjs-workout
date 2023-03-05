@@ -49,7 +49,7 @@ export const getMyDB = () => {
 export const writeUserData = async (email: string, data = INITIAL_VALUE) => {
   const db = getMyDB()
 
-  await set(ref(db, `users/${email.split('.')[0]}/`), data)
+  await set(ref(db, `users/${email.split('.')[0]}/settings`), data.settings)
 }
 export const getTimerSettingValue = async (userEmail: string) => {
   const fn = getUrl('users')
