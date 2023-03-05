@@ -4,7 +4,6 @@ import {
   ASelectedWorkOutListItem,
   AWorkOutList,
 } from './../../../recoil/AllAtom'
-import { WorkOutListItem } from './useNewWorkOutList'
 import { useEffect, useRef, useState } from 'react'
 import { TIMER_KEY } from '../../../localstorage/Constants'
 import {
@@ -24,6 +23,12 @@ import {
 } from '../../../firebase/database/newDatabase'
 import { userInfo } from '../../../recoil/ExercisesState'
 import axios from 'axios'
+import {
+  TShowMode,
+  TTimerMode,
+  TTimerState,
+  WorkOutListItem,
+} from '../../../interface'
 
 // 로컬스토리지에서 값 가져오기
 // 로컬스토리지 값 갱신하기
@@ -33,9 +38,9 @@ import axios from 'axios'
 // 끝: 서버에 데이터 갱신: (constTime - time) + (constSecondTime - secondTime) 으로 값 push
 // timer/history/날짜 만들어서 넣기
 
-export type TTimerState = 'ready' | 'running' | 'stop' | 'end'
-export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 초만 표시
-export type TTimerMode = 'single' | 'double'
+// export type TTimerState = 'ready' | 'running' | 'stop' | 'end'
+// export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 초만 표시
+// export type TTimerMode = 'single' | 'double'
 
 export const useFlatTimer = () => {
   const [user, setUser] = useRecoilState(userInfo)

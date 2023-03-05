@@ -1,4 +1,4 @@
-import { ITimerSettingValue } from './database/newDatabase'
+import { ITimerSettingValue } from '../interface'
 
 const timer: ITimerSettingValue = {
   mode: 'normal',

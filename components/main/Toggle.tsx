@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { TShowMode, TTimerMode } from './hooks/useFlatTimer'
+import { TShowMode, TTimerMode } from '../../interface'
 
 const ToggleSwitch = styled.label<{ open: boolean }>`
   width: 40px;

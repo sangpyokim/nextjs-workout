@@ -1,7 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 import styled from 'styled-components'
 import { setScreenSize } from '../../utils/window/screen'
-import styles from './nested-layout.module.css'
 type NestedLayoutProps = {
   children: ReactElement
 }

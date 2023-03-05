@@ -1,5 +1,6 @@
 import React, { Ref } from 'react'
 import styled from 'styled-components'
+import { IFormModal } from '../../interface'
 import FlatModal from '../main/FlatModal'
 
 const ModalForm = styled.form`
@@ -14,13 +15,6 @@ const ModalForm = styled.form`
 const TextArea = styled.textarea`
   min-height: 7rem;
 `
-
-interface IFormModal {
-  open: boolean
-  setOpen: Function
-  formRef: React.MutableRefObject<null>
-  modalSubmitHandler: Function
-}
 
 const FormModal = ({
   open,

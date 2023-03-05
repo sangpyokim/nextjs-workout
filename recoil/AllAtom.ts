@@ -1,6 +1,5 @@
 import { atom } from 'recoil'
-import { TTimerState } from '../components/main/hooks/useFlatTimer'
-import { WorkOutListItem } from '../components/main/hooks/useNewWorkOutList'
+import { TTimerState, WorkOutListItem } from '../interface'
 import { atomKeys } from './constants'
 
 export const ATimerState = atom<TTimerState>({

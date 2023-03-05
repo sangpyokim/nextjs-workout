@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { getGroup } from '../../firebase/database/newDatabase'
+import { IGroupDetailModal } from '../../interface'
 import FlatModal from '../main/FlatModal'
 import Modal from '../main/Modal'
 import { useGroupDetailModal } from './hooks/useGroupDetailModal'
@@ -41,12 +42,6 @@ const JoinButton = styled.div`
     cursor: pointer;
   }
 `
-
-interface IGroupDetailModal {
-  open: boolean
-  setOpen: Function
-  curGroup: string
-}
 
 const GroupDetailModal = ({ open, setOpen, curGroup }: IGroupDetailModal) => {
   const { data, isLoading, JoinGroup } = useGroupDetailModal(curGroup)

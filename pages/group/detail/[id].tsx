@@ -1,20 +1,15 @@
 import { BulbOutlined } from '@ant-design/icons'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
+import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
 import useGroupDetail from '../../../components/group/hooks/useGroupDetail'
 import {
   getGroup,
   getGroupUsersData,
 } from '../../../firebase/database/newDatabase'
-
-// 가입 여부 확인하고, 컴포넌트 로드
-type Data = {
-  data: string
-}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient()

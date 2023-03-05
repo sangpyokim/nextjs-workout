@@ -1,13 +1,9 @@
-import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { useAllGroup } from '../../../components/group/hooks/useAllGroup'
 
 import { format, register } from 'timeago.js'
 import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
-import Modal from '../../../components/main/Modal'
-import { useModal } from '../../../components/main/hooks/useModal'
-import FlatModal from '../../../components/main/FlatModal'
 import FormModal from '../../../components/group/FormModal'
 import GroupDetailModal from '../../../components/group/GroupDetailModal'
 

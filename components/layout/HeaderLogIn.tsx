@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { isLoggedIn, signOut } from '../../firebase/auth/Auth'
-import GoogleLogInButton from '../atoms/GoogleLogInButton'
+import GoogleLogInButton from './GoogleLogInButton'
 import FlatModal from '../main/FlatModal'
 import { useModal } from '../main/hooks/useModal'
 import useHeaderLogIn from './hooks/useHeaderLogIn'

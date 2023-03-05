@@ -1,12 +1,12 @@
 import { useRecoilState } from 'recoil'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
-import { authLoading, userInfo } from '../../recoil/ExercisesState'
-import { getMyAuth } from '../../firebase/auth/Auth'
+import { authLoading, userInfo } from '../../../recoil/ExercisesState'
+import { getMyAuth } from '../../../firebase/auth/NewAuth'
 import {
   clearTimerValue,
   updateUserEmail,
-} from '../../localstorage/LocalStorage'
+} from '../../../localstorage/LocalStorage'
 
 export const useAuthInit = () => {
   const [_, setUser] = useRecoilState(userInfo)

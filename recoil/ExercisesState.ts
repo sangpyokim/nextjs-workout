@@ -1,7 +1,6 @@
 import { atomKeys } from './constants'
 import { atom } from 'recoil'
 import { Day } from '../utils/calender'
-import { WorkOutListItem } from '../components/main/hooks/useNewWorkOutList'
 
 export const exerciseDataList = atom({
   key: atomKeys.exerciseDataList, // unique ID (with respect to other atoms/selectors)

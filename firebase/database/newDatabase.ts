@@ -1,50 +1,24 @@
 import { INITIAL_VALUE } from '../initialValue'
 import axios from 'axios'
 import { set, ref } from 'firebase/database'
-import {
-  TShowMode,
-  TTimerMode,
-  TTimerState,
-} from '../../components/main/hooks/useFlatTimer'
-import { WorkOutListItem } from '../../components/main/hooks/useNewWorkOutList'
+
 import { getUrl } from '../firebaseUrl'
 import { database } from './../../firebase'
-
-interface IMember {
-  displayName: string
-  email: string
-}
-export interface ICreateGroup {
-  id: string
-  chief: IMember
-  title: string
-  password?: string
-  tag: string[]
-  capacity: number
-  description: string
-}
-interface IPostGroup {
-  info: ICreateGroup
-  users: {}
-  chats: {
-    notice: string
-    chat: {}
-  }
-}
-export interface IAllGroupList extends IPostGroup {}
-
-export interface ITimerSettingValue {
-  mode: TShowMode
-  type: TTimerMode
-  t1: number
-  t2: number
-}
+import {
+  IAllGroupList,
+  ICreateGroup,
+  IPostGroup,
+  ITimerSettingValue,
+  TTimerState,
+  WorkOutListItem,
+} from '../../interface'
 
 export const getMyDB = () => {
   const db = database
 
   return db
 }
+
 // ------------------------ settings/timer
 export const writeUserData = async (email: string, data = INITIAL_VALUE) => {
   const db = getMyDB()

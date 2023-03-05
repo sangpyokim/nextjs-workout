@@ -1,13 +1,9 @@
-import { MoreOutlined, RedoOutlined } from '@ant-design/icons'
-import React, { useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { MoreOutlined } from '@ant-design/icons'
+import React from 'react'
 import styled from 'styled-components'
-import { ASelectedWorkOutListItem, ATimerState } from '../../recoil/AllAtom'
 import RippleEffect from '../RippleEffect'
 import FlatModal from './FlatModal'
-import { useFlatModal } from './hooks/useFlatModal'
-import useNewWorkOutList, { WorkOutListItem } from './hooks/useNewWorkOutList'
-import { ProcessIcon } from './ProcessIcon'
+import useNewWorkOutList from './hooks/useNewWorkOutList'
 
 const Container = styled.div`
   width: 100%;

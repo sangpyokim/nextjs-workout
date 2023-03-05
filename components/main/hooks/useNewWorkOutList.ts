@@ -13,14 +13,7 @@ import {
   updateWorkOutList,
 } from '../../../firebase/database/newDatabase'
 import { TIMER_KEY } from '../../../localstorage/Constants'
-
-export interface WorkOutListItem {
-  id: number
-  title: string
-  set: number
-  timeNum: number
-  time: string
-}
+import { WorkOutListItem } from '../../../interface'
 
 const useNewWorkOutList = () => {
   const { open: settingOpen, setOpen: setSettingOpen } = useFlatModal()

@@ -1,16 +1,9 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
-import Normal from '../../images/btn_google_signin_light_normal_web@2x.png'
+import React from 'react'
 import LogoSVG from '../../images/googleLogin.svg'
 
-import { isPlatformPC } from '../../utils/window/windowNavigator'
-import { mobileLogIn, pcLogIn } from '../../firebase/auth/Auth'
 import styled from 'styled-components'
-import { useAuth } from '../layout/useAuth'
-
-type GoogleLogInButtonProps = {
-  action: Function
-}
+import { useAuth } from './hooks/useAuth'
 
 const Container = styled.div`
   display: flex;

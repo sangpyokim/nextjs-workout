@@ -1,14 +1,11 @@
 import '../styles/globals.css'
-import { ReactElement, ReactNode, useEffect } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { getExercises } from './api/exercises'
-
 // context
 
 // recoil
 import { RecoilRoot } from 'recoil'
-import { exerciseDataList } from '../recoil/ExercisesState'
 
 // react query
 import { Hydrate, QueryClientProvider } from 'react-query'
@@ -36,7 +33,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return getLayout(
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedProps}>
-        <RecoilRoot initializeState={initializeState}>
+        <RecoilRoot>
           <ThemeProvider theme={theme}>
             <GlobalStyle />
             <Layout>
@@ -52,6 +49,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   )
 }
 
-async function initializeState({ set }: any) {
-  const data = await getExercises().then((res) => set(exerciseDataList, res))
-}
+// async function initializeState({ set }: any) {
+//   const data = await getExercises().then((res) => set(exerciseDataList, res))
+// }

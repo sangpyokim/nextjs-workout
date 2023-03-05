@@ -1,15 +1,9 @@
-import {
-  InfoCircleOutlined,
-  RedoOutlined,
-  SettingOutlined,
-} from '@ant-design/icons'
-import { useRecoilState } from 'recoil'
+import { InfoCircleOutlined, RedoOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import RippleEffect from '../RippleEffect'
 import FlatModal from './FlatModal'
 import { useFlatModal } from './hooks/useFlatModal'
 import { useFlatTimer } from './hooks/useFlatTimer'
-import { WorkOutListItem } from './hooks/useNewWorkOutList'
 import Toggle from './Toggle'
 
 const Container = styled.div`

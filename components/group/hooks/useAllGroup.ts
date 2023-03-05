@@ -1,15 +1,12 @@
-import {
-  getAllGroup,
-  IAllGroupList,
-  ICreateGroup,
-} from '../../../firebase/database/newDatabase'
-import { useMutation, useQuery } from 'react-query'
+import { getAllGroup } from '../../../firebase/database/newDatabase'
+import { useQuery } from 'react-query'
 import React, { useRef, useState } from 'react'
 import { userInfo } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
-import { createGroup, getMyGroup } from '../../../firebase/database/newDatabase'
+import { createGroup } from '../../../firebase/database/newDatabase'
 import { useFlatModal } from '../../main/hooks/useFlatModal'
 import { useModal } from '../../main/hooks/useModal'
+import { ICreateGroup } from '../../../interface'
 
 export const useAllGroup = () => {
   const [user, _] = useRecoilState(userInfo)

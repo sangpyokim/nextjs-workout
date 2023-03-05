@@ -1,40 +1,10 @@
 import { useQuery } from 'react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { userInfo } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { getTimeLine } from '../../../firebase/database/newDatabase'
 import { useRouter } from 'next/router'
-
-export interface IObj {
-  time: string
-  title: string
-  type: string
-}
-
-export interface IDay {
-  day: string
-  month: string
-  thisMonth: boolean
-  isToday: boolean
-  isFocus: boolean
-  data: any[][] | null
-}
-interface IMonth {
-  month: string
-  year: string
-  days: IDay[][]
-  totalTime?: number
-}
-export interface ICalender {
-  curYear: string
-  curMonth: string
-  calender: IDay[][]
-  selectedDate: IDay
-  setSelectedDate: Function
-  isLoading: boolean
-  onClickPrevMonth: Function
-  onClickNextMonth: Function
-}
+import { IDay, IObj } from '../../../interface'
 
 export const useCalender = () => {
   const router = useRouter()

@@ -1,15 +1,7 @@
 import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
-import { useRecoilState } from 'recoil'
-import {
-  getUserProfile,
-  IProfile,
-  registerUser,
-  updateUserProfile,
-} from '../../firebase/auth/NewAuth'
-import { writeUserData } from '../../firebase/database/newDatabase'
-import { userInfo } from '../../recoil/ExercisesState'
-import { useModal } from '../main/hooks/useModal'
+import { IProfile, registerUser } from '../../../firebase/auth/NewAuth'
+import { writeUserData } from '../../../firebase/database/newDatabase'
 
 export const useRegisterModal = () => {
   const [authState, setAuthState] = useState('')

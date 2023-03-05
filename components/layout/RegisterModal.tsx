@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import FlatModal from '../main/FlatModal'
 import { useModal } from '../main/hooks/useModal'
 import Modal from '../main/Modal'
-import { useRegisterModal } from './useRegisterModal'
+import { useRegisterModal } from './hooks/useRegisterModal'
+
 const ModalContent = styled.div`
   display: flex;
   align-items: center;

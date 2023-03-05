@@ -1,8 +1,8 @@
 import { map } from '@firebase/util'
 import React from 'react'
 import styled from 'styled-components'
+import { ICalender } from '../../interface'
 import CalenderSkeleton from './CalenderSkeleton'
-import { ICalender } from './hooks/useCalender'
 
 const Container = styled.div`
   color: white;

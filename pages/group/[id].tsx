@@ -1,6 +1,5 @@
 import { MessageFilled } from '@ant-design/icons'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -71,8 +70,6 @@ const MoreGroup = styled.div`
 `
 // 비공개
 const _ = () => {
-  const router = useRouter()
-
   const { data: myGroup, mutate } = useMyGroup()
 
   return (

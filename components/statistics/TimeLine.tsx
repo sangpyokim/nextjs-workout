@@ -1,7 +1,6 @@
-import { theme } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-import { IDay } from './hooks/useCalender'
+import { ITimeLine } from '../../interface'
 
 const Container = styled.div`
   display: flex;
@@ -126,10 +125,6 @@ const TimeZone = styled.div`
     font-weight: 500;
   }
 `
-
-export interface ITimeLine {
-  selectedDate: IDay
-}
 
 const TimeLine = ({ selectedDate }: ITimeLine) => {
   return (

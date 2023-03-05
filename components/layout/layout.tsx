@@ -1,23 +1,8 @@
-import { ReactElement, useContext, useEffect, useState } from 'react'
-
-import Head from 'next/head'
-
 import Header from './Header'
-import Navigator from '../organisms/Navigator'
-import { getMyAuth } from '../../firebase/auth/Auth'
-import { onAuthStateChanged } from 'firebase/auth'
-import { authLoading, userInfo } from '../../recoil/ExercisesState'
-import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import TempNav from '../organisms/TempNav'
-import { useAuth } from './useAuth'
-import { useAuthInit } from './useAuthInit'
-import { setScreenSize } from '../../utils/window/screen'
-import { ARemainTime } from '../../recoil/AllAtom'
-
-type LayoutProps = {
-  children: ReactElement
-}
+import TempNav from './TempNav'
+import { LayoutProps } from '../../interface'
+import { useAuthInit } from './hooks/useAuthInit'
 
 const Container = styled.div`
   /* width: 100%; */
@@ -30,20 +15,10 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <Container>
       <Header />
-      {/* {activeNotification && (
-        <Notification
-          message={'123'}
-          status={true}
-          title={'title'}
-        />
-      )} */}
 
-      {/* <Header /> */}
       <TempNav />
 
       {children}
-
-      {/* <Navigator /> */}
     </Container>
   )
 }

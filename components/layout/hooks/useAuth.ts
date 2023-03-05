@@ -1,9 +1,9 @@
-import { useModal } from './../main/hooks/useModal'
-import { useEffect, useState } from 'react'
-import { userInfo, authLoading } from '../../recoil/ExercisesState'
+import { useModal } from '../../main/hooks/useModal'
+import { useState } from 'react'
+import { userInfo, authLoading } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
-import { getMyAuth, pcLogIn } from '../../firebase/auth/Auth'
-import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
+import { getMyAuth, pcLogIn } from '../../../firebase/auth/Auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/router'
 
 export const useAuth = () => {
