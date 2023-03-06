@@ -1,5 +1,65 @@
 # 개발하면서 겪은 이슈
 
+## FOUC (Flash of Unstyled Content)
+
+개발을 하고 배포를 한 뒤 개발 서버가 아닌 배포된 url로 접속했을 때 기본 스타일의 글자와 버튼들이 아주 잠깐 보였다가 원래 스타일로 돌아가는 현상이 발견됬다.
+찾아보니 FOUC라는 현상이고 페이지의 스타일의 정보가 없어 잠시 스타일이 적용되지않는 페이지가 나타나는 현상이라고 한다.
+주로 CSS in JS를 사용한 SSR 시에 발생한다고 한다. 왜냐? SSR방식은 html랜더링이 클라이언트에게 보내지기전에 미리 수행되고 보내짐. 하지만 CSS in JS 방식은 스타일정보가 JS안에 있기떄문에 스타일 없는 쌩 html이 랜더링 되고 JS 로드 후 스타일이 그려져 깜빡거리는 것이다.
+
+이걸 해결하기 위한 방법은 Next.js 12버전 기준으로 나뉩니다.
+차이는 바벨 플러그인 설정 차이입니당.
+12버전 이후로는 swc를 통해 js 번들을 컴파일하고 babel 설정 없이 next.config.js만 건드려줍니다
+
+next.config.js
+
+```javascript
+  compiler: {
+    styledComponents: true, // fouc
+  },
+```
+
+이후 custom Document 를 정의한 뒤, getInitialProps 에서 각각의 페이지에 들어갈 `<head>` 태그에
+SSR 에서 반영되어야 할 styled-component 정보를 주입합니다.
+<br/>
+\_document.tsx
+
+```javascript
+import Document, { DocumentContext, DocumentInitialProps } from 'next/document'
+import { ServerStyleSheet } from 'styled-components'
+
+export default class MyDocument extends Document {
+  static async getInitialProps(
+    ctx: DocumentContext,
+  ): Promise<DocumentInitialProps> {
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
+
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        })
+
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      }
+    } finally {
+      sheet.seal()
+    }
+  }
+}
+```
+
+[코드출처]("https://github.com/vercel/next.js/blob/canary/examples/with-styled-components-babel/pages/_document.tsx")
+
 ## re-render
 
 먼저 랜더링의 동작은 부모 컴포넌트 -> 자식 컴포넌트 순으로 순차적으로 랜더링된다. 즉 부모 컴포넌트를 랜더링, 리랜더링시키면 자식 컴포넌트도 필연적으로 랜더링, 리랜더링이된다.
@@ -142,6 +202,8 @@ const _updateList = () => {
 [검색1 유튜브](https://www.youtube.com/watch?v=2tUdyY5uBSw) <br>
 [검색2 설명](https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
 useEffect안에 setInterval, clearInterval을 작성해서 구현을 했다. 이렇게 구현을 한것이 검색2의 첫번째 시도에 정확히 똑같이 예제가 있엇다.
+
+### 내용 추가
 
 ## 크로스 브라우징 관련 모음
 

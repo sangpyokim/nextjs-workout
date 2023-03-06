@@ -15,13 +15,10 @@ module.exports = async (phase) => {
     reactStrictMode: false,
     swcMinify: true,
     compiler: {
-      styledComponents: true,
+      styledComponents: true, // fouc
     },
     images: {
-      domains: [
-        'firebasestorage.googleapis.com',
-        'd205bpvrqc9yn1.cloudfront.net',
-      ], // 이곳에 에러에서 hostname 다음 따옴표에 오는 링크를 적으면 된다.
+      domains: ['firebasestorage.googleapis.com'], // 이곳에 에러에서 hostname 다음 따옴표에 오는 링크를 적으면 된다.
     },
   }
   const defaultConfig = {}
