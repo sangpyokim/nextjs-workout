@@ -16,6 +16,11 @@
     "incremental": true,
     "downlevelIteration": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "workers/flatTimerSetTimeout.js"
+  ],
   "exclude": ["node_modules"]
 }

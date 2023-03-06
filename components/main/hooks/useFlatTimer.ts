@@ -344,11 +344,25 @@ export const useFlatTimer = () => {
   //   return () => clearInterval(interval)
   // })
 
-  useInterval(() => {
-    if (timerState === 'running') {
-      _countDown()
+  useEffect(() => {
+    const worker = new Worker(
+      new URL('../../../workers/flatTimerSetTimeout.js', import.meta.url),
+    )
+    worker.postMessage(1000)
+    worker.onmessage = (e) => {
+      if (timerState === 'running') {
+        _countDown()
+      }
     }
-  }, 1000)
+    return () => worker.terminate()
+  })
+
+  // useInterval(() => {
+
+  //   if (timerState === 'running') {
+  //     _countDown()
+  //   }
+  // }, 1000)
 
   return {
     timerState,

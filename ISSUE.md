@@ -205,6 +205,57 @@ useEffect안에 setInterval, clearInterval을 작성해서 구현을 했다. 이
 
 ### 내용 추가
 
-## 크로스 브라우징 관련 모음
+내가 비효율적인 코드를 작성한 것도 맞지만 더 정확한 원인은 브라우저에 있었다!
+코드를 수정해도 그대로 느리게 감소하는 현상이 발견되어서 인터넷을 정말 많이 찾아보았다. 역시 답은 mdn. <br/>
+[mdn setTimeout]("https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#reasons_for_delays_longer_than_specified")
 
-### new Date, 사파리
+이 문제를 해결하기 위해서는 웹 워커를 사용해야한다..!
+ts는 컴파일 에러가 뜨기때문에 js로 구현하였다.
+웹 워커의 역할은 메시지가 오면 setTimeout으로 1초 뒤에 메시지를 다시 보내는 것!
+웹 워커에게 메시지를 받으면 \_countdown 함수를 실행시킨다!
+
+workers/flatTimerSetTimeout.js
+
+```javascript
+// onmessage: 메세지를 받으면 동작 이벤트리스너와 똑같이 동작함.
+// ex) addEventListener('message', () => {})
+
+onmessage = (e) => {
+  let delay = e.data
+  let timer = setTimeout(() => {
+    postMessage('웹워커 -> 타이머')
+    clearTimeout(timer)
+  }, delay)
+}
+```
+
+timer.ts
+
+```typescript
+// 기존: 위에서 구현한 useInterval
+useInterval(() => {
+  if (timerState === 'running') {
+    _countDown()
+  }
+}, 1000)
+
+// 변경: 웹 워커가 대신 setTimeout함
+useEffect(() => {
+  const worker = new Worker(
+    new URL('../../../workers/flatTimerSetTimeout.js', import.meta.url),
+  )
+  worker.postMessage(1000)
+  worker.onmessage = (e) => {
+    if (timerState === 'running') {
+      _countDown()
+    }
+  }
+  return () => worker.terminate()
+})
+```
+
+## 크로스 브라우징 관련
+
+### new Date, 사파리, 크롬
+
+개발하다가 아이폰으로 테스트 중 자꾸 화면이 아무것도 안떠서 맥북에 연결해 에러를 확인해보니 (yyyy mm dd)형태로 new Date에 넣어주니 Invalid Date라는 에러가 확인되었다. 확인해보니 사파리에서는(yyyy mm dd)형태가 아닌 (yyyy/mm/dd)형태로 중간에 슬래쉬를 넣어주거나 (yyyy/mm/dd H:i:s)형태로 넣어주면 된다는 것이였다.
