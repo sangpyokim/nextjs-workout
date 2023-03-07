@@ -1,4 +1,3 @@
-import { getUserProfile } from './../../../firebase/auth/NewAuth'
 import {
   ARemainTime,
   ASelectedWorkOutListItem,
@@ -8,39 +7,24 @@ import { useEffect, useRef, useState } from 'react'
 import { TIMER_KEY } from '../../../localstorage/Constants'
 import {
   getTimerSettingValueInLocalStorage,
-  getUserEmail,
   updateTimerSettingValueInLocalStorage,
 } from '../../../localstorage/LocalStorage'
 import { useRecoilState } from 'recoil'
 import { ATimerState } from '../../../recoil/AllAtom'
 import { convertTimer } from '../../../utils/tempUtil'
 import {
-  getTimerSettingValue,
   ITimeLineItem,
   pushWorkOutItemInTimeLine,
   updateWorkOutList,
   writeUserData,
 } from '../../../firebase/database/newDatabase'
 import { userInfo } from '../../../recoil/ExercisesState'
-import axios from 'axios'
 import {
   TShowMode,
   TTimerMode,
   TTimerState,
   WorkOutListItem,
 } from '../../../interface'
-
-// 로컬스토리지에서 값 가져오기
-// 로컬스토리지 값 갱신하기
-// 서버에서 값 가져오기
-// 서버 값 갱신하기
-// 중지: 서버에 데이터 갱신: (constTime - time) + (constSecondTime - secondTime) 으로 같은 값 덮어쓰기
-// 끝: 서버에 데이터 갱신: (constTime - time) + (constSecondTime - secondTime) 으로 값 push
-// timer/history/날짜 만들어서 넣기
-
-// export type TTimerState = 'ready' | 'running' | 'stop' | 'end'
-// export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 초만 표시
-// export type TTimerMode = 'single' | 'double'
 
 export const useFlatTimer = () => {
   const [user, setUser] = useRecoilState(userInfo)
@@ -79,6 +63,7 @@ export const useFlatTimer = () => {
     else if (LT1 && !LT2) _init(Number(LT1), t2)
     else _init(t1, t2)
 
+    const res = localStorage.getItem(TIMER_KEY.timerSetting)
     _constTimeInit(t1, t2)
   }
 
@@ -104,30 +89,19 @@ export const useFlatTimer = () => {
   }
 
   const _start = async () => {
-    // 1. 로컬 스토리지에서 값 가져오기
-    console.log('localStorage check')
-    const val = getTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting)
-    if (val !== '') {
-      onFirstLoad(val.mode, val.type, val.t1, val.t2)
-      return
-    }
-
-    console.log('server check')
-    const userEmail = getUserEmail()
-    if (!userEmail) return
-    // 2. 없다면 서버에서 가져오기
-    const settings = await getTimerSettingValue(userEmail!)
-    if (!settings) return
-
-    onFirstLoad(settings.mode, settings.type, settings.t1, settings.t2)
-    // 3. 로컬 스토리지에 값 넣어놓기
-    updateTimerSettingValueInLocalStorage(TIMER_KEY.timerSetting, settings)
-    return settings
+    // ls 값이 무조껀있음
+    // 동작을 뒤로 미루기
+    setTimeout(() => {
+      const settings = getTimerSettingValueInLocalStorage(
+        TIMER_KEY.timerSetting,
+      )
+      onFirstLoad(settings.mode, settings.type, settings.t1, settings.t2)
+    }, 0)
   }
 
   useEffect(() => {
     _start()
-  }, [])
+  }, [user.email, user.displayName])
 
   const toggleShowMode = () => {
     const timer = {
@@ -191,10 +165,8 @@ export const useFlatTimer = () => {
       _init(constTime, constSecondTime)
       setTimerState('ready')
     } else if (timerState === 'ready') {
-      // 현재 값이랑 로컬스토리지 값이랑 비교하고 다르다면 서버에 저장
       setTimerState('running')
       _pushTimeLine('running')
-      // 현재 선택된 아이템 서버에 푸시 / 없다면 타이틀빼고 푸시
     }
   }
   const _pushTimeLine = async (type: TTimerState) => {
@@ -203,7 +175,7 @@ export const useFlatTimer = () => {
       type,
       time: new Date().toISOString(),
     }
-    pushWorkOutItemInTimeLine(user.email, item)
+    await pushWorkOutItemInTimeLine(user.email, item)
   }
 
   const _constTimeInit = (t1: number, t2: number) => {
@@ -334,16 +306,6 @@ export const useFlatTimer = () => {
     localStorage.setItem(TIMER_KEY.secondTime, String(constSecondTime))
   }
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (timerState === 'running') {
-  //       _countDown()
-  //     }
-  //   }, 1000)
-
-  //   return () => clearInterval(interval)
-  // })
-
   useEffect(() => {
     const worker = new Worker(
       new URL('../../../workers/flatTimerSetTimeout.js', import.meta.url),
@@ -356,13 +318,6 @@ export const useFlatTimer = () => {
     }
     return () => worker.terminate()
   })
-
-  // useInterval(() => {
-
-  //   if (timerState === 'running') {
-  //     _countDown()
-  //   }
-  // }, 1000)
 
   return {
     timerState,

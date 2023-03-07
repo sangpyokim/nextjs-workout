@@ -1,18 +1,63 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
+import { getTimerSettingValue } from '../../../firebase/database/newDatabase'
+import { INITIAL_VALUE } from '../../../firebase/initialValue'
+import { TIMER_KEY } from '../../../localstorage/Constants'
+import { userInfo } from '../../../recoil/ExercisesState'
 
 const useLocalStorageInit = () => {
-  // 로그인 x
-  //  로컬스토리지 o
-  //    return 값 가져오기
-  //  로컬스토리지 x
-  //    return 기본 설정 값 넣기
+  const [user, setUser] = useRecoilState(userInfo)
 
-  // 로그인 o
-  //  로컬스토리지 o
-  //   return 로컬스토리지에서 가져오기
-  //  로컬스토리지 x
-  //    서버에서 값 가져오기
-  //    return 로컬스토리지에 값 저장하기
+  const init = () => {
+    _userLocalStorage()
+    _timerLocalStorage()
+  }
+
+  const _userLocalStorage = () => {
+    if (user.email === '') {
+      localStorage.removeItem(TIMER_KEY.userEmail)
+      return
+    }
+
+    const userEmail = _getLocalStorage(user.email)
+    if (!userEmail) {
+      _setLocalStorage(TIMER_KEY.userEmail, user.email)
+    }
+  }
+
+  const _timerLocalStorage = () => {
+    if (user.email === '') {
+      const res = _getLocalStorage(TIMER_KEY.timerSetting)
+      if (!res) {
+        _setLocalStorage(TIMER_KEY.timerSetting, INITIAL_VALUE.settings.timer)
+        return
+      }
+      return
+    }
+
+    _loggedIn()
+  }
+
+  const _loggedIn = async () => {
+    const timerSettingValue = _getLocalStorage(TIMER_KEY.timerSetting)
+    if (!timerSettingValue) {
+      const settings = await getTimerSettingValue(user.email)
+      _setLocalStorage(TIMER_KEY.timerSetting, settings)
+      return
+    }
+  }
+
+  const _getLocalStorage = (key: string) => {
+    return localStorage.getItem(key)
+  }
+  const _setLocalStorage = (key: string, val: any) => {
+    const value = JSON.stringify(val)
+    localStorage.setItem(key, value)
+  }
+
+  useEffect(() => {
+    init()
+  }, [user.email, user.displayName])
 
   return {}
 }

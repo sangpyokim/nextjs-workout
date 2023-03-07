@@ -1,6 +1,6 @@
 // home
 
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
 export type TTimerState = 'ready' | 'running' | 'stop' | 'end'
 export type TShowMode = 'normal' | 'second' // normal: 시 : 분 : 초, second: 초만 표시
@@ -95,4 +95,8 @@ export interface ITimerSettingValue {
 // layout
 export type LayoutProps = {
   children: ReactElement
+}
+
+export interface IGroupContainer {
+  children: ReactNode
 }

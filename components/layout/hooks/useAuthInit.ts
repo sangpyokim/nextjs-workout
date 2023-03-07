@@ -23,7 +23,6 @@ export const useAuthInit = () => {
         })
         setLoading(false)
       } else {
-        clearTimerValue()
         setUser({ email: '', displayName: '' })
         setLoading(false)
       }

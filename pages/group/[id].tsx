@@ -23,14 +23,14 @@ const GroupList = styled.div`
   width: 100%;
   margin-bottom: 12px;
 `
-const GroupItem = styled(Link)`
+const GroupItem = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
   border-bottom: 1px solid #aaaaaa88;
   padding: 8px;
 `
-const GroupItemLeft = styled.div`
+const GroupItemLeft = styled(Link)`
   display: flex;
   flex-direction: column;
 
@@ -56,7 +56,7 @@ const GroupItemInfo = styled.div`
     margin-left: 0;
   }
 `
-const GroupItemChat = styled.div`
+const GroupItemChat = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,11 +77,8 @@ const _ = () => {
       <Title onClick={() => mutate()}>내 그룹</Title>
       <GroupList>
         {myGroup.map(([key, group]) => (
-          <GroupItem
-            key={group.info.id}
-            href={`/group/detail/${key}`}
-          >
-            <GroupItemLeft>
+          <GroupItem key={group.info.id}>
+            <GroupItemLeft href={`/group/detail/${key}`}>
               <GroupItemTitle>{group.info.title}</GroupItemTitle>
               <GroupItemChief>{group.info.chief.displayName}</GroupItemChief>
               <GroupItemInfo>
@@ -96,7 +93,7 @@ const _ = () => {
                 </div>
               </GroupItemInfo>
             </GroupItemLeft>
-            <GroupItemChat>
+            <GroupItemChat href={`/group/chat/${key}`}>
               <MessageFilled style={{ fontSize: '1.5rem', opacity: 0.8 }} />
             </GroupItemChat>
           </GroupItem>
