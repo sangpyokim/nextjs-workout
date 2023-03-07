@@ -1,9 +1,7 @@
 import { INITIAL_VALUE } from '../initialValue'
 import axios from 'axios'
-import { set, ref } from 'firebase/database'
 
 import { getUrl } from '../firebaseUrl'
-import { database } from './../../firebase'
 import {
   IAllGroupList,
   ICreateGroup,
@@ -13,17 +11,20 @@ import {
   WorkOutListItem,
 } from '../../interface'
 
-export const getMyDB = () => {
-  const db = database
-
-  return db
-}
-
 // ------------------------ settings/timer
-export const writeUserData = async (email: string, data = INITIAL_VALUE) => {
-  const db = getMyDB()
 
-  await set(ref(db, `users/${email.split('.')[0]}/settings`), data.settings)
+export const writeUserData = async (
+  userEmail: string,
+  data = INITIAL_VALUE,
+) => {
+  const fn = getUrl('users')
+  const url = fn.userSettingUrl!(userEmail)
+
+  await axios({
+    method: 'PUT',
+    data: data.settings,
+    url: url,
+  })
 }
 export const getTimerSettingValue = async (userEmail: string) => {
   const fn = getUrl('users')

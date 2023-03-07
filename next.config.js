@@ -8,6 +8,9 @@ const withPWA = require('next-pwa')({
   // sw: 'service-worker.js',
   //...
 })
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 module.exports = async (phase) => {
   /** @type {import('next').NextConfig} */
@@ -22,6 +25,10 @@ module.exports = async (phase) => {
     },
   }
   const defaultConfig = {}
-  return withPlugins([], nextConfig, withPWA)(phase, { defaultConfig })
+  return withPlugins(
+    [withBundleAnalyzer],
+    nextConfig,
+    withPWA,
+  )(phase, { defaultConfig })
   // return withPlugins([], nextConfig)(phase, { undefined }); // also works
 }

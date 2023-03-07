@@ -14,6 +14,9 @@ const userTimerSettingUrl = (email: string) => {
     urlParams.timerSettingValue
   }.json`
 }
+const userSettingUrl = (email: string) => {
+  return `${endPoint}/users/${email.split('.')[0]}/settings.json`
+}
 
 // type userTimerListUrl = (userEmail: string) => string
 const userTimerListTodayUrl = (email: string) => {
@@ -109,6 +112,7 @@ export const getUrl = (
     return {
       userTimerSettingUrl,
       userTimerListTodayUrl,
+      userSettingUrl,
     }
   } else if (str === 'exercises') {
     return {}
