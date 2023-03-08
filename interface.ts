@@ -75,14 +75,29 @@ export interface ICreateGroup {
   capacity: number
   description: string
 }
+
 export interface IPostGroup {
   info: ICreateGroup
   users: {}
-  chats: {
-    notice: string
-    chat: {}
-  }
+  chats: chats
 }
+interface chats {
+  notice: string
+  chat: chat
+}
+export interface chat {
+  [id: number]: chatContent
+}
+export interface chatContent {
+  id: number
+  writer: {
+    email: string
+    displayName: string
+  }
+  content: string
+  type: string
+}
+
 export interface IAllGroupList extends IPostGroup {}
 
 export interface ITimerSettingValue {
@@ -99,4 +114,8 @@ export type LayoutProps = {
 
 export interface IGroupContainer {
   children: ReactNode
+}
+
+export interface ITextArea {
+  onSubmitHandler: Function
 }

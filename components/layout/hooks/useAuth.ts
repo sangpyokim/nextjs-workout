@@ -5,6 +5,8 @@ import { useRecoilState } from 'recoil'
 import { getMyAuth, pcLogIn } from '../../../firebase/auth/Auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/router'
+import { TIMER_KEY } from '../../../localstorage/Constants'
+import { INITIAL_VALUE } from '../../../firebase/initialValue'
 
 export const useAuth = () => {
   const [user, setUser] = useRecoilState(userInfo)
@@ -20,33 +22,40 @@ export const useAuth = () => {
     setAuthState('')
   }
 
-  const signOut = () => {
-    auth.signOut()
-    localStorage.clear()
-    router.reload()
+  const signOut = async () => {
+    await auth.signOut()
+    localStorage.removeItem(TIMER_KEY.userEmail)
+    _setLocalStorage(TIMER_KEY.timerSetting, INITIAL_VALUE.settings.timer)
+    modalClose(false)
+    await router.push('/')
   }
-  const googleLogIn = () => {
+  const _setLocalStorage = (key: string, val: any) => {
+    const value = JSON.stringify(val)
+    localStorage.setItem(key, value)
+  }
+  const googleLogIn = async () => {
     // setImageState(Pressed)
     // if (isPlatformPC()) {
     // } else {
     //   mobileLogIn()
     // }
-    pcLogIn()
+    await pcLogIn()
+    await router.push('/')
   }
 
-  const logIn = (
+  const logIn = async (
     e: React.FormEvent<HTMLFormElement>,
     id: string,
     password: string,
   ) => {
     e.preventDefault()
 
-    signInWithEmailAndPassword(auth, id, password)
+    await signInWithEmailAndPassword(auth, id, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user
         // ...
-        router.reload()
+        router.push('/')
       })
       .catch((error) => {
         const errorCode = error.code

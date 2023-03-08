@@ -1,9 +1,10 @@
 import { GetServerSideProps } from 'next'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
 import GroupContainer from '../../../components/group/GroupContainer'
 import useGroupDetail from '../../../components/group/hooks/useGroupDetail'
+import TextArea from '../../../components/group/TextArea'
 import {
   getGroup,
   getGroupUsersData,
@@ -27,25 +28,61 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const _ = () => {
-  const { data } = useGroupDetail()
+  const { data, onSubmitHandler, user } = useGroupDetail()
+
+  console.log(data[0][1].chats)
   // 메시지는 위가 제일 최신
   return (
     <GroupContainer>
       <Container>
         <Body>
-          <FixedMessage>📢: 다들 욕하지말고 채팅해주세요.</FixedMessage>
-          <Message isMine={false}>닉네임, 채팅, 시간</Message>
-          <Message isMine={false}>닉네임, 채팅, 시간</Message>
-          <Message isMine={true}>시간 채팅</Message>
-          <Message isMine={false}>닉네임, 채팅, 시간</Message>
+          {data[0][1].chats.notice === '' ? (
+            <FixedMessage>{`📢: 매너 채팅`}</FixedMessage>
+          ) : (
+            <FixedMessage>{`📢: ${data[0][1].chats.notice}`}</FixedMessage>
+          )}
+
+          {data[0][1].chats.chat.length &&
+            data[0][1].chats.chat.map(
+              ([key, value]: any, i: number) =>
+                value.content &&
+                value.content.length !== 0 &&
+                (value.writer === user.email.split('.')[0] ? (
+                  <Message
+                    key={key}
+                    isMine={value.writer.email === user.email.split('.')[0]}
+                    isOper={value.writer.email === 'operator'}
+                  >
+                    <MessageWriter>{value.writer.displayName}</MessageWriter>
+                    <MessageTime>
+                      {new Intl.DateTimeFormat('ko', {
+                        // dateStyle: '',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }).format(new Date(Number(value.id)))}
+                    </MessageTime>
+                    <MessageContent>{value.content}</MessageContent>
+                  </Message>
+                ) : (
+                  <Message
+                    key={key}
+                    isMine={value.writer.email === user.email.split('.')[0]}
+                    isOper={value.writer.email === 'operator'}
+                  >
+                    <MessageContent>{value.content}</MessageContent>
+                    <MessageTime>
+                      {new Intl.DateTimeFormat('ko', {
+                        // dateStyle: '',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }).format(new Date(Number(value.id)))}
+                    </MessageTime>
+                  </Message>
+                )),
+            )}
         </Body>
-        <InputSection>
-          <Input placeholder="텍스트를 입력해주세요." />
-          <Submit
-            type={'submit'}
-            value={'전송'}
-          />
-        </InputSection>
+
+        <TextArea onSubmitHandler={onSubmitHandler} />
       </Container>
     </GroupContainer>
   )
@@ -81,58 +118,31 @@ const FixedMessage = styled.div`
 
   border-radius: 12px;
 `
-const Message = styled.div<{ isMine: boolean }>`
+const Message = styled.div<{ isMine: boolean; isOper: boolean }>`
   display: flex;
-  align-items: center;
-  justify-content: ${(props) => (props.isMine ? 'flex-end' : 'flex-start')};
-  height: 40px;
   width: 100%;
+  justify-content: ${(props) => (props.isMine ? 'flex-end' : 'flex-start')};
+  align-items: flex-end;
+  border-radius: 12px;
+  height: 40px;
   margin: 8px 0;
   padding: 8px;
 
+  justify-content: ${(props) => props.isOper && 'center'};
   color: ${(props) => (props.isMine ? 'white' : '#f5f5f5')};
-  font-size: 24px;
-
-  border-radius: 12px;
+  font-size: ${(props) => (props.isOper ? '14px' : '16px')};
+  opacity: ${(props) => (props.isOper ? '0.6' : '0.9')};
 `
-
-const InputSection = styled.form`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px;
-  max-width: 1020px;
-  width: 100%;
-  height: 60px;
+const MessageWriter = styled.div`
+  margin: 0 4px;
+`
+const MessageTime = styled.div`
+  margin: 0 4px;
+  font-size: 0.8rem;
+`
+const MessageContent = styled.pre`
+  margin: 0 4px;
   border: 1px solid white;
-  border-radius: 12px;
-
-  position: fixed;
-  bottom: 12px;
-  @media screen and (max-width: 1060px) {
-    left: 0px;
-    max-width: 1060px;
-  }
-`
-const Input = styled.textarea`
-  /* outline: none; */
-  background-color: black;
-  color: white;
-  border: none;
-  max-width: 100%;
-  width: 100%;
-  font-size: 32px;
-  height: 52px;
-`
-const Submit = styled.input`
-  background-color: transparent;
-  width: 60px;
-  height: 40px;
-  border: 1px solid ${(props) => props.theme.colors.yellow};
+  padding: 8px;
   border-radius: 8px;
-  color: ${(props) => props.theme.colors.yellow};
-  font-size: 20px;
-  &:hover {
-    cursor: pointer;
-  }
 `

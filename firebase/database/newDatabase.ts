@@ -165,7 +165,15 @@ export const createGroup = async (
     chats: {
       notice: '',
       chat: {
-        [new Date().getTime()]: '새로운 채팅을 입력해보세요.',
+        [new Date().getTime()]: {
+          content: '',
+          writer: {
+            displayName: 'operator',
+            email: 'operator',
+          },
+          type: 'notice',
+          id: new Date().getTime(),
+        },
       },
     },
   }
@@ -203,5 +211,16 @@ export const joinGroup = async (
         newUserEmail: userEmail.split('.')[0],
       },
     },
+  })
+}
+
+export const postChat = async (groupId: string, data: any) => {
+  const fn = getUrl('groups')
+  const url = fn.getGroupChat!(groupId)
+
+  await axios({
+    method: 'POST',
+    url: url,
+    data: data,
   })
 }

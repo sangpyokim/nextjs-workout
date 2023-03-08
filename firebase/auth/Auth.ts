@@ -29,10 +29,10 @@ export const mobileLogIn = async () => {
   await signInWithRedirect(auth, provider)
 }
 
-export const pcLogIn = () => {
+export const pcLogIn = async () => {
   const { auth, provider } = getMyAuth()
   try {
-    signInWithPopup(auth, provider)
+    await signInWithPopup(auth, provider)
   } catch (error) {
     console.log(error)
   }

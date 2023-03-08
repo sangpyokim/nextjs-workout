@@ -105,6 +105,10 @@ function joinGroup(groupID: string) {
   const groupUrl = `${endPoint}/groups/${groupID}/users.json`
   return groupUrl
 }
+function getGroupChat(groupID: string) {
+  const groupUrl = `${endPoint}/groups/${groupID}/chats/chat.json`
+  return groupUrl
+}
 export const getUrl = (
   str: 'users' | 'exercises' | 'statistics' | 'groups',
 ) => {
@@ -127,6 +131,7 @@ export const getUrl = (
       getAllGroup,
       getGroup,
       joinGroup,
+      getGroupChat,
     }
   }
 

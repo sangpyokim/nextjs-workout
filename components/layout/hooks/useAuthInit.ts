@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useRecoilState } from 'recoil'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
@@ -9,9 +10,13 @@ import {
 } from '../../../localstorage/LocalStorage'
 
 export const useAuthInit = () => {
+  const router = useRouter()
+
   const [_, setUser] = useRecoilState(userInfo)
   const [loading, setLoading] = useRecoilState(authLoading)
+
   const auth = getMyAuth()
+
   useEffect(() => {
     const listener = onAuthStateChanged(auth.auth, (user) => {
       if (user) {
