@@ -126,7 +126,6 @@ const Message = styled.div<{ isMine: boolean; isOper: boolean }>`
   border-radius: 12px;
   height: 40px;
   margin: 8px 0;
-  padding: 8px;
 
   justify-content: ${(props) => props.isOper && 'center'};
   color: ${(props) => (props.isMine ? 'white' : '#f5f5f5')};

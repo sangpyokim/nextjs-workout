@@ -42,18 +42,26 @@ const InputSection = styled.form`
   }
 `
 const Input = styled.textarea`
-  /* outline: none; */
+  outline: none;
   background-color: black;
   color: white;
   border: none;
+  border-bottom: 1px solid white;
+  border-radius: 0px;
+
+  margin-right: 0.5rem;
   max-width: 100%;
   width: 100%;
   font-size: 20px;
   height: 48px;
-  border-bottom: 1px solid white;
 `
 const Submit = styled.input`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
+  margin-right: 0.5rem;
+
   width: 60px;
   height: 40px;
   border: 1px solid ${(props) => props.theme.colors.yellow};
