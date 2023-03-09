@@ -1,4 +1,6 @@
+import { GetServerSideProps } from 'next'
 import React from 'react'
+import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
 import Calender from '../../components/statistics/Calender'
 import { useCalender } from '../../components/statistics/hooks/useCalender'
@@ -9,6 +11,16 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
 `
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient()
+
+  return {
+    props: {
+      dehydratedProps: dehydrate(queryClient),
+    },
+  }
+}
 
 const _ = () => {
   const {

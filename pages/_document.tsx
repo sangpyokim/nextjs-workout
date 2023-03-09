@@ -1,4 +1,4 @@
-import Document, { Head, Main, NextScript } from 'next/document'
+import Document, { Head, Html, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
 interface IProps {
@@ -33,7 +33,7 @@ export default class MyDocument extends Document<IProps> {
 
   render() {
     return (
-      <html>
+      <Html>
         <Head>
           <link
             rel="manifest"
@@ -122,7 +122,7 @@ export default class MyDocument extends Document<IProps> {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }
