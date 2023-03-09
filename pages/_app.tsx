@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, useEffect } from 'react'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 // context
@@ -29,6 +29,20 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   // const getLayout = Component.getLayout ?? ((page) => page)
   const getLayout = Component.getLayout ?? ((page) => page)
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      const registInit = async () => {
+        const registration = await navigator.serviceWorker.register(
+          '/service-worker.js',
+        )
+
+        registration.waiting?.postMessage('SKIP_WAITING')
+      }
+
+      registInit()
+    }
+  }, [])
 
   return getLayout(
     <QueryClientProvider client={queryClient}>
