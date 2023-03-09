@@ -69,7 +69,6 @@ const useGroupDetail = () => {
   const onSubmitHandler = useCallback(async (value: string) => {
     if (value.length === 0) return
     // 실시간 x
-    console.log(value)
     const data = {
       id: new Date().getTime(),
       type: 'text',
@@ -79,7 +78,7 @@ const useGroupDetail = () => {
         displayName: user.displayName,
       },
     }
-    // await postChat(String(router.query.id), data).then(() => refetch())
+    await postChat(String(router.query.id), data).then(() => refetch())
   }, [])
 
   return {

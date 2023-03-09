@@ -27,9 +27,7 @@ const useTextArea = (onSubmitHandler: Function) => {
           e.preventDefault()
           if (text === '') return
 
-          let temp = text
-          onSubmitHandler(temp)
-          temp = ''
+          onSubmitHandler(text)
           setText('')
           return
         }
