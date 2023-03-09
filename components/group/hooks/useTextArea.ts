@@ -11,22 +11,25 @@ const useTextArea = (onSubmitHandler: Function) => {
       newSet.delete(key)
       setKeyDown(newSet)
     },
-    [],
+    [keyDown],
   )
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const key = e.key
-    const newSet = new Set(keyDown)
-    newSet.add(key)
-    setKeyDown(newSet)
+  const handleKeyPress = useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      const key = e.key
+      const newSet = new Set(keyDown)
+      newSet.add(key)
+      setKeyDown(newSet)
 
-    if (key === 'Enter') {
-      if (!keyDown.has('Shift')) {
-        e.preventDefault()
-        onSubmitHandler(text)
-        return
+      if (key === 'Enter') {
+        if (!keyDown.has('Shift')) {
+          e.preventDefault()
+          onSubmitHandler(text)
+          return
+        }
       }
-    }
-  }
+    },
+    [text, keyDown, onSubmitHandler],
+  )
   const handleTextChange = (e: any) => {
     setText(e.target.value)
   }
