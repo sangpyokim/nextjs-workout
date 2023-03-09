@@ -1,10 +1,9 @@
-/** @type {import('next').NextConfig} */
 const withPlugins = require('next-compose-plugins')
 const withPWA = require('next-pwa')({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  // disable: process.env.NODE_ENV === 'development',
   register: true,
-  scope: '/app',
+  // scope: '/app',
   sw: 'service-worker.js',
   //...
 })
@@ -27,10 +26,8 @@ const nextConfig = {
 
 module.exports = async (phase) => {
   const defaultConfig = {}
-  return withPlugins(
-    [withBundleAnalyzer],
-    nextConfig,
-    withPWA,
-  )(phase, { defaultConfig })
+  return withPlugins([withBundleAnalyzer, withPWA], nextConfig)(phase, {
+    defaultConfig,
+  })
   // return withPlugins([], nextConfig)(phase, { undefined }); // also works
 }
