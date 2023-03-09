@@ -5,14 +5,13 @@ import { initializeApp, getApp, getApps } from 'firebase/app'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyCNWw5UfU94e8fwOvlEI-oCaf28AD12fwc',
-  authDomain: 'workout-21c5f.firebaseapp.com',
-  projectId: 'workout-21c5f',
-  storageBucket: 'workout-21c5f.appspot.com',
-  messagingSenderId: '916319758282',
-  appId: '1:916319758282:web:3978732e4fb121f09b9133',
-  databaseURL:
-    'https://workout-21c5f-default-rtdb.asia-southeast1.firebasedatabase.app',
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
 }
 
 // Initialize Firebase

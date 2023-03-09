@@ -5,6 +5,45 @@ import styled from 'styled-components'
 
 import { useMyGroup } from '../../components/group/hooks/useMyGroup'
 
+const _ = () => {
+  const { data: myGroup, mutate } = useMyGroup()
+
+  return (
+    <Container>
+      <Title onClick={() => mutate()}>내 그룹</Title>
+      <GroupList>
+        {myGroup.map(([key, group]) => (
+          <GroupItem key={group.info.id}>
+            <GroupItemLeft href={`/group/detail/${key}`}>
+              <GroupItemTitle>{group.info.title}</GroupItemTitle>
+              <GroupItemChief>{group.info.chief.displayName}</GroupItemChief>
+              <GroupItemInfo>
+                <div>
+                  {group.info.tag.map((t: string) => (
+                    <div key={t}>{t}</div>
+                  ))}
+                </div>
+                ∙
+                <div>
+                  {Object.keys(group.users).length}/{group.info.capacity}명
+                </div>
+              </GroupItemInfo>
+            </GroupItemLeft>
+            <GroupItemChat href={`/group/chat/${key}`}>
+              <MessageFilled style={{ fontSize: '1.5rem', opacity: 0.8 }} />
+            </GroupItemChat>
+          </GroupItem>
+        ))}
+      </GroupList>
+      <Link href={'./search'}>
+        <MoreGroup>그룹 둘러보러가기</MoreGroup>
+      </Link>
+    </Container>
+  )
+}
+
+export default _
+
 const Container = styled.div`
   color: white;
   display: flex;
@@ -68,42 +107,3 @@ const MoreGroup = styled.div`
   color: ${(props) => props.theme.colors.yellow};
   font-weight: 500;
 `
-// 비공개
-const _ = () => {
-  const { data: myGroup, mutate } = useMyGroup()
-
-  return (
-    <Container>
-      <Title onClick={() => mutate()}>내 그룹</Title>
-      <GroupList>
-        {myGroup.map(([key, group]) => (
-          <GroupItem key={group.info.id}>
-            <GroupItemLeft href={`/group/detail/${key}`}>
-              <GroupItemTitle>{group.info.title}</GroupItemTitle>
-              <GroupItemChief>{group.info.chief.displayName}</GroupItemChief>
-              <GroupItemInfo>
-                <div>
-                  {group.info.tag.map((t: string) => (
-                    <div key={t}>{t}</div>
-                  ))}
-                </div>
-                ∙
-                <div>
-                  {Object.keys(group.users).length}/{group.info.capacity}명
-                </div>
-              </GroupItemInfo>
-            </GroupItemLeft>
-            <GroupItemChat href={`/group/chat/${key}`}>
-              <MessageFilled style={{ fontSize: '1.5rem', opacity: 0.8 }} />
-            </GroupItemChat>
-          </GroupItem>
-        ))}
-      </GroupList>
-      <Link href={'./search'}>
-        <MoreGroup>그룹 둘러보러가기</MoreGroup>
-      </Link>
-    </Container>
-  )
-}
-
-export default _

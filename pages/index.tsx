@@ -1,4 +1,6 @@
+import { GetServerSideProps } from 'next'
 import { ReactElement } from 'react'
+import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
 
 // components
@@ -13,6 +15,15 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient()
+
+  return {
+    props: {
+      dehydratedProps: dehydrate(queryClient),
+    },
+  }
+}
 
 const Home = () => {
   return (
