@@ -15,6 +15,8 @@ const useTextArea = (onSubmitHandler: Function) => {
   )
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.nativeEvent.isComposing) return
+
       const key = e.key
       const newSet = new Set(keyDown)
       newSet.add(key)
@@ -23,7 +25,12 @@ const useTextArea = (onSubmitHandler: Function) => {
       if (key === 'Enter') {
         if (!keyDown.has('Shift')) {
           e.preventDefault()
-          onSubmitHandler(text)
+          if (text === '') return
+
+          let temp = text
+          onSubmitHandler(temp)
+          temp = ''
+          setText('')
           return
         }
       }

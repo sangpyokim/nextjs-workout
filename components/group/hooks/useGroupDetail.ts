@@ -8,6 +8,7 @@ import {
   postChat,
 } from '../../../firebase/database/newDatabase'
 import { chatContent } from '../../../interface'
+import { useCallback } from 'react'
 
 const useGroupDetail = () => {
   const router = useRouter()
@@ -65,10 +66,10 @@ const useGroupDetail = () => {
     return false
   }
 
-  const onSubmitHandler = async (value: string) => {
+  const onSubmitHandler = useCallback(async (value: string) => {
     if (value.length === 0) return
     // 실시간 x
-
+    console.log(value)
     const data = {
       id: new Date().getTime(),
       type: 'text',
@@ -78,8 +79,8 @@ const useGroupDetail = () => {
         displayName: user.displayName,
       },
     }
-    await postChat(String(router.query.id), data).then(() => refetch())
-  }
+    // await postChat(String(router.query.id), data).then(() => refetch())
+  }, [])
 
   return {
     user,
