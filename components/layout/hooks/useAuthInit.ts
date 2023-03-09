@@ -1,19 +1,23 @@
-import { useRouter } from 'next/router'
 import { useRecoilState } from 'recoil'
 import { onAuthStateChanged } from 'firebase/auth'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { authLoading, userInfo } from '../../../recoil/ExercisesState'
 import { getMyAuth } from '../../../firebase/auth/NewAuth'
-import {
-  clearTimerValue,
-  updateUserEmail,
-} from '../../../localstorage/LocalStorage'
+import { updateUserEmail } from '../../../localstorage/LocalStorage'
+
+import { Router, useRouter } from 'next/router'
+import NProgress from 'nprogress'
+
+NProgress.configure({ showSpinner: false })
+Router.events.on('routeChangeStart', () => NProgress.start())
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 export const useAuthInit = () => {
-  const router = useRouter()
-
   const [_, setUser] = useRecoilState(userInfo)
   const [loading, setLoading] = useRecoilState(authLoading)
+
+  const router = useRouter()
 
   const auth = getMyAuth()
 

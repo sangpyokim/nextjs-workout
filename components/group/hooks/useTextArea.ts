@@ -13,24 +13,20 @@ const useTextArea = (onSubmitHandler: Function) => {
     },
     [],
   )
-  const handleKeyPress = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      const key = e.key
-      const newSet = new Set(keyDown)
-      newSet.add(key)
-      setKeyDown(newSet)
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const key = e.key
+    const newSet = new Set(keyDown)
+    newSet.add(key)
+    setKeyDown(newSet)
 
-      if (key === 'Enter') {
-        if (!keyDown.has('Shift')) {
-          e.preventDefault()
-          console.log(text)
-          onSubmitHandler(text)
-          return
-        }
+    if (key === 'Enter') {
+      if (!keyDown.has('Shift')) {
+        e.preventDefault()
+        onSubmitHandler(text)
+        return
       }
-    },
-    [],
-  )
+    }
+  }
   const handleTextChange = (e: any) => {
     setText(e.target.value)
   }

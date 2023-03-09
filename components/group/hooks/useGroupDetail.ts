@@ -66,7 +66,6 @@ const useGroupDetail = () => {
   }
 
   const onSubmitHandler = async (value: string) => {
-    console.log(value)
     if (value.length === 0) return
     // 실시간 x
 

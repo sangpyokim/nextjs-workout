@@ -30,7 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const _ = () => {
   const { data, onSubmitHandler, user } = useGroupDetail()
 
-  console.log(data[0][1].chats)
   // 메시지는 위가 제일 최신
   return (
     <GroupContainer>
