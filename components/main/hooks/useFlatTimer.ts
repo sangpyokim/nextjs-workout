@@ -13,13 +13,13 @@ import { useRecoilState } from 'recoil'
 import { ATimerState } from '../../../recoil/AllAtom'
 import { convertTimer } from '../../../utils/tempUtil'
 import {
-  ITimeLineItem,
   pushWorkOutItemInTimeLine,
   updateWorkOutList,
   writeUserData,
 } from '../../../firebase/database/newDatabase'
 import { userInfo } from '../../../recoil/ExercisesState'
 import {
+  ITimeLineItem,
   TShowMode,
   TTimerMode,
   TTimerState,
