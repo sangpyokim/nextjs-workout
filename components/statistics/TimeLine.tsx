@@ -2,6 +2,44 @@ import React from 'react'
 import styled from 'styled-components'
 import { ITimeLine } from '../../interface'
 
+const TimeLine = ({ selectedDate }: ITimeLine) => {
+  return (
+    <Container>
+      <Title>타임라인</Title>
+
+      {selectedDate.data!.map(
+        (timeZone, i) =>
+          timeZone.length > 0 && (
+            <div key={i}>
+              <TimeZone>
+                <div>{`${i} : 00 ~ ${i + 1} : 00`}</div>
+              </TimeZone>
+              {timeZone.map((obj, i) => (
+                <Item key={i}>
+                  <ItemLeftTime>{obj.showTime}</ItemLeftTime>
+                  <ItemContent>
+                    <TieContainer>
+                      <Tie />
+                    </TieContainer>
+                    <ContentContainer>
+                      <Content>
+                        <ContentTitle>{obj.title || '타이머'}</ContentTitle>
+                        <ContentType>{obj.type}</ContentType>
+                        <ContentTime>{obj.time}</ContentTime>
+                      </Content>
+                    </ContentContainer>
+                  </ItemContent>
+                </Item>
+              ))}
+            </div>
+          ),
+      )}
+    </Container>
+  )
+}
+
+export default TimeLine
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -12,6 +50,7 @@ const Container = styled.div`
   margin-bottom: 1rem;
   border-radius: 4px;
   padding: 12px;
+  color: 'white';
 `
 const Title = styled.div`
   display: flex;
@@ -125,41 +164,3 @@ const TimeZone = styled.div`
     font-weight: 500;
   }
 `
-
-const TimeLine = ({ selectedDate }: ITimeLine) => {
-  return (
-    <Container style={{ color: 'white' }}>
-      <Title>타임라인</Title>
-
-      {selectedDate.data!.map(
-        (timeZone, i) =>
-          timeZone.length > 0 && (
-            <div key={i}>
-              <TimeZone>
-                <div>{`${i} : 00 ~ ${i + 1} : 00`}</div>
-              </TimeZone>
-              {timeZone.map((obj, i) => (
-                <Item key={i}>
-                  <ItemLeftTime>{obj.time.slice(11, 16)}</ItemLeftTime>
-                  <ItemContent>
-                    <TieContainer>
-                      <Tie />
-                    </TieContainer>
-                    <ContentContainer>
-                      <Content>
-                        <ContentTitle>{obj.title || '타이머'}</ContentTitle>
-                        <ContentType>{obj.type}</ContentType>
-                        <ContentTime>{obj.time}</ContentTime>
-                      </Content>
-                    </ContentContainer>
-                  </ItemContent>
-                </Item>
-              ))}
-            </div>
-          ),
-      )}
-    </Container>
-  )
-}
-
-export default TimeLine

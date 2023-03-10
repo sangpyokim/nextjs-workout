@@ -6,6 +6,7 @@ import {
   IAllGroupList,
   ICreateGroup,
   IPostGroup,
+  ITimeLineItem,
   ITimerSettingValue,
   TTimerState,
   WorkOutListItem,
@@ -64,21 +65,15 @@ export const updateWorkOutList = async (
 // [x] statistics/prefixSum/날짜
 // [] statistics/realtime
 
-export interface ITimeLineItem {
-  title: string
-  time: string
-  type: TTimerState
-}
-
 export const pushWorkOutItemInTimeLine = async (
   userEmail: string,
   item: ITimeLineItem,
 ) => {
   const fn = getUrl('statistics')
   const url = fn.userStatisticsTimeline!(userEmail, new Date(item.time))
-
   const res = await axios.post(url, item)
 }
+
 export const getTimeLine = async (
   userEmail: string,
   year: string,
@@ -87,7 +82,8 @@ export const getTimeLine = async (
   const fn = getUrl('statistics')
   const url = fn.userStatisticsTimeline!(userEmail, year, month)
   const res = await axios(url)
-  return res.data
+  const data: ITimeLineItem = res.data
+  return data
 }
 
 // --------------------------------------

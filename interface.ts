@@ -15,23 +15,28 @@ export interface WorkOutListItem {
 }
 
 // statistics
-export interface IObj {
-  time: string
+export interface ITimeLineItem {
   title: string
-  type: string
+  time: string
+  type: TTimerState
 }
-
+export interface INewTimeLineItem extends ITimeLineItem {
+  showTime: string
+}
 export interface IDay {
-  day: string
-  month: string
+  day: number
+  month: number
   thisMonth: boolean
   isToday: boolean
   isFocus: boolean
-  data: any[][] | null
+  data: ITimeLineItem[][] | null
+}
+export interface INewDay extends IDay {
+  data: INewTimeLineItem[][] | null
 }
 export interface IMonth {
-  month: string
-  year: string
+  month: number
+  year: number
   days: IDay[][]
   totalTime?: number
 }
@@ -46,7 +51,7 @@ export interface ICalender {
   onClickNextMonth: Function
 }
 export interface ITimeLine {
-  selectedDate: IDay
+  selectedDate: INewDay
 }
 
 export interface IFormModal {

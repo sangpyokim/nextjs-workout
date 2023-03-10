@@ -4,7 +4,37 @@ import { userInfo } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { getTimeLine } from '../../../firebase/database/newDatabase'
 import { useRouter } from 'next/router'
-import { IDay, IObj } from '../../../interface'
+import {
+  IDay,
+  INewDay,
+  INewTimeLineItem,
+  ITimeLineItem,
+} from '../../../interface'
+
+class ITimeLine implements IDay {
+  day: number
+  month: number
+  isFocus: boolean
+  isToday: boolean
+  thisMonth: boolean
+  data: ITimeLineItem[][] | null
+
+  constructor(
+    day: number,
+    month: number,
+    isToday: boolean,
+    thisMonth: boolean,
+    isFocus: boolean,
+    data: ITimeLineItem[][] | null,
+  ) {
+    this.day = day
+    this.month = month
+    this.isToday = isToday
+    this.thisMonth = thisMonth
+    this.isFocus = isFocus
+    this.data = data
+  }
+}
 
 export const useCalender = () => {
   const router = useRouter()
@@ -13,7 +43,7 @@ export const useCalender = () => {
   const [curDate, setCurDate] = useState(new Date().getDate())
   const [curMonth, setCurMonth] = useState(new Date().getMonth() + 1)
   const [curYear, setCurYear] = useState(new Date().getFullYear())
-  const [selectedDate, setSelectedDate] = useState<IDay>()
+  const [selectedDate, setSelectedDate] = useState<INewDay>()
 
   // -------------------- 할일
   // 총 공부시간 계산하기
@@ -106,17 +136,17 @@ const _initCalender = (
   dateList.forEach((arr, weeks) =>
     arr.forEach((item, days) => {
       if (!dateList[weeks][days]) {
-        dateList[weeks][days] = {
-          day: count.toString(),
-          isFocus: false,
-          isToday:
-            count === date.getDate() &&
-            new Date().getMonth() === date.getMonth(),
-          month: (month + 1).toString(),
-          thisMonth: true,
-          data:
-            d && d[count] ? _orderToTimeZone(Object.values(d[count])) : null,
-        }
+        const item = new ITimeLine(
+          count,
+          month + 1,
+          count === date.getDate() && new Date().getMonth() === date.getMonth(),
+          true,
+          false,
+          d && d[count] ? _orderToTimeZone(Object.values(d[count])) : null,
+        )
+
+        dateList[weeks][days] = item
+
         if (dateList[weeks][days].isToday)
           setSelectedDate(dateList[weeks][days])
         count += 1
@@ -125,14 +155,38 @@ const _initCalender = (
   )
   return dateList
 }
-const _orderToTimeZone = (d: IObj[] = []) => {
+
+const _orderToTimeZone = (d: ITimeLineItem[] = []) => {
   const res = Array.from({ length: 24 }, () => new Array())
   for (let obj of d) {
-    const index = Number(obj.time.slice(11, 13))
-    res[index].push(obj)
+    const newDate = new Date(obj.time)
+    const index = Number(newDate.getHours())
+    const newTimeLineItem: INewTimeLineItem = Object.assign(obj, {
+      showTime: _convertTimeToTwoDigit(newDate),
+      time: _convertTime(newDate),
+    })
+    res[index].push(newTimeLineItem)
   }
 
   return res
+}
+const _convertTimeToTwoDigit = (date: Date) => {
+  const convert = new Intl.DateTimeFormat('ko', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date)
+  return convert
+}
+const _convertTime = (date: Date) => {
+  const convert = new Intl.DateTimeFormat('ko', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(date)
+  return convert
 }
 
 const _getPrevCalenderArr = (days: number, endDate: number, month: number) => {
@@ -140,15 +194,9 @@ const _getPrevCalenderArr = (days: number, endDate: number, month: number) => {
   const startDate = endDate - days + 1
   let j = 0
   for (let i = startDate; i <= endDate; i++) {
-    ;(res[j] = {
-      day: i.toString(),
-      isFocus: false,
-      isToday: false,
-      month: (month + 1).toString(),
-      thisMonth: false,
-      data: null,
-    }),
-      (j += 1)
+    const item = new ITimeLine(i, month + 1, false, false, false, null)
+    res[j] = item
+    j += 1
   }
   return res
 }
@@ -158,15 +206,9 @@ const _getNextCalenderArr = (days: number, month: number) => {
   if (days === 0) return res
   let j = 1
   for (let i = days; i < 7; i++) {
-    ;(res[i] = {
-      day: j.toString(),
-      isFocus: false,
-      isToday: false,
-      month: (month + 1).toString(),
-      thisMonth: false,
-      data: null,
-    }),
-      j++
+    const item = new ITimeLine(j, month + 1, false, false, false, null)
+    res[i] = item
+    j += 1
   }
   return res
 }

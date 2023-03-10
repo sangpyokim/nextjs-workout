@@ -46,20 +46,27 @@ const _ = () => {
               ([key, value]: any, i: number) =>
                 value.content &&
                 value.content.length !== 0 &&
-                (value.writer === user.email.split('.')[0] ? (
+                (value.writer.email === user.email.split('.')[0] ? (
                   <Message
                     key={key}
                     isMine={value.writer.email === user.email.split('.')[0]}
                     isOper={value.writer.email === 'operator'}
                   >
-                    <MessageWriter>{value.writer.displayName}</MessageWriter>
-                    <MessageTime>
-                      {new Intl.DateTimeFormat('ko', {
-                        // dateStyle: '',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      }).format(new Date(Number(value.id)))}
-                    </MessageTime>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                        height: '100%',
+                      }}
+                    >
+                      <MessageTime>
+                        {new Intl.DateTimeFormat('ko', {
+                          // dateStyle: '',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }).format(new Date(Number(value.id)))}
+                      </MessageTime>
+                    </div>
                     <MessageContent>{value.content}</MessageContent>
                   </Message>
                 ) : (
@@ -68,14 +75,23 @@ const _ = () => {
                     isMine={value.writer.email === user.email.split('.')[0]}
                     isOper={value.writer.email === 'operator'}
                   >
+                    <MessageWriter>{value.writer.displayName}</MessageWriter>
                     <MessageContent>{value.content}</MessageContent>
-                    <MessageTime>
-                      {new Intl.DateTimeFormat('ko', {
-                        // dateStyle: '',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      }).format(new Date(Number(value.id)))}
-                    </MessageTime>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                        height: '100%',
+                      }}
+                    >
+                      <MessageTime>
+                        {new Intl.DateTimeFormat('ko', {
+                          // dateStyle: '',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }).format(new Date(Number(value.id)))}
+                      </MessageTime>
+                    </div>
                   </Message>
                 )),
             )}
@@ -102,6 +118,7 @@ const Body = styled.div`
   align-items: center;
   width: 100%;
 `
+
 const FixedMessage = styled.div`
   display: flex;
   align-items: center;
@@ -121,7 +138,7 @@ const Message = styled.div<{ isMine: boolean; isOper: boolean }>`
   display: flex;
   width: 100%;
   justify-content: ${(props) => (props.isMine ? 'flex-end' : 'flex-start')};
-  align-items: flex-end;
+  align-items: center;
   border-radius: 12px;
   height: 40px;
   margin: 8px 0;

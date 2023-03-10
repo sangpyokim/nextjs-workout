@@ -1,4 +1,4 @@
-import { getUserEmail } from './../../../localstorage/LocalStorage'
+import { useQuery } from 'react-query'
 import {
   ASelectedWorkOutListItem,
   AWorkOutList,
@@ -6,7 +6,6 @@ import {
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { ATimerState } from '../../../recoil/AllAtom'
-import { convertTimer } from '../../../utils/tempUtil'
 import { useFlatModal } from './useFlatModal'
 import {
   getTimerListToday,
@@ -35,14 +34,16 @@ const useNewWorkOutList = () => {
     const res = (await getTimerListToday(userEmail)) || []
 
     setList(res)
+    return res
   }
+
+  const {} = useQuery(['today', 'timerList'], fetchData)
 
   // 버튼 클릭 -> 현재상태 저장, 모달 띄우기 -> 수정, 삭제버튼 -> 수정모드 진입, 삭제
   const onClickSettingButton = (
     index: number,
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
   ) => {
-    console.log(e)
     e.stopPropagation()
 
     setWriteMode(false)

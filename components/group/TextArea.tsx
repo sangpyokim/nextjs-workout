@@ -33,12 +33,16 @@ const InputSection = styled.form`
   padding: 8px;
   max-width: 1020px;
   width: 100%;
+  background-color: black;
 
   position: fixed;
-  bottom: 12px;
+  padding-bottom: 16px;
+  bottom: 0px;
   @media screen and (max-width: 1060px) {
     left: 0px;
     max-width: 1060px;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
   }
 `
 const Input = styled.textarea`

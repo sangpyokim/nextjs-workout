@@ -5,12 +5,10 @@ import { useRecoilState } from 'recoil'
 import { ARemainTime } from '../../recoil/AllAtom'
 
 const Header = () => {
-  const [normalRemainTime, setNormalRemainTime] = useRecoilState(ARemainTime)
-
   return (
     <>
       <Head>
-        <title>Work Out {normalRemainTime.first}</title>
+        <title>Work Out</title>
 
         <meta
           name="description"

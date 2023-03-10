@@ -173,7 +173,7 @@ export const useFlatTimer = () => {
     const item: ITimeLineItem = {
       title: selectedItem?.title || '타이머',
       type,
-      time: new Date().toISOString(),
+      time: new Date().toString(),
     }
     await pushWorkOutItemInTimeLine(user.email, item)
   }

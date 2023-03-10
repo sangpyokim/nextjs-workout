@@ -7,80 +7,6 @@ import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 import FormModal from '../../../components/group/FormModal'
 import GroupDetailModal from '../../../components/group/GroupDetailModal'
 
-const Container = styled.div`
-  color: white;
-`
-const AllGroupSection = styled.section``
-const AllGroupSectionTitle = styled.div`
-  font-size: 2rem;
-  width: 100%;
-  margin-bottom: 12px;
-`
-const AllGroupList = styled.div``
-const AllGroupItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: white;
-  width: 100%;
-  background-color: ${(props) => props.theme.colors.gray};
-  margin-bottom: 1rem;
-  border-radius: 4px;
-  padding: 14px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`
-const AllGroupItemTagWrapper = styled.div`
-  display: flex;
-  margin-bottom: 4px;
-`
-const AllGroupItemTag = styled.div`
-  color: ${(props) => props.theme.colors.orange};
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-right: 4px;
-`
-const AllGroupItemTitle = styled.div`
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 8px;
-`
-const AllGroupItemSub = styled.div`
-  display: flex;
-  font-size: 0.9rem;
-  margin-bottom: 12px;
-  opacity: 0.7;
-`
-const AllGroupItemSubItem = styled.div`
-  margin-right: 8px;
-`
-const AllGroupItemDes = styled.div`
-  font-weight: 500;
-  opacity: 0.7;
-  height: 1rem;
-
-  overflow: hidden;
-`
-const AllGroupItemTimeAgo = styled.div`
-  font-weight: 500;
-  opacity: 0.7;
-  min-width: fit-content;
-`
-const MakeGroup = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 12px;
-  color: ${(props) => props.theme.colors.yellow};
-  font-weight: 500;
-  font-size: 1.2rem;
-  & > div:hover {
-    cursor: pointer;
-  }
-`
-
 const GroupSearch = () => {
   const {
     data: allGroupData,
@@ -172,3 +98,77 @@ const GroupSearch = () => {
 }
 
 export default GroupSearch
+
+const Container = styled.div`
+  color: white;
+`
+const AllGroupSection = styled.section``
+const AllGroupSectionTitle = styled.div`
+  font-size: 2rem;
+  width: 100%;
+  margin-bottom: 12px;
+`
+const AllGroupList = styled.div``
+const AllGroupItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  width: 100%;
+  background-color: ${(props) => props.theme.colors.gray};
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 14px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+const AllGroupItemTagWrapper = styled.div`
+  display: flex;
+  margin-bottom: 4px;
+`
+const AllGroupItemTag = styled.div`
+  color: ${(props) => props.theme.colors.orange};
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-right: 4px;
+`
+const AllGroupItemTitle = styled.div`
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+`
+const AllGroupItemSub = styled.div`
+  display: flex;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  opacity: 0.7;
+`
+const AllGroupItemSubItem = styled.div`
+  margin-right: 8px;
+`
+const AllGroupItemDes = styled.div`
+  font-weight: 500;
+  opacity: 0.7;
+  height: 1rem;
+
+  overflow: hidden;
+`
+const AllGroupItemTimeAgo = styled.div`
+  font-weight: 500;
+  opacity: 0.7;
+  min-width: fit-content;
+`
+const MakeGroup = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  color: ${(props) => props.theme.colors.yellow};
+  font-weight: 500;
+  font-size: 1.2rem;
+  & > div:hover {
+    cursor: pointer;
+  }
+`
