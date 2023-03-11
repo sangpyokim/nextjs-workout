@@ -25,6 +25,7 @@ const Container = styled.div<{ open: boolean }>`
   padding: 12px 24px;
   z-index: 9;
   border: 1px solid white;
+  background-color: black;
 
   &:after {
     content: '';
