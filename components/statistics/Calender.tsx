@@ -1,5 +1,5 @@
 import { map } from '@firebase/util'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { ICalender } from '../../interface'
 import CalenderSkeleton from './CalenderSkeleton'
@@ -88,8 +88,7 @@ const Button = styled.div`
 `
 
 const Calender = ({
-  curYear,
-  curMonth,
+  curDate,
   calender,
   selectedDate,
   setSelectedDate,
@@ -101,7 +100,9 @@ const Calender = ({
     <Container>
       <Header>
         <Button onClick={() => onClickPrevMonth()}>〈</Button>
-        <CurDate>{`${curYear} ${curMonth}`}</CurDate>
+        <CurDate>{`${curDate.getFullYear()}. ${
+          curDate.getMonth() + 1
+        }`}</CurDate>
         <Button onClick={() => onClickNextMonth()}>〉</Button>
       </Header>
       <Date>

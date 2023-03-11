@@ -15,15 +15,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const queryClient = new QueryClient()
-
-  return {
-    props: {
-      dehydratedProps: dehydrate(queryClient),
-    },
-  }
-}
 
 const Home = () => {
   return (

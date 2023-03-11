@@ -41,8 +41,7 @@ export interface IMonth {
   totalTime?: number
 }
 export interface ICalender {
-  curYear: string
-  curMonth: string
+  curDate: Date
   calender: IDay[][]
   selectedDate: IDay
   setSelectedDate: Function
@@ -83,7 +82,9 @@ export interface ICreateGroup {
 
 export interface IPostGroup {
   info: ICreateGroup
-  users: {}
+  users: {
+    [key: string]: IMember
+  }
   chats: chats
 }
 interface chats {

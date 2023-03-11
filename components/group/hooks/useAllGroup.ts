@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil'
 import { createGroup } from '../../../firebase/database/newDatabase'
 import { useFlatModal } from '../../main/hooks/useFlatModal'
 import { useModal } from '../../main/hooks/useModal'
-import { ICreateGroup } from '../../../interface'
+import { IAllGroupList, ICreateGroup } from '../../../interface'
 
 export const useAllGroup = () => {
   const [user, _] = useRecoilState(userInfo)
@@ -48,6 +48,10 @@ export const useAllGroup = () => {
     await refetch()
   }
 
+  const isJoined = (group: IAllGroupList) => {
+    return group.users && group.users[user.email.split('.')[0]]
+  }
+
   return {
     data,
     formRef,
@@ -58,6 +62,7 @@ export const useAllGroup = () => {
     groupDetailOpen,
     setGroupDetailOpen,
     modalSubmitHandler,
+    isJoined,
   }
 }
 

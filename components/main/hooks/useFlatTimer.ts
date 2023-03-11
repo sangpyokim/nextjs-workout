@@ -169,6 +169,7 @@ export const useFlatTimer = () => {
       _pushTimeLine('running')
     }
   }
+
   const _pushTimeLine = async (type: TTimerState) => {
     const item: ITimeLineItem = {
       title: selectedItem?.title || '타이머',

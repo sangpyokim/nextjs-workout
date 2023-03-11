@@ -50,7 +50,7 @@ const Container = styled.div`
   margin-bottom: 1rem;
   border-radius: 4px;
   padding: 12px;
-  color: 'white';
+  color: white;
 `
 const Title = styled.div`
   display: flex;

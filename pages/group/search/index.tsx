@@ -18,6 +18,7 @@ const GroupSearch = () => {
     groupDetailOpen,
     setGroupDetailOpen,
     modalSubmitHandler,
+    isJoined,
   } = useAllGroup()
 
   register('ko', koLocale)
@@ -45,6 +46,9 @@ const GroupSearch = () => {
                   {group.info.tag.map((tag) => (
                     <AllGroupItemTag key={tag}>{tag}</AllGroupItemTag>
                   ))}
+                  {isJoined(group) && (
+                    <AllGroupItemIsJoin>참여중</AllGroupItemIsJoin>
+                  )}
                 </AllGroupItemTagWrapper>
 
                 <AllGroupItemTitle>{group.info.title}</AllGroupItemTitle>
@@ -132,6 +136,11 @@ const AllGroupItemTag = styled.div`
   font-size: 1.1rem;
   font-weight: 500;
   margin-right: 4px;
+`
+const AllGroupItemIsJoin = styled.div`
+  margin-left: 4px;
+  opacity: 0.8;
+  color: ${(props) => props.theme.colors.gray_background};
 `
 const AllGroupItemTitle = styled.div`
   font-size: 1.5rem;
