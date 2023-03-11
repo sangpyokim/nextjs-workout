@@ -16,6 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <Container>
+      {/* html head */}
       <Header />
 
       <TempNav />

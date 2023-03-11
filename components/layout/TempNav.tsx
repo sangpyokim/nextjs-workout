@@ -7,6 +7,46 @@ import HeaderLogIn from './HeaderLogIn'
 import Logo from '../atoms/Logo'
 
 // width 1060px
+
+const TempNav = () => {
+  const {
+    open,
+    modalClose,
+    loading: verifying,
+    user,
+    signOut,
+    logIn,
+    authState,
+  } = useAuth()
+
+  return (
+    <Wrapper>
+      <Container>
+        <Menu>
+          <Logo />
+          <Routes>
+            <Route href={'/'}>홈</Route>
+            <Route href={`/statistics/${user.email}`}>통계</Route>
+            <Route href={`/group/${user.email}`}>그룹</Route>
+          </Routes>
+        </Menu>
+
+        <HeaderLogIn
+          open={open}
+          setOpen={modalClose}
+          user={user.displayName}
+          verifying={verifying}
+          signOut={signOut}
+          logIn={logIn}
+          authState={authState}
+        />
+      </Container>
+    </Wrapper>
+  )
+}
+
+export default TempNav
+
 const Wrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid white;
@@ -48,42 +88,3 @@ const Route = styled(Link)`
   height: 100%;
   min-width: 50px;
 `
-
-const TempNav = () => {
-  const {
-    open,
-    modalClose,
-    loading: verifying,
-    user,
-    signOut,
-    logIn,
-    authState,
-  } = useAuth()
-
-  return (
-    <Wrapper>
-      <Container>
-        <Menu>
-          <Logo />
-          <Routes>
-            <Route href={'/'}>홈</Route>
-            <Route href={`/statistics/${user.email}`}>통계</Route>
-            <Route href={`/group/${user.email}`}>그룹</Route>
-          </Routes>
-        </Menu>
-
-        <HeaderLogIn
-          open={open}
-          setOpen={modalClose}
-          user={user.displayName}
-          verifying={verifying}
-          signOut={signOut}
-          logIn={logIn}
-          authState={authState}
-        />
-      </Container>
-    </Wrapper>
-  )
-}
-
-export default TempNav

@@ -1,28 +1,50 @@
+import { MenuOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import LogoSVG from '../../images/logo.svg'
 
+const Logo = () => {
+  return (
+    <Container>
+      <WrapImage />
+
+      <Link href={'/'}>
+        <LogoImage
+          alt="logo"
+          src={LogoSVG}
+          priority={true}
+        />
+      </Link>
+    </Container>
+  )
+}
+
+export default Logo
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media ${(props) => props.theme.breakPoint.mobile} {
+    padding: 8px;
+  }
+`
+const WrapImage = styled(MenuOutlined)`
+  display: none;
+  font-size: 3rem;
+  margin-right: 8px;
+
+  @media ${(props) => props.theme.breakPoint.mobile} {
+    display: flex;
+  }
+`
 const LogoImage = styled(Image)`
   height: 50px;
   width: 9rem;
 
   @media ${(props) => props.theme.breakPoint.mobile} {
-    width: 12rem;
+    width: 16rem;
   }
 `
-
-const Logo = () => {
-  return (
-    <Link href={'/'}>
-      <LogoImage
-        alt="logo"
-        src={LogoSVG}
-        priority={true}
-      />
-    </Link>
-  )
-}
-
-export default Logo
