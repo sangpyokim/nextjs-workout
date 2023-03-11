@@ -6,6 +6,7 @@ import { useAuth } from './hooks/useAuth'
 import HeaderLogIn from './HeaderLogIn'
 import Logo from '../atoms/Logo'
 import RippleEffect from '../RippleEffect'
+import useMenu from './hooks/useMenu'
 
 // width 1060px
 
@@ -24,7 +25,7 @@ const TempNav = () => {
     <Wrapper>
       <Container>
         <Menu>
-          <Logo />
+          <Logo user={user} />
 
           <Routes>
             <RippleEffect duration={500}>

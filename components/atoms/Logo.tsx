@@ -4,11 +4,21 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import LogoSVG from '../../images/logo.svg'
+import useMenu from '../layout/hooks/useMenu'
+import SideBar from '../layout/SideBar'
 
-const Logo = () => {
+const Logo = ({ user }: any) => {
+  const { toggle, setToggle } = useMenu()
+
   return (
     <Container>
-      <WrapImage />
+      <SideBar
+        toggle={toggle}
+        setToggle={setToggle}
+        user={user}
+      />
+
+      <WrapImage onClick={() => setToggle(!toggle)} />
 
       <Link href={'/'}>
         <LogoImage
