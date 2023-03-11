@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const ripple = keyframes`
@@ -33,9 +33,10 @@ const RippleNode = styled.span<{ show: boolean }>`
 
 interface IRippleEffect {
   children: ReactNode
+  duration?: number
 }
 
-const RippleEffect = ({ children }: IRippleEffect) => {
+const RippleEffect = ({ children, duration = 500 }: IRippleEffect) => {
   const [node, setNode] = useState(false)
   const ref = useRef<HTMLSpanElement>(null)
 
@@ -48,11 +49,17 @@ const RippleEffect = ({ children }: IRippleEffect) => {
 
     ref.current!.style.top = String(y) + 'px'
     ref.current!.style.left = String(x) + 'px'
-
-    setTimeout(() => {
-      setNode(false)
-    }, 500)
   }
+
+  useEffect(() => {
+    if (node === false) return
+
+    const timeout = setTimeout(() => {
+      setNode(false)
+    }, duration)
+
+    return () => clearTimeout(timeout)
+  }, [node, duration])
 
   return (
     <Container onClick={(e) => clickHandler(e)}>

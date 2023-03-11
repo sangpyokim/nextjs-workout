@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { useAuth } from './hooks/useAuth'
 import HeaderLogIn from './HeaderLogIn'
 import Logo from '../atoms/Logo'
+import RippleEffect from '../RippleEffect'
 
 // width 1060px
 
@@ -24,10 +25,19 @@ const TempNav = () => {
       <Container>
         <Menu>
           <Logo />
+
           <Routes>
-            <Route href={'/'}>홈</Route>
-            <Route href={`/statistics/${user.email}`}>통계</Route>
-            <Route href={`/group/${user.email}`}>그룹</Route>
+            <RippleEffect duration={500}>
+              <Route href={'/'}>홈</Route>
+            </RippleEffect>
+
+            <RippleEffect>
+              <Route href={`/statistics/${user.email}`}>통계</Route>
+            </RippleEffect>
+
+            <RippleEffect>
+              <Route href={`/group/${user.email}`}>그룹</Route>
+            </RippleEffect>
           </Routes>
         </Menu>
 
@@ -87,4 +97,10 @@ const Route = styled(Link)`
   justify-content: center;
   height: 100%;
   min-width: 50px;
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  @media ${(props) => props.theme.breakPoint.mobile} {
+    display: none;
+  }
 `

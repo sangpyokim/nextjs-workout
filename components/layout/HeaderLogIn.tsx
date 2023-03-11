@@ -1,9 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { isLoggedIn, signOut } from '../../firebase/auth/Auth'
 import GoogleLogInButton from './GoogleLogInButton'
 import FlatModal from '../main/FlatModal'
-import { useModal } from '../main/hooks/useModal'
 import useHeaderLogIn from './hooks/useHeaderLogIn'
 import LogInDropDown from './LogInDropDown'
 import RegisterModal from './RegisterModal'
@@ -128,7 +126,10 @@ const HeaderLogIn = ({
         <Name
           ref={dropDownRef}
           onClick={() => setDropDown((prev) => !prev)}
-        >{`${user}님`}</Name>
+        >
+          {`${user}님`}
+        </Name>
+
         <LogInDropDown
           signOut={signOut}
           dropDown={dropDown}
