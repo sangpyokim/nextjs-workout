@@ -82,9 +82,7 @@ export interface ICreateGroup {
 
 export interface IPostGroup {
   info: ICreateGroup
-  users: {
-    [key: string]: IMember
-  }
+  users: any
   chats: chats
 }
 interface chats {
