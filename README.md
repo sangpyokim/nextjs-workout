@@ -2,9 +2,8 @@
 
 ## 소개
 
-자신의 운동을 기록하고 남들과 공유하여 동기부여를 얻는 서비스
-운동을 기록하고 남들과 공유하여 동기부여를 얻는 서비스를 개발했습니다.
-React가 아닌 Next js를 선택함으로써 SSR을 할 수 있고 어떠한 상황에서 SSR과 CSR을 선택하는 것 또한 배우게되었습니다.
+자신의 운동이나 일정을 기록하고 남들과 공유하여 동기부여를 얻는 서비스
+자신의 기록을 그룹원들과 공유하여 동기부여를 얻어보세요.
 
 **특징**
 
@@ -24,107 +23,248 @@ React가 아닌 Next js를 선택함으로써 SSR을 할 수 있고 어떠한 �
 - [doc]: .md 파일 수정
 
 웹사이트: Work Out. [https://nextjs-workout.vercel.app/](https://nextjs-workout.vercel.app/)
+[workout 위키](https://github.com/sangpyokim/nextjs-workout/wiki)
 
 <br />
 
-## **페이지**
+# **페이지**
 
-### **1. 홈 페이지**
+## 홈 페이지 전체화면 요약
 
-- 일반적인 타이머와 쉬는시간 등 텀을 두기위한 더블 타이머.
-- 오늘 운동이나 할일들을 등록할 수 있으며 오늘 누적된 시간 표시.
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/home.png)
 
-<br />
-
-### **2. 통계 페이지**
-
-- 타이머와 할일들의 통계를 날짜별로 확인 할 수 있음.
+1.  빨간색: 현재 선택 된 아이템입니다.
+2.  주황색: 현재 더블타이머로 싱글타이머와 더블타이머가 있습니다. 타이머가 진행 시 선택 된 아이템의 시간도 누적됩니다.
+3.  초록색: 타이머의 설명과 타이머 설정을 할 수 있습니다.
+4.  청록색: 만들어진 아이템에 대해서 수정과 삭제를 할 수 있습니다.
 
 <br />
 
-### **3. 내 그룹 페이지**
+## 1. 타이머
 
-- 현재 내가 참여하고있는 그룹들을 표시.
+### ✔️ 1.1 싱글타이머
+
+<details>
+	<summary>1. 싱글 타이머 사진 📷</summary>
+	<div markdown="1">
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/singleTimer.png)
+
+   </div>
+</details>
+
+- 타이머가 한개인 것이며, 준비, 진행, 끝, 멈춤의 상태가 존재합니다.
+- 준비 -> 진행, 진행 -> 멈춤, 멈춤 -> 끝의 상태 변화가 있을 때 데이터베이스에 현재 타이머의 상태변화가 기록됩니다.
+- 타이머의 상태가 끝이 되었을 때 현재 선택된 아이템의 세트 수를 1증가 시킵니다.
+- 진행 상태일 때 현재 타이머 값과 아이템의 값을 데이터베이스에 저장합니다.
+
+### ✔️ 1.2 더블타이머
+
+<details>
+	<summary>2. 더블 타이머 사진 📷</summary>
+	<div markdown="2">
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/doubleTimer.png)
+
+   </div>
+</details>
+
+- 타이머가 두개인 것이며, 첫번째 타이머가 끝나면 바로 두번째 타이머가 시작됩니다. 싱글타이머와 마찬가지로 준비, 진행, 끝, 멈춤의 상태가 존재합니다.
+- 기능은 싱글타이머와 동일합니다
+
+### ✔️ 1.3 타이머 설정
+
+<details>
+	<summary>3. 타이머 설정 사진 📷</summary>
+	<div markdown="3">
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/timerSetting.png)
+
+   </div>
+</details>
+
+- 타이머의 설정이며 싱글 | 더블 모드, 시간 표시 형식 변경, 시간 설정이 가능합니다.
+- 페이지 로드시 먼저 localStorage를 읽고 세팅값을 가져오며, 없다면 서버에 저장된 세팅값을 가져옵니다.
+- 세팅 값 변경 시 localStorage와 서버에 값을 저장합니다.
+- 시간 설정은 초단위로 설정하며 최대 5자리로 지정할 수 있습니다. ex) 600 == 10분, 100000 불가능
+
+### ✔️ 1.4 타이머 설명
+
+<details>
+	<summary>  4.  타이머 설명 사진 📷 </summary>
+	<div markdown="4">
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/des.png)
+
+   </div>
+</details>
+
+- 타이머 사용법에 대한 설명입니다.
+
+## 2. 아이템
+
+### ✔️ 2.1 아이템
+
+<details>
+	<summary>2.1 아이템 사진 📷</summary>
+	<div markdown="2.1">
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/item.png)
+
+   </div>
+</details>
+
+- 아이템은 타이틀, 세트, 누적 시간이 존재
+- 클릭시 현재 선택된 아이템으로 선정
+- 현재 선택된 아이템은 한개
+
+### ✔️ 2.2 아이템 생성
+
+<details>
+	<summary>2.2 아이템 생성 사진 📷</summary>
+	<div markdown="2.2">
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/makeItem.png)
+
+   </div>
+</details>
+
+- 추가 버튼 클릭시 아이템 생성
+- 타이틀을 입력해야 아이템 생성
+- esc키 입력으로 아이템 생성 취소
+- enter키 입력, 아이템 외부 클릭시 아이템 생성
+- 아이템 생성시 데이터베이스에 저장
+
+### ✔️ 2.3 아이템 수정, 삭제
+
+<details>
+	<summary>3. 아이템 수정, 삭제 사진 📷</summary>
+	<div markdown="2.3">
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/home/updateItem.png)
+
+   </div>
+</details>
+
+- 수정: 아이템의 타이틀 변경 후 데이터베이스에 저장
+- 삭제: 아이템 완전 삭제
+
+## 통계 페이지
+
+### 1. 달력
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/statistics/calender.png)
+
+1.  이번달에 기록이 있다면 그 날에 표시를 해줍니다
+2.  오늘을 표시해줍니다
 
 <br />
 
-### **4. 그룹들 페이지**
+### 2. 타임라인
 
-- 사용자들의 모든 그룹들을 간략하게 표시하고, 그룹에 참여할 수 있음.
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/statistics/timeline.png)
 
-<br />
+1. 달력에서 선택된 날의 기록들을 시간대별로 보여줍니다.
 
-### **5. 그룹상세 페이지**
+## 내 그룹 페이지
 
-- 그룹에 참여하고 있는 사용자들을 확인 할 수 있음.
-- 다른 사용자의 통계를 확인할 수 있음.
+### 1. 내 그룹
 
-<br />
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/myGroup/index.png)
 
-## **페이지별 상세 기능**
+1.  현재 내가 가입되어있는 그룹들을 표시해줍니다
+2.  채팅 아이콘 클릭시 바로 그룹 채팅페이지로 이동합니다
+3.  그룹 둘러보러가기 클릭시 모든 그룹페이지로 이동합니다.
 
-### **1. 홈 페이지**
+## 그룹 내부 페이지
 
-- 타이머
-  - [x] 클릭 시 타이머 시작, 정지
-  - [x] 더블 클릭 시 타이머 설정
-  - [x] 싱글 타이머 / 더블 타이머 설정
-  - [x] 타이머 시간 설정
-  - [x] 타이머 설정 localstorage에 저장, 없을 경우 서버에서 로드
-  - [x] 타이머 끝났을 경우 클릭 시 재시작
-  - [x] 초기 상태로 리셋
-- 할일
-  - [x] 오늘 할일 목록 생성
-  - [x] 오늘 운동 목록 서버에 저장/불러오기
-  - [x] 클릭시 현재 할일 포커스
-  - [x] 포커스된 할일 타이머가 진행중이면 누적 시간 증가
-  - [x] 할일 삭제, 수정
+### 1. 그룹 내부 홈 페이지
 
-<br />
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/myGourpDetail/home.png)
 
-### **2. 통계 페이지**
+1.  그룹의 상세설명이 위에 표시됩니다
+2.  오늘 기록이 있는 멤버는 전구에 불이 들어옵니다.
+3.  멤버클릭시 멤버의 통계를 볼 수 있습니다.
 
-- 달력
-  - [x] 오늘 날짜 표시
-  - [x] 오늘 날짜 달력에 하이라이트
-  - [x] 할일 달력에 표시
-  - [x] 이전달, 다음달 넘어가기
-- 타임라인
-  - [x] 달력을 통해 선택된 날짜에 해당하는 타이머 사용내용 시간대별 표시
+### 2. 멤버 통계 이동 알람
 
-<br />
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/myGourpDetail/goToStatistics.png)
 
-### **3. 내 그룹 페이지**
+1. 확인 클릭시 멤버의 통계페이지로 이동합니다.
 
-- 내 그룹
-  - [x] 현재 활동하고있는 그룹 간략히 표시
-  - [x] 클릭시 그룹 상세보기 페이지로 이동
+### 3. 그룹 채팅 페이지
 
-<br />
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/myGourpDetail/chat.png)
 
-### **4. 그룹들 페이지**
+1.  채팅을 할 수 있습니다.
+2.  그룹의 공지사항이 맨 위에 표시됩니다.
+3.  사용자는 왼쪽에 표시되고, 다른 사용자는 오른쪽에 표시됩니다.
+4.  다른 사용자는 닉네임, 내용, 시간이 표시됩니다.
+5.  사용자는 시간, 내용이 표시됩니다.
+6.  텍스트가 아무것도 입력되지않으면 채팅이 전송되지않습니다.
+    <br />
 
-- 그룹들
-  - [x] 현재 만들어져있는 그룹들 간략히 표시
-  - [x] 클릭 시 그룹 상세보기 모달창
-  - [x] 그룹만들기 클릭 시 그룹만들기 모달창
+## 모든 그룹 페이지
+
+### 1. 모든 그룹 페이지 전체화면 요약
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/allGorup/index.png)
+
+1.  현재 그룹들의 리스트를 간단하게 표시해줍니다
+2.  그룹 만들기 모달창을 띄우는 버튼입니다.
 
 <br />
 
-### **5. 그룹상세 페이지**
+### 2. 모든 그룹 리스트
 
-- 그룹들
-  - [x] 내 그룹에서 그룹 클릭 시 그룹상세페이지로 이동
-  - [x] 그룹에 참가한 멤버들 표시
-  - [x] 멤버들 중 오늘 사용내역이 있다면 하이라이트
-  - [ ] 채팅 기능
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/allGorup/home.png)
 
-### **6. 로그인, 회원가입 모달**
+1.  그룹은 태그, 제목, 설명으로 이루어져있습니다.
+2.  그룹이 생성되고 지난날을 표시해줍니다.
+3.  클릭시 상세정보 모달창을 띄웁니다
+    <br />
 
-- 로그인
-  - [x] 정규표현식 사용하여 아이디, 비밀번호 유효성 검사
-- 회원가입
-  - [x] 닉네임, 아이디, 비밀번호 유효성 검사
+### 3. 그룹 상세 모달
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/allGorup/join.png)
+
+1.  그룹의 상세정보를 표시해줍니다.
+2.  참여하기버튼 클릭시 참여할 수 있다면 참여합니다.
+    <br />
+
+### 4. 그룹 만들기
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/allGorup/make.png)
+
+1.  그룹은 이름, 카테고리, 모집인원, 설명으로 이루어져있습니다.
+2.  유효한 값이 들어가있다면 그룹을 만듭니다.
+
+## 로그인 모달
+
+### 1. 로그인 모달 전체화면 요약
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/signIn/index.png)
+
+1.  구글로그인을 진행합니다.
+2.  아이디, 비밀번호로 로그인합니다.
+3.  회원가입 모달로 이동합니다.
+
+### 2. 로그인 모달 시도
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/signIn/try/fail.png)![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/signIn/try/id.png)![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/signIn/try/password.png)
+
+1. id는 이메일로 되어있어야합니다.
+2. password는 단순 6자이상 18자이하
+3. 일치하는 이메일이없다면 에러를 표시합니다.
+
+### 3. 회원가입 모달
+
+![](https://raw.githubusercontent.com/sangpyokim/nextjs-workout/main/pageImage/signIn/signUp.png)
+
+1. 이름은 숫자와 영문으로만 이루어져있습니다. 추후에 닉네임으로 사용됩니다.
+2. id는 이메일로 되어있어야합니다.
+3. password는 단순 6자이상 18자이하입니다.
+4. 이미 존재하는 아이디라면 에러를 표시합니다.
 
 <br />
 <br />
