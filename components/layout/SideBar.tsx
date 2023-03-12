@@ -8,12 +8,7 @@ const SideBar = ({ toggle, setToggle, user }: any) => {
       id="mySidenav"
       toggle={toggle}
     >
-      <CloseButton
-        href="javascript:void(0)"
-        onClick={() => setToggle(false)}
-      >
-        &times;
-      </CloseButton>
+      <CloseButton onClick={() => setToggle(false)}>&times;</CloseButton>
 
       <Links href="/">홈</Links>
       <Links href={`/statistics/${user.email}`}>통계</Links>
@@ -39,6 +34,7 @@ const Container = styled.div<{ toggle: boolean }>`
 
   border-right: 1px solid white;
 `
+
 const Links = styled(Link)`
   padding: 8px 8px 8px 32px;
   text-decoration: none;
@@ -52,10 +48,18 @@ const Links = styled(Link)`
     color: #fff;
   }
 `
-const CloseButton = styled(Link)`
+const CloseButton = styled.div`
   position: absolute;
   top: 0;
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
+
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 2.5rem;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  margin-bottom: 8px;
 `

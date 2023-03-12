@@ -1,6 +1,4 @@
-import { GetServerSideProps } from 'next'
 import { ReactElement } from 'react'
-import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
 
 // components

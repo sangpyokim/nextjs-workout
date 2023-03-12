@@ -3,6 +3,7 @@ import { reset } from 'styled-reset'
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
+  
   :focus {
     outline: none;
     /* border: none; */
@@ -11,11 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     display: none;
   } */
 
-  @font-face {
-  font-family: 'timer-font';
-  src: url('/fonts/BMEuljiro10yearslater.woff2') format('woff2');
-  unicode-range: U+0030-0039, U+0041-005A, U+0061-007A;
-  }
+
   
   html{
     -webkit-text-size-adjust: none;
@@ -23,12 +20,13 @@ export const GlobalStyle = createGlobalStyle`
     -ms-overflow-style: none;
     scrollbar-width: none;
 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     @media ${({ theme }) => theme.breakPoint.mobile} {
-      font-size: 8px;
+      font-size: 10px;
     }
     @media ${({ theme }) => theme.breakPoint.tablet} {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
   
