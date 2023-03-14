@@ -60,9 +60,13 @@ export default TempNav
 
 const Wrapper = styled.div`
   width: 100%;
-  border-bottom: 1px solid white;
 
-  overflow: hidden; // 임시.
+  color: var(--header-text-color);
+
+  background-color: var(--header-bg);
+
+  border-bottom: 1px solid;
+  border-color: var(--border-color);
 `
 const Container = styled.div`
   max-width: 1060px;
@@ -70,8 +74,6 @@ const Container = styled.div`
   padding: 0 8px;
   height: 50px;
   margin: 0 auto 0;
-  color: ${(props) => props.theme.colors.white};
-  background-color: ${(props) => props.theme.colors.black};
 
   display: flex;
   align-items: center;

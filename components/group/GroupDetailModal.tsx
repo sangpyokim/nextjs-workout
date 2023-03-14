@@ -49,7 +49,6 @@ const GroupDetailModal = ({ open, setOpen, curGroup }: IGroupDetailModal) => {
 export default GroupDetailModal
 
 const Container = styled.div`
-  color: black;
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -86,7 +85,6 @@ const JoinButton = styled.div`
 `
 const AlreadyJoinButton = styled.div`
   opacity: 0.8;
-  color: ${(props) => props.theme.colors.gray};
   font-weight: 600;
   padding: 8px;
 `

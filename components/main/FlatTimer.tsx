@@ -6,77 +6,6 @@ import { useFlatModal } from './hooks/useFlatModal'
 import { useFlatTimer } from './hooks/useFlatTimer'
 import Toggle from './Toggle'
 
-const Container = styled.div`
-  color: white;
-  height: 40rem;
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  margin-bottom: 24px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`
-const Title = styled.div`
-  height: 2rem;
-  font-weight: 500;
-  font-size: 2rem;
-`
-const TimerWrapper = styled.div`
-  display: flex;
-  margin-top: 12px;
-`
-const TimerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const FirstRemainTime = styled.div`
-  font-size: 8rem;
-  font-weight: 500;
-  letter-spacing: 0.2rem;
-  line-height: 9rem;
-`
-const SecondRemainTime = styled.div`
-  font-size: 4rem;
-  font-weight: 500;
-  letter-spacing: 0.2rem;
-`
-const IconContainer = styled.div`
-  position: relative;
-  right: -1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 50%;
-  font-size: 1.3rem;
-`
-const InfoModal = styled.div`
-  color: black;
-  padding: 12px;
-  font-size: 1rem;
-  min-height: 8rem;
-  & div {
-    line-height: 1.5rem;
-  }
-`
-const Item = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-`
-const ItemInput = styled.input`
-  max-width: 120px;
-`
-
 const FlatTimer = () => {
   const {
     timerState,
@@ -203,3 +132,85 @@ const FlatTimer = () => {
 }
 
 export default FlatTimer
+
+const Container = styled.div`
+  height: 40rem;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  margin-bottom: 24px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+const Title = styled.div`
+  height: 2rem;
+  font-weight: 500;
+  font-size: 2rem;
+`
+const TimerWrapper = styled.div`
+  display: flex;
+  margin-top: 12px;
+`
+const TimerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  :hover {
+    color: var(--color-btn-border-hover);
+  }
+`
+
+const FirstRemainTime = styled.div`
+  font-size: 8rem;
+  font-weight: 500;
+  letter-spacing: 0.2rem;
+  line-height: 9rem;
+`
+const SecondRemainTime = styled.div`
+  font-size: 4rem;
+  font-weight: 500;
+  letter-spacing: 0.2rem;
+`
+const IconContainer = styled.div`
+  position: relative;
+  right: -1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 50%;
+  font-size: 1.3rem;
+
+  & svg {
+    :hover {
+      color: var(--color-btn-border-hover);
+    }
+  }
+`
+const InfoModal = styled.div`
+  padding: 12px;
+  font-size: 1rem;
+  min-height: 8rem;
+  & div {
+    line-height: 1.5rem;
+  }
+`
+const Item = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`
+const ItemInput = styled.input`
+  max-width: 120px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid;
+  border-color: var(--border-color);
+`

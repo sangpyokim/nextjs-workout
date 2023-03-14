@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
   
   :focus {
     outline: none;
-    /* border: none; */
+    border: none;
   }
   /* ::-webkit-scrollbar {
     display: none;
@@ -35,8 +35,10 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background-color: black;
-
+    
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
 
     /* 스크롤바 ui 없애기 */
     ::-webkit-scrollbar {
@@ -57,12 +59,25 @@ export const GlobalStyle = createGlobalStyle`
     user-select: none;
     /* 아이폰 터치 하이라이트 제거 */
     -webkit-tap-highlight-color: transparent;
+
     /* min-height: calc(var(--vh, 1vh)); */
   }
   textarea {
     resize: none;
   }
 
+  button {
+    :hover {
+      background-color: var(--color-btn-bg-hover);
+      border-color: var(--color-btn-border-hover);
+    }
+  }
+  input {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid;
+    border-color: var(--border-color);
+  }
   a {
     color: inherit;
     text-decoration: none;

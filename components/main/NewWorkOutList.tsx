@@ -5,72 +5,6 @@ import RippleEffect from '../RippleEffect'
 import FlatModal from './FlatModal'
 import useNewWorkOutList from './hooks/useNewWorkOutList'
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-
-  color: white;
-`
-
-const Item = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-size: 2rem;
-  font-weight: 500;
-  height: 5rem;
-  /* background-color: wheat; */
-
-  padding: 0 12px;
-  margin-bottom: 8px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`
-const ItemTitleWrapper = styled.div`
-  display: flex;
-`
-const ItemWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-`
-const ItemTitle = styled.div``
-const ItemSubWrapper = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  & div {
-    margin-right: 8px;
-  }
-`
-const ItemSet = styled.div``
-const ItemTotalTime = styled.div``
-
-const InfoModal = styled.div`
-  color: black;
-  padding: 12px;
-  font-size: 1rem;
-  min-height: 8rem;
-  & div {
-    line-height: 1.5rem;
-  }
-`
-const Button = styled.button`
-  width: 100%;
-  height: 5rem;
-  margin-bottom: 4px;
-  background-color: black;
-  color: white;
-  font-size: 1.3rem;
-  font-weight: 500;
-  border-radius: 2px;
-`
-const ButtonWrapper = styled.div``
-
 const NewWorkOutList = () => {
   const {
     writeMode,
@@ -95,6 +29,7 @@ const NewWorkOutList = () => {
       {list &&
         list.map((item, i) => (
           <Item
+            writeMode={writeMode}
             key={item.title}
             onClick={() =>
               selectedItem?.id === item.id
@@ -102,7 +37,7 @@ const NewWorkOutList = () => {
                 : setSelectedItem(item)
             }
           >
-            <RippleEffect>
+            <RippleEffect enable={!writeMode}>
               <ItemWrapper>
                 <ItemTitle>
                   {selectedUpdateItemIndex === i && writeMode ? (
@@ -147,3 +82,78 @@ const NewWorkOutList = () => {
 }
 
 export default NewWorkOutList
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  color: var(--text-color);
+`
+
+const Item = styled.div<{ writeMode: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 2rem;
+  font-weight: 500;
+  height: 5rem;
+  padding: 0 12px;
+  margin-bottom: 8px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${(props) =>
+      props.writeMode ? '' : 'var(--color-btn-bg-hover)'};
+
+    border-color: ${(props) =>
+      props.writeMode ? '' : 'var(--color-btn-border-hover)'};
+  }
+`
+
+const ItemWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+`
+const ItemTitle = styled.div`
+  & input {
+    height: 2rem;
+    font-size: 1.5rem;
+  }
+`
+const ItemSubWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  & div {
+    margin-right: 8px;
+  }
+  & svg:hover {
+    color: var(--color-btn-border-hover);
+  }
+`
+const ItemSet = styled.div``
+const ItemTotalTime = styled.div``
+
+const InfoModal = styled.div`
+  padding: 12px;
+  font-size: 1rem;
+  min-height: 8rem;
+  & div {
+    line-height: 1.5rem;
+  }
+`
+const Button = styled.button`
+  width: 100%;
+  height: 5rem;
+  margin-bottom: 4px;
+  background-color: var(--button-bg);
+  font-size: 1.3rem;
+  font-weight: 500;
+  border-radius: 2px;
+  color: var(--text-color);
+  border: 1px solid;
+  border-color: var(--border-color);
+`
+const ButtonWrapper = styled.div``

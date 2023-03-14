@@ -13,9 +13,7 @@ const Container = styled.div`
 // 그룹 관리자페이지 만들기
 
 const Statistics = () => {
-  return (
-    <Container style={{ color: 'white' }}>로그인 후 사용 가능합니다</Container>
-  )
+  return <Container>로그인 후 사용 가능합니다</Container>
 }
 
 export default Statistics

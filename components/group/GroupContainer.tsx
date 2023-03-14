@@ -48,7 +48,6 @@ const GroupContainer = ({ children }: IGroupContainer) => {
 export default GroupContainer
 
 const Container = styled.div`
-  color: white;
   width: 100%;
 `
 const Header = styled.header``
@@ -66,14 +65,16 @@ const SubNav = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid;
+  border-color: var(--color-btn-border-hover);
   padding-bottom: 6px;
 `
 const Links = styled.div<{ isHere: boolean }>`
   font-size: 1.5rem;
   margin-right: 1rem;
   font-weight: 500;
-  color: ${(props) => (props.isHere ? 'white' : 'gray')};
+  color: ${(props) =>
+    props.isHere ? 'var(--text-color)' : 'var(--text-sub-color)'};
 `
 
 const Info = styled.div`

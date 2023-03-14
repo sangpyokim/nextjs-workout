@@ -33,7 +33,7 @@ const InputSection = styled.form`
   padding: 8px;
   max-width: 1020px;
   width: 100%;
-  background-color: black;
+  background-color: var(--background-color);
 
   position: fixed;
   padding-bottom: 16px;
@@ -47,11 +47,11 @@ const InputSection = styled.form`
 `
 const Input = styled.textarea`
   outline: none;
-  background-color: black;
-  color: white;
+  background-color: var(--input-bg);
+  color: var(--text-color);
   border: none;
   border-bottom: 1px solid white;
-  border-radius: 0px;
+  border-radius: 2px;
 
   margin-right: 0.5rem;
   max-width: 100%;

@@ -3,19 +3,6 @@ import styled from 'styled-components'
 import { IFormModal } from '../../interface'
 import FlatModal from '../main/FlatModal'
 
-const ModalForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  color: black;
-  padding: 8px;
-  & > * {
-    margin-bottom: 8px;
-  }
-`
-const TextArea = styled.textarea`
-  min-height: 7rem;
-`
-
 const FormModal = ({
   open,
   setOpen,
@@ -94,3 +81,25 @@ const FormModal = ({
 }
 
 export default FormModal
+
+const ModalForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  & > * {
+    margin-bottom: 8px;
+  }
+  & input {
+    background-color: var(--input-bg);
+    color: var(--input-color);
+  }
+  & select {
+    background-color: var(--input-bg);
+    color: var(--input-color);
+  }
+`
+const TextArea = styled.textarea`
+  min-height: 7rem;
+  background-color: var(--input-bg);
+  color: var(--input-color);
+`

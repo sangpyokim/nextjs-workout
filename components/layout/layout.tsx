@@ -7,7 +7,6 @@ import useLocalStorageInit from './hooks/useLocalStorageInit'
 
 const Container = styled.div`
   /* width: 100%; */
-  background-color: ${(props) => props.theme.colors.black};
 `
 
 const Layout = ({ children }: LayoutProps) => {

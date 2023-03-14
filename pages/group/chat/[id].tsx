@@ -139,12 +139,11 @@ const Message = styled.div<{ isMine: boolean; isOper: boolean }>`
   width: 100%;
   justify-content: ${(props) => (props.isMine ? 'flex-end' : 'flex-start')};
   align-items: center;
-  border-radius: 12px;
   height: 40px;
   margin: 8px 0;
 
   justify-content: ${(props) => props.isOper && 'center'};
-  color: ${(props) => (props.isMine ? 'white' : '#f5f5f5')};
+  color: var(--text-color);
   font-size: ${(props) => (props.isOper ? '14px' : '16px')};
   opacity: ${(props) => (props.isOper ? '0.6' : '0.9')};
 `
@@ -157,7 +156,8 @@ const MessageTime = styled.div`
 `
 const MessageContent = styled.pre`
   margin: 0 4px;
-  border: 1px solid white;
+  border: 1px solid;
+  border-color: var(--border-color);
   padding: 8px;
   border-radius: 8px;
 `

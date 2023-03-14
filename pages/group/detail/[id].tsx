@@ -63,7 +63,7 @@ const Body = styled.div`
 `
 //--------------------- home
 const Users = styled.div`
-  color: gray;
+  color: var(--text-sub-color);
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 4px;
@@ -76,7 +76,8 @@ const User = styled.div`
   flex-direction: column;
   width: 100%;
   height: 10rem;
-  border: 1px solid gray;
+  border: 1px solid;
+  border-color: var(--border-color);
 
   &:hover {
     cursor: pointer;
@@ -89,7 +90,8 @@ const UserImage = styled.div<{ isUseToday: () => boolean }>`
 `
 const UserName = styled.div<{ isUseToday: () => boolean }>`
   font-size: 2rem;
-  color: ${(props) => (props.isUseToday() ? '#ddd' : 'gray')};
+  color: ${(props) =>
+    props.isUseToday() ? 'var(--text-color)' : 'var(--text-sub-color)'};
 `
 const Info = styled.div`
   display: flex;

@@ -3,12 +3,6 @@ import Calender from '../../components/statistics/Calender'
 import { useCalender } from '../../components/statistics/hooks/useCalender'
 import TimeLine from '../../components/statistics/TimeLine'
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
-
 const _ = () => {
   const {
     newCurDate,
@@ -41,3 +35,9 @@ const _ = () => {
 }
 
 export default _
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`

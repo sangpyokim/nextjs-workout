@@ -45,28 +45,59 @@ export const theme: DefaultTheme = {
     },
   },
 }
-const lightTheme = {
-  mode: '#fff',
-  text: '#fff',
-  background: '#fff',
-  borderColor: '#fff',
-  bodyColor: '#fff',
-}
+
 const darkTheme = {
-  mode: '#fff',
-  text: '#fff',
-  background: '#fff',
-  borderColor: '#fff',
-  bodyColor: '#fff',
+  headerBackground: '#2d333b',
+  headerTextColor: 'rgba(205,217,229,0.7)',
+  background: '#22272e',
+  borderColor: 'rgba(205,217,229,0.1)',
+  textColor: '#adbac7',
+  textSubColor: '#768390cd',
+  buttonBackgroundColor: '#373e47',
+  toggleOn: '#316dca',
+  toggleOff: '#293F65',
+  toggleBackGroundOn: '#293F65',
+  toggleBackGroundOff: '#1D2128',
+  toggleBorderColor: '#565F6B',
+  inputColor: '#768390',
+  inputPlaceholderColor: '#636e7b',
+  inputBackgroundColor: '#2d333b',
+  buttonBGColorHover: '#444c56',
+  buttonBorderColorHover: '#768390',
 }
+const lightTheme = {
+  headerBackground: '#2d333b',
+  headerTextColor: 'rgba(205,217,229,0.7)',
+  background: '#22272e',
+  borderColor: 'rgba(205,217,229,0.1)',
+  textColor: '#adbac7',
+  textSubColor: '#768390cd',
+  buttonBackgroundColor: '#373e47',
+  toggleOn: '#316dca',
+  toggleOff: '#293F65',
+  toggleBackGroundOn: '#293F65',
+  toggleBackGroundOff: '#1D2128',
+  toggleBorderColor: '#565F6B',
+  inputColor: '#768390',
+  inputPlaceholderColor: '#636e7b',
+  inputBackgroundColor: '#2d333b',
+  buttonBGColorHover: '#444c56',
+  buttonBorderColorHover: '#768390',
+}
+
+// 모드 변경시 변경되는 색깔.
 export const themeProperties = {
-  'mode-color': {
-    light: lightTheme.mode,
-    dark: darkTheme.mode,
+  'header-bg': {
+    light: lightTheme.headerBackground,
+    dark: darkTheme.headerBackground,
+  },
+  'header-text-color': {
+    light: lightTheme.headerTextColor,
+    dark: darkTheme.headerTextColor,
   },
   'text-color': {
-    light: lightTheme.text,
-    dark: darkTheme.text,
+    light: lightTheme.textColor,
+    dark: darkTheme.textColor,
   },
   'background-color': {
     light: lightTheme.background,
@@ -76,8 +107,52 @@ export const themeProperties = {
     light: lightTheme.borderColor,
     dark: darkTheme.borderColor,
   },
-  'body-color': {
-    light: lightTheme.bodyColor,
-    dark: darkTheme.bodyColor,
+  'text-sub-color': {
+    light: lightTheme.textSubColor,
+    dark: darkTheme.textSubColor,
+  },
+  'button-bg': {
+    light: lightTheme.buttonBackgroundColor,
+    dark: darkTheme.buttonBackgroundColor,
+  },
+  'toggle-on': {
+    light: lightTheme.toggleOn,
+    dark: darkTheme.toggleOn,
+  },
+  'toggle-off': {
+    light: lightTheme.toggleOff,
+    dark: darkTheme.toggleOff,
+  },
+  'toggle-bg-on': {
+    light: lightTheme.toggleBackGroundOn,
+    dark: darkTheme.toggleBackGroundOn,
+  },
+  'toggle-bg-off': {
+    light: lightTheme.toggleBackGroundOff,
+    dark: darkTheme.toggleBackGroundOff,
+  },
+  'toggle-border-color': {
+    light: lightTheme.toggleBackGroundOff,
+    dark: darkTheme.toggleBackGroundOff,
+  },
+  'input-color': {
+    light: lightTheme.inputColor,
+    dark: darkTheme.inputColor,
+  },
+  'input-placeholder-color': {
+    light: lightTheme.inputPlaceholderColor,
+    dark: darkTheme.inputPlaceholderColor,
+  },
+  'input-bg': {
+    light: lightTheme.inputBackgroundColor,
+    dark: darkTheme.inputBackgroundColor,
+  },
+  'color-btn-bg-hover': {
+    light: lightTheme.buttonBGColorHover,
+    dark: darkTheme.buttonBGColorHover,
+  },
+  'color-btn-border-hover': {
+    light: lightTheme.buttonBorderColorHover,
+    dark: darkTheme.buttonBorderColorHover,
   },
 }

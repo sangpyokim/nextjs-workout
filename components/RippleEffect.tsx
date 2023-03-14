@@ -34,9 +34,14 @@ const RippleNode = styled.span<{ show: boolean }>`
 interface IRippleEffect {
   children: ReactNode
   duration?: number
+  enable?: boolean
 }
 
-const RippleEffect = ({ children, duration = 500 }: IRippleEffect) => {
+const RippleEffect = ({
+  children,
+  duration = 500,
+  enable = true,
+}: IRippleEffect) => {
   const [node, setNode] = useState(false)
   const ref = useRef<HTMLSpanElement>(null)
 
@@ -62,7 +67,7 @@ const RippleEffect = ({ children, duration = 500 }: IRippleEffect) => {
   }, [node, duration])
 
   return (
-    <Container onClick={(e) => clickHandler(e)}>
+    <Container onClick={(e) => (enable ? clickHandler(e) : '')}>
       <RippleNode
         show={node}
         ref={ref}

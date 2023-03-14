@@ -104,7 +104,7 @@ const GroupSearch = () => {
 export default GroupSearch
 
 const Container = styled.div`
-  color: white;
+  color: var(--text-color);
 `
 const AllGroupSection = styled.section``
 const AllGroupSectionTitle = styled.div`
@@ -116,9 +116,8 @@ const AllGroupList = styled.div``
 const AllGroupItem = styled.div`
   display: flex;
   justify-content: space-between;
-  color: white;
   width: 100%;
-  background-color: ${(props) => props.theme.colors.gray};
+  background-color: var(--button-bg);
   margin-bottom: 1rem;
   border-radius: 4px;
   padding: 14px;
@@ -151,7 +150,7 @@ const AllGroupItemSub = styled.div`
   display: flex;
   font-size: 0.9rem;
   margin-bottom: 12px;
-  opacity: 0.7;
+  color: var(--text-sub-color);
 `
 const AllGroupItemSubItem = styled.div`
   margin-right: 8px;

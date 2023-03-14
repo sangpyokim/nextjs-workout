@@ -30,7 +30,7 @@ const _ = () => {
               </GroupItemInfo>
             </GroupItemLeft>
             <GroupItemChat href={`/group/chat/${key}`}>
-              <MessageFilled style={{ fontSize: '1.5rem', opacity: 0.8 }} />
+              <MessageFilled />
             </GroupItemChat>
           </GroupItem>
         ))}
@@ -45,7 +45,7 @@ const _ = () => {
 export default _
 
 const Container = styled.div`
-  color: white;
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,8 +66,16 @@ const GroupItem = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  border-bottom: 1px solid #aaaaaa88;
+  border-bottom: 1px solid;
+  border-color: var(--color-btn-border-hover);
   padding: 8px;
+  border-radius: 2px;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-btn-bg-hover);
+
+    border-color: var(--color-btn-border-hover);
+  }
 `
 const GroupItemLeft = styled(Link)`
   display: flex;
@@ -99,8 +107,10 @@ const GroupItemChat = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.5rem;
   &:hover {
     cursor: pointer;
+    color: var(--color-btn-bg-hover);
   }
 `
 const MoreGroup = styled.div`

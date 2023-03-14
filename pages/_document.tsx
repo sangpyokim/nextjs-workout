@@ -23,13 +23,13 @@ function setColorsByTheme() {
 
   let colorMode = 'dark' // 컬러모드 기본값은 다크
 
-  const hasUsedToggle = typeof persistedPreference === 'string' // 로컬스토리지에 저장된 테마값이 있는지 여부를 저장
+  // const hasUsedToggle = typeof persistedPreference === 'string' // 로컬스토리지에 저장된 테마값이 있는지 여부를 저장
 
-  if (hasUsedToggle) {
-    colorMode = persistedPreference // 저장했으면 로컬스토리지값 대로 컬러모드 지정
-  } else {
-    colorMode = prefersDarkFromMq ? 'dark' : 'light' // 아니라면 선호도에 따라 컬러모드 지정
-  }
+  // if (hasUsedToggle) {
+  //   colorMode = persistedPreference // 저장했으면 로컬스토리지값 대로 컬러모드 지정
+  // } else {
+  //   colorMode = prefersDarkFromMq ? 'dark' : 'light' // 아니라면 선호도에 따라 컬러모드 지정
+  // }
 
   const root = document.documentElement
 

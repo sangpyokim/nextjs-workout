@@ -18,8 +18,9 @@ const Container = styled.div`
 
   padding: 20px;
   background-color: transparent;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  border-color: var(--border-color);
 
   min-height: calc(var(--vh, 1vh) * 100);
 `

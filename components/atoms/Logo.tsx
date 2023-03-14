@@ -53,7 +53,7 @@ const WrapImage = styled(MenuOutlined)`
 const LogoImage = styled(Image)`
   height: 50px;
   width: 9rem;
-
+  color: var(--header-text-color);
   @media ${(props) => props.theme.breakPoint.mobile} {
     width: 16rem;
   }
