@@ -30,11 +30,19 @@
 # 페이지별 설명
 
 [페이지별 설명, workout 위키](https://github.com/sangpyokim/nextjs-workout/wiki/Home)
+<br/>
+
+# 테마
+
+[테마, workout 위키](https://github.com/sangpyokim/nextjs-workout/wiki/Home)
+<br/>
 
 # 개발하면서 참고한 글
 
-[개발하면서 참고한 글, workout 위키](https://github.com/sangpyokim/nextjs-workout/wiki/%EA%B0%9C%EB%B0%9C%ED%95%98%EB%A9%B4%EC%84%9C-%EC%B0%B8%EA%B3%A0%ED%95%9C-%EA%B8%80)
+[테마, workout 위키](https://github.com/sangpyokim/nextjs-workout/wiki/Theme)
+<br/>
 
 # 개발하면서 겪은 이슈
 
 [개발하면서 겪은 이슈, workout 위키](https://github.com/sangpyokim/nextjs-workout/wiki/%EA%B0%9C%EB%B0%9C%ED%95%98%EB%A9%B4%EC%84%9C-%EA%B2%AA%EC%9D%80-%EC%9D%B4%EC%8A%88)
+<br/>
