@@ -163,7 +163,8 @@ const FormItem = styled.div`
 const Label = styled.label`
   color: #252525;
   font-weight: 400;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
 `
 const Input = styled.input`
   padding: 8px 12px;
@@ -188,8 +189,9 @@ const SummitButton = styled.button`
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 `
 const ErrorContainer = styled.div`
-  height: 14px;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
+
   font-weight: 500;
   margin-bottom: 2px;
   color: ${(props) => props.theme.colors.red};
@@ -204,8 +206,7 @@ const RegisterButton = styled.div`
   }
 `
 const Name = styled.div`
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    font-size: 2rem;
-    font-weight: 600;
-  }
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
+  font-weight: 600;
 `

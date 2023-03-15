@@ -59,6 +59,8 @@ const Calender = ({
 export default Calender
 
 const Container = styled.div`
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
   color: var(--text-color);
   width: 100%;
   background-color: var(--header-bg);
@@ -71,24 +73,22 @@ const Grid = styled.div`
 `
 const Date = styled.div`
   width: 100%;
-  height: 3rem;
+  height: 2rem;
   display: flex;
   justify-content: space-evenly;
-  /* border-bottom: 1px solid white; */
-  /* margin-bottom: 2rem; */
 `
 const DateItem = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: ${(props) => props.theme.fontSize.font_sm};
+  line-height: ${(props) => props.theme.lineHeight.font_sm};
   font-weight: 500;
 `
 const Rows = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 1fr;
 `
 const Item = styled.div<{
   thisMonth: boolean
@@ -117,20 +117,22 @@ const Item = styled.div<{
     cursor: pointer;
   }
   @media ${(props) => props.theme.breakPoint.mobile} {
-    height: 6rem;
+    height: 4rem;
   }
 `
+
 const ItemDate = styled.div<{ isToday: boolean }>`
   color: ${(props) => (props.isToday ? 'black' : '')};
   background-color: ${(props) => (props.isToday ? 'var(--text-color)' : '')};
-  padding: 2px 4px;
+  padding: 0px 4px;
   border-radius: 2px;
 `
 const Header = styled.div`
   color: var(--text-color);
   display: flex;
   align-items: center;
-  font-size: 2rem;
+  font-size: ${(props) => props.theme.fontSize.font_xxl};
+  line-height: ${(props) => props.theme.lineHeight.font_xxl};
   padding: 8px 16px;
 `
 const CurDate = styled.div`
@@ -138,7 +140,9 @@ const CurDate = styled.div`
   margin: 0 16px;
 `
 const Button = styled.div`
-  font-size: 1.5rem;
+  font-size: ${(props) => props.theme.fontSize.font_xl};
+  line-height: ${(props) => props.theme.lineHeight.font_xxl};
+  font-weight: 800;
   &:hover {
     cursor: pointer;
   }

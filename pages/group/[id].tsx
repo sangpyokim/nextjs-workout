@@ -51,7 +51,8 @@ const Container = styled.div`
   align-items: center;
 `
 const Title = styled.div`
-  font-size: 2rem;
+  font-size: ${(props) => props.theme.fontSize.font_xxl};
+  line-height: ${(props) => props.theme.lineHeight.font_xxl};
   width: 100%;
   margin-bottom: 12px;
 `
@@ -68,7 +69,7 @@ const GroupItem = styled.div`
   width: 100%;
   border-bottom: 1px solid;
   border-color: var(--color-btn-border-hover);
-  padding: 8px;
+  padding: 4px;
   border-radius: 2px;
   &:hover {
     cursor: pointer;
@@ -86,14 +87,17 @@ const GroupItemLeft = styled(Link)`
   }
 `
 const GroupItemTitle = styled.div`
-  font-size: 1.3rem;
-  margin-bottom: 4px;
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
 `
 const GroupItemChief = styled.div`
+  font-size: ${(props) => props.theme.fontSize.font_sm};
+  line-height: ${(props) => props.theme.lineHeight.font_sm};
   opacity: 0.8;
-  margin-bottom: 2px;
 `
 const GroupItemInfo = styled.div`
+  font-size: ${(props) => props.theme.fontSize.font_sm};
+  line-height: ${(props) => props.theme.lineHeight.font_sm};
   display: flex;
   opacity: 0.8;
   & > div {
@@ -107,7 +111,8 @@ const GroupItemChat = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: ${(props) => props.theme.fontSize.font_lg};
+  line-height: ${(props) => props.theme.lineHeight.font_lg};
   &:hover {
     cursor: pointer;
     color: var(--color-btn-bg-hover);
@@ -115,5 +120,7 @@ const GroupItemChat = styled(Link)`
 `
 const MoreGroup = styled.div`
   color: ${(props) => props.theme.colors.yellow};
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
   font-weight: 500;
 `

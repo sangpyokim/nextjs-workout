@@ -119,7 +119,7 @@ const FlatTimer = () => {
           header={'타이머 설명'}
         >
           <InfoModal>
-            <div>설명</div>
+            <InfoModalTitle>설명</InfoModalTitle>
             <div>싱글 타이머: 일반적인 타이머</div>
             <div>더블 타이머: 두개의 타이머</div>
             <div>왼쪽 클릭: 타이머 시작, 정지</div>
@@ -167,15 +167,25 @@ const TimerContainer = styled.div`
 `
 
 const FirstRemainTime = styled.div`
-  font-size: 8rem;
+  font-size: 6rem;
   font-weight: 500;
   letter-spacing: 0.2rem;
-  line-height: 9rem;
+  line-height: 8rem;
+
+  @media ${(props) => props.theme.breakPoint.mobile} {
+    font-size: 4.5rem;
+    line-height: 6.5rem;
+  }
 `
 const SecondRemainTime = styled.div`
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 500;
   letter-spacing: 0.2rem;
+
+  @media ${(props) => props.theme.breakPoint.mobile} {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
 `
 const IconContainer = styled.div`
   position: relative;
@@ -196,11 +206,15 @@ const IconContainer = styled.div`
 `
 const InfoModal = styled.div`
   padding: 12px;
-  font-size: 1rem;
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
+
   min-height: 8rem;
-  & div {
-    line-height: 1.5rem;
-  }
+`
+const InfoModalTitle = styled.div`
+  font-size: ${(props) => props.theme.fontSize.font_lg};
+  line-height: ${(props) => props.theme.lineHeight.font_lg};
+  margin-bottom: 4px;
 `
 const Item = styled.div`
   display: flex;

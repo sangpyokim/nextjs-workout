@@ -57,12 +57,11 @@ const Title = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  font-size: 1.8rem;
+  font-size: ${(props) => props.theme.fontSize.font_xxl};
+  line-height: ${(props) => props.theme.lineHeight.font_xxl};
+
   font-weight: 500;
   margin-bottom: 1rem;
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    font-size: 2.5rem;
-  }
 `
 const Item = styled.div`
   display: flex;
@@ -70,10 +69,6 @@ const Item = styled.div`
   width: 100%;
   height: 5rem;
   margin-bottom: 12px;
-
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    height: 7rem;
-  }
 `
 const ItemLeftTime = styled.div`
   margin-right: 4px;
@@ -81,8 +76,8 @@ const ItemLeftTime = styled.div`
   display: flex;
   justify-content: right;
   padding-top: 0.5rem;
-  font-size: 14px;
-  /* font-size: clamp(1.5rem, 0.5rem + 2.5vw, 1rem); */
+  font-size: ${(props) => props.theme.fontSize.font_sm};
+  line-height: ${(props) => props.theme.lineHeight.font_sm};
   opacity: 0.8;
 `
 const ItemContent = styled.div`
@@ -108,9 +103,6 @@ const Tie = styled.div`
   left: 0;
   background-color: salmon;
   position: absolute;
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    top: -3.5rem;
-  }
 `
 const ContentContainer = styled.div`
   display: flex;
@@ -128,28 +120,19 @@ const Content = styled.div`
   justify-content: space-evenly;
 `
 const ContentTitle = styled.div`
-  font-size: 1.2rem;
-  line-height: 1.5rem;
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
   font-weight: 500;
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    font-size: 1.6rem;
-  }
 `
 const ContentType = styled.div`
-  font-size: 0.8rem;
-  line-height: 0.9rem;
+  font-size: ${(props) => props.theme.fontSize.font_sm};
+  line-height: ${(props) => props.theme.lineHeight.font_sm};
   font-weight: 400;
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    font-size: 1.2rem;
-  }
 `
 const ContentTime = styled.div`
-  font-size: 0.6rem;
-  line-height: 0.7rem;
+  font-size: ${(props) => props.theme.fontSize.font_xs};
+  line-height: ${(props) => props.theme.lineHeight.font_xs};
   font-weight: 400;
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    font-size: 1rem;
-  }
 `
 const TimeZone = styled.div`
   display: flex;
@@ -160,8 +143,6 @@ const TimeZone = styled.div`
   margin-bottom: 8px;
   margin-top: 4px;
 
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
+  font-size: ${(props) => props.theme.fontSize.font_sm};
+  line-height: ${(props) => props.theme.lineHeight.font_sm};
 `

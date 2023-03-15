@@ -102,6 +102,9 @@ const Container = styled.div<{ open: boolean }>`
   align-items: center;
   animation: ${modalShow} 0.3s;
 
+  font-size: ${(props) => props.theme.fontSize.font_lg};
+  line-height: ${(props) => props.theme.lineHeight.font_lg};
+
   & button {
     outline: none;
     cursor: pointer;
@@ -133,10 +136,12 @@ const Header = styled.header`
 
   & button {
     position: absolute;
-    top: 15px;
+    top: 13px;
     right: 15px;
     width: 30px;
-    font-size: 21px;
+    font-size: ${(props) => props.theme.fontSize.font_lg};
+    line-height: ${(props) => props.theme.lineHeight.font_lg};
+
     font-weight: 700;
     text-align: center;
     color: var(--text-color);
@@ -148,10 +153,11 @@ const Footer = styled.footer`
   padding: 12px 16px;
   text-align: right;
   & button {
-    padding: 6px 12px;
+    padding: 2px 10px;
     color: var(--text-color);
     background-color: var(--button-bg);
     border-radius: 2px;
-    font-size: 13px;
+    font-size: ${(props) => props.theme.fontSize.font_base};
+    line-height: ${(props) => props.theme.lineHeight.font_base};
   }
 `

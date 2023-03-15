@@ -19,6 +19,11 @@ interface IColors {
 }
 interface IFontSize {
   font_xs: string
+  font_sm: string
+  font_base: string
+  font_lg: string
+  font_xl: string
+  font_xxl: string
 }
 interface INeumorphism {
   background_color: string
@@ -36,6 +41,7 @@ declare module 'styled-components' {
     breakPoint: IBreakPointProps
     colors: IColors
     fontSize: IFontSize
+    lineHeight: IFontSize
     neumorphism: INeumorphism
   }
 }

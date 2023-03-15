@@ -2,8 +2,22 @@ import { DefaultTheme } from 'styled-components'
 
 const fontSize = {
   font_xs: '0.75rem',
+  font_sm: '0.875rem',
+  font_base: '1rem',
+  font_lg: '1.125rem',
+  font_xl: '1.25rem',
+  font_xxl: '1.5rem',
 }
-const lintHeight = {}
+const FontLienHeight = '8px'
+
+const lineHeight = {
+  font_xs: `calc(${fontSize.font_xs} + ${FontLienHeight})`,
+  font_sm: `calc(${fontSize.font_sm} + ${FontLienHeight})`,
+  font_base: `calc(${fontSize.font_base} + ${FontLienHeight})`,
+  font_lg: `calc(${fontSize.font_lg} + ${FontLienHeight})`,
+  font_xl: `calc(${fontSize.font_xl} + ${FontLienHeight})`,
+  font_xxl: `calc(${fontSize.font_xxl} + ${FontLienHeight})`,
+}
 
 const colors = {
   black: '#000',
@@ -31,6 +45,7 @@ export const theme: DefaultTheme = {
   breakPoint: device,
   colors: colors,
   fontSize: fontSize,
+  lineHeight: lineHeight,
   neumorphism: {
     box_shadow: `-6px -6px 14px rgba(255, 255, 255, 0.7),
     6px 6px 10px rgba(0, 0, 0, 0.15)`,

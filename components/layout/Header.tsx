@@ -1,8 +1,5 @@
 import Head from 'next/head'
-import Script from 'next/script'
 import React from 'react'
-import { useRecoilState } from 'recoil'
-import { ARemainTime } from '../../recoil/AllAtom'
 
 const Header = () => {
   return (

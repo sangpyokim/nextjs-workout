@@ -1,12 +1,10 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
 import { useAuth } from './hooks/useAuth'
 import HeaderLogIn from './HeaderLogIn'
 import Logo from '../atoms/Logo'
 import RippleEffect from '../RippleEffect'
-import useMenu from './hooks/useMenu'
 
 // width 1060px
 
@@ -89,9 +87,9 @@ const Routes = styled.div`
   align-items: center;
   height: 100%;
   font-weight: 500;
+
   @media ${(props) => props.theme.breakPoint.mobile} {
-    font-size: 1.8rem;
-    font-weight: 600;
+    display: none;
   }
 `
 const Route = styled(Link)`
@@ -100,10 +98,7 @@ const Route = styled(Link)`
   justify-content: center;
   height: 100%;
   min-width: 50px;
-  font-size: 1.2rem;
+  font-size: ${(props) => props.theme.fontSize.font_base};
+  line-height: ${(props) => props.theme.lineHeight.font_base};
   font-weight: 500;
-
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    display: none;
-  }
 `

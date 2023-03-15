@@ -1,6 +1,7 @@
 import { MenuOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Router } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
 import LogoSVG from '../../images/logo.svg'
@@ -9,6 +10,8 @@ import SideBar from '../layout/SideBar'
 
 const Logo = ({ user }: any) => {
   const { toggle, setToggle } = useMenu()
+
+  Router.events.on('routeChangeComplete', () => setToggle(false))
 
   return (
     <Container>
@@ -43,7 +46,8 @@ const Container = styled.div`
 `
 const WrapImage = styled(MenuOutlined)`
   display: none;
-  font-size: 3rem;
+  font-size: ${(props) => props.theme.fontSize.font_lg};
+  line-height: ${(props) => props.theme.lineHeight.font_lg};
   margin-right: 8px;
 
   @media ${(props) => props.theme.breakPoint.mobile} {
@@ -51,10 +55,6 @@ const WrapImage = styled(MenuOutlined)`
   }
 `
 const LogoImage = styled(Image)`
-  height: 50px;
   width: 9rem;
   color: var(--header-text-color);
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    width: 16rem;
-  }
 `
