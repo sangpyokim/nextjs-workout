@@ -38,12 +38,17 @@ const useTextArea = (onSubmitHandler: Function) => {
   const handleTextChange = (e: any) => {
     setText(e.target.value)
   }
+  const onsubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    onSubmitHandler(text)
+  }
 
   return {
     text,
     handleTextChange,
     handleKeyUp,
     handleKeyPress,
+    onsubmit,
   }
 }
 

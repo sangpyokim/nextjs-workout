@@ -68,7 +68,9 @@ const useGroupDetail = () => {
 
   const onSubmitHandler = useCallback(async (value: string) => {
     if (value.length === 0) return
+    console.log(user)
     // 실시간 x
+
     const data = {
       id: new Date().getTime(),
       type: 'text',

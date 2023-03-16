@@ -4,11 +4,11 @@ import { ITextArea } from '../../interface'
 import useTextArea from './hooks/useTextArea'
 
 const TextArea = ({ onSubmitHandler }: ITextArea) => {
-  const { text, handleTextChange, handleKeyUp, handleKeyPress } =
+  const { text, handleTextChange, handleKeyUp, handleKeyPress, onsubmit } =
     useTextArea(onSubmitHandler)
 
   return (
-    <InputSection>
+    <InputSection onSubmit={(e) => onsubmit(e)}>
       <Input
         placeholder="텍스트를 입력해주세요."
         onKeyDown={(e) => handleKeyPress(e)}
