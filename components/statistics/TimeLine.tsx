@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { ITimeLine } from '../../interface'
 
 const TimeLine = ({ selectedDate }: ITimeLine) => {
+  if (!(selectedDate && selectedDate.data && selectedDate.data!.length > 0))
+    return <></>
+
   return (
     <Container>
       <Title>타임라인</Title>

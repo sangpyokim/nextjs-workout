@@ -1,6 +1,7 @@
 import React from 'react'
-import { Bar, Line } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 import styled from 'styled-components'
+import { IBarChart } from '../../interface'
 
 const options = {
   responsive: true,
@@ -15,27 +16,14 @@ const options = {
   },
 }
 
-const data = {
-  labels: ['0-2', '2-4', '4-6', '6-8', '8-10', '10-12'],
-  datasets: [
-    {
-      label: '오전',
-      backgroundColor: 'rgb(255, 99, 132)',
-      data: [1, 2, 3, 4, 2, 1],
-    },
-    {
-      label: '오후',
-      backgroundColor: 'rgb(75, 192, 192)',
-      data: [4, 3, 2, 1, 3, 5],
-    },
-  ],
-}
-
-const BarChart = () => {
+const BarChart = ({ data }: IBarChart) => {
   return (
     <Container>
       <Bar
-        data={data}
+        data={{
+          labels: data.labels,
+          datasets: [data.data1, data.data2],
+        }}
         options={options}
       />
     </Container>

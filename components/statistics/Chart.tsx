@@ -1,55 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  Colors,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-} from 'chart.js'
-import { INewDay } from '../../interface'
+import { IChart } from '../../interface'
 import styled from 'styled-components'
-import DoughnutChart from './DoughnutChart'
+import PieChart from './PieChart'
 import BarChart from './BarChart'
 
-ChartJS.register(
-  ArcElement,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Colors,
-  Title,
-  Tooltip,
-  Legend,
-)
-
-interface IChart {
-  selectedDate: INewDay
-  doughnutChartData: any
-}
-export interface IDoughnutChartData {
-  label: string[]
-  data: number[]
-  count: number
-}
-
-const Chart = ({ selectedDate, doughnutChartData }: IChart) => {
-  const [doughnutData, setDoughnutData] = useState<IDoughnutChartData>()
-
-  useEffect(() => {
-    const res = doughnutChartData(selectedDate)
-    setDoughnutData(res)
-  }, [selectedDate])
-
-  if (!doughnutData) return <div></div>
+const Chart = ({ pieData, barData }: IChart) => {
+  if (!pieData || !barData) return <Container></Container>
 
   return (
     <Container>
-      <DoughnutChart data={doughnutData} />
-      <BarChart />
+      <PieChart data={pieData} />
+      <BarChart data={barData} />
     </Container>
   )
 }
@@ -67,5 +27,6 @@ const Container = styled.div`
 
   @media ${(props) => props.theme.breakPoint.mobile} {
     grid-template-columns: 1fr;
+    min-height: 40rem;
   }
 `

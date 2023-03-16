@@ -15,7 +15,8 @@ const _ = () => {
     onClickPrevMonth,
     onClickNextMonth,
   } = useCalender()
-  const { doughnutChartData } = useChart()
+
+  const { pieData, barData } = useChart(selectedDate)
 
   return (
     <Container>
@@ -28,15 +29,14 @@ const _ = () => {
         setSelectedDate={setSelectedDate}
         isLoading={isLoading}
       />
-      {selectedDate && selectedDate.data && selectedDate.data!.length > 0 && (
-        <>
-          <Chart
-            selectedDate={selectedDate}
-            doughnutChartData={doughnutChartData}
-          />
-          <TimeLine selectedDate={selectedDate} />
-        </>
-      )}
+
+      <>
+        <Chart
+          pieData={pieData!}
+          barData={barData!}
+        />
+        <TimeLine selectedDate={selectedDate} />
+      </>
     </Container>
   )
 }

@@ -1,11 +1,7 @@
 import React from 'react'
-import { Doughnut, Pie } from 'react-chartjs-2'
+import { Pie } from 'react-chartjs-2'
 import styled from 'styled-components'
-import { IDoughnutChartData } from './Chart'
-
-interface IDoughnutChart {
-  data: IDoughnutChartData
-}
+import { IPieChart } from '../../interface'
 
 const options = {
   responsive: true,
@@ -20,7 +16,7 @@ const options = {
   },
 }
 
-const DoughnutChart = ({ data }: IDoughnutChart) => {
+const PieChart = ({ data }: IPieChart) => {
   return (
     <Container>
       <ChartWrapper>
@@ -49,7 +45,7 @@ const DoughnutChart = ({ data }: IDoughnutChart) => {
   )
 }
 
-export default DoughnutChart
+export default PieChart
 
 const Container = styled.div`
   display: flex;

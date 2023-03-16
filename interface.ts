@@ -50,7 +50,7 @@ export interface ICalender {
   onClickNextMonth: Function
 }
 export interface ITimeLine {
-  selectedDate: INewDay
+  selectedDate: INewDay | undefined
 }
 
 export interface IFormModal {
@@ -122,4 +122,38 @@ export interface IGroupContainer {
 
 export interface ITextArea {
   onSubmitHandler: Function
+}
+
+export interface IChart {
+  pieData: IPieChartData
+  barData: IBarChartData
+}
+export interface IPieChartDataFunc {
+  (selectedDate: INewDay): IPieChartData | undefined
+}
+export interface IBarChartDataFunc {
+  (selectedDate: INewDay): IBarChartData | undefined
+}
+
+export interface IPieChartData {
+  label: string[]
+  data: number[]
+  count: number
+}
+export interface IBarChartData {
+  labels: string[]
+  data1: IChartDataSets
+  data2: IChartDataSets
+}
+export interface IChartDataSets {
+  label: string
+  backgroundColor: string
+  data: number[]
+}
+
+export interface IPieChart {
+  data: IPieChartData
+}
+export interface IBarChart {
+  data: IBarChartData
 }
