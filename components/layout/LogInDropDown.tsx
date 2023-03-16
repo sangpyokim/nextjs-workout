@@ -10,6 +10,7 @@ const LogInDropDown = ({ dropDown, setDropDown, signOut }: ILogInDropDown) => {
   return (
     <Container open={dropDown}>
       <ul>
+        <li>설정</li>
         <li onClick={() => signOut()}>로그아웃</li>
       </ul>
     </Container>
@@ -25,7 +26,7 @@ const Container = styled.div<{ open: boolean }>`
   padding: 12px 24px;
   z-index: 9;
   border: 1px solid white;
-  background-color: black;
+  background-color: var(--background-color);
 
   &:after {
     content: '';

@@ -1,3 +1,4 @@
+import { Doughnut } from 'react-chartjs-2'
 import { useQuery } from 'react-query'
 import { useState } from 'react'
 import { userInfo } from '../../../recoil/ExercisesState'
@@ -75,7 +76,6 @@ export const useCalender = () => {
     setNewCurDate(newDate)
   }
 
-  // 로그인안해도 사용할 수 있게...?
   return {
     newCurDate,
     selectedDate,

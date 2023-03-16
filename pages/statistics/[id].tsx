@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import Calender from '../../components/statistics/Calender'
+import Chart from '../../components/statistics/Chart'
 import { useCalender } from '../../components/statistics/hooks/useCalender'
+import useChart from '../../components/statistics/hooks/useChart'
 import TimeLine from '../../components/statistics/TimeLine'
 
 const _ = () => {
@@ -13,6 +15,7 @@ const _ = () => {
     onClickPrevMonth,
     onClickNextMonth,
   } = useCalender()
+  const { doughnutChartData } = useChart()
 
   return (
     <Container>
@@ -27,6 +30,10 @@ const _ = () => {
       />
       {selectedDate && selectedDate.data && selectedDate.data!.length > 0 && (
         <>
+          <Chart
+            selectedDate={selectedDate}
+            doughnutChartData={doughnutChartData}
+          />
           <TimeLine selectedDate={selectedDate} />
         </>
       )}
