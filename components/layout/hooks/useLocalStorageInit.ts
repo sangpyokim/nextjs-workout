@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil'
 import { getTimerSettingValue } from '../../../firebase/database/newDatabase'
 import { INITIAL_VALUE } from '../../../firebase/initialValue'
 import { TIMER_KEY } from '../../../localstorage/Constants'
-import { userInfo } from '../../../recoil/ExercisesState'
+import { userInfo } from '../../../recoil/all-atom'
 
 const useLocalStorageInit = () => {
   const [user, setUser] = useRecoilState(userInfo)

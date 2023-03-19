@@ -2,10 +2,10 @@ import { useQuery } from 'react-query'
 import {
   ASelectedWorkOutListItem,
   AWorkOutList,
-} from './../../../recoil/AllAtom'
+} from '../../../recoil/all-atom'
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { ATimerState } from '../../../recoil/AllAtom'
+import { ATimerState } from '../../../recoil/all-atom'
 import { useFlatModal } from './useFlatModal'
 import {
   getTimerListToday,

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useAuth } from './hooks/useAuth'
 import HeaderLogIn from './HeaderLogIn'
 import Logo from '../atoms/Logo'
-import RippleEffect from '../RippleEffect'
+import RippleEffect from './RippleEffect'
 
 // width 1060px
 

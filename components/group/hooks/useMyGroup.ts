@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from 'react-query'
-import { userInfo } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { createGroup, getMyGroup } from '../../../firebase/database/newDatabase'
+import { userInfo } from '../../../recoil/all-atom'
 
 export const useMyGroup = () => {
   const [user, _] = useRecoilState(userInfo)

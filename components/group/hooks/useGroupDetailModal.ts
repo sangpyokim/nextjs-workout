@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 import { getGroup, joinGroup } from '../../../firebase/database/newDatabase'
 import { IAllGroupList } from '../../../interface'
-import { userInfo } from '../../../recoil/ExercisesState'
+import { userInfo } from '../../../recoil/all-atom'
 
 export const useGroupDetailModal = (groupId: string) => {
   const [user, _] = useRecoilState(userInfo)

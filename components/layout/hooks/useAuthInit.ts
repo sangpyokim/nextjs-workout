@@ -1,12 +1,12 @@
 import { useRecoilState } from 'recoil'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useMemo } from 'react'
-import { authLoading, userInfo } from '../../../recoil/ExercisesState'
 import { getMyAuth } from '../../../firebase/auth/NewAuth'
 import { updateUserEmail } from '../../../localstorage/LocalStorage'
 
 import { Router, useRouter } from 'next/router'
 import NProgress from 'nprogress'
+import { authLoading, userInfo } from '../../../recoil/all-atom'
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => NProgress.start())

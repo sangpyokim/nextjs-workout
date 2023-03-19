@@ -1,7 +1,7 @@
 import { MoreOutlined } from '@ant-design/icons'
 import React from 'react'
 import styled from 'styled-components'
-import RippleEffect from '../RippleEffect'
+import RippleEffect from '../layout/RippleEffect'
 import FlatModal from './FlatModal'
 import useNewWorkOutList from './hooks/useNewWorkOutList'
 

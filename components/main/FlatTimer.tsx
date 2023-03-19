@@ -1,6 +1,6 @@
 import { InfoCircleOutlined, RedoOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import RippleEffect from '../RippleEffect'
+import RippleEffect from '../layout/RippleEffect'
 import FlatModal from './FlatModal'
 import { useFlatModal } from './hooks/useFlatModal'
 import { useFlatTimer } from './hooks/useFlatTimer'

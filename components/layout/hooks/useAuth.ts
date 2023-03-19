@@ -1,12 +1,12 @@
 import { useModal } from '../../main/hooks/useModal'
 import { useState } from 'react'
-import { userInfo, authLoading } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { getMyAuth, pcLogIn } from '../../../firebase/auth/Auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/router'
 import { TIMER_KEY } from '../../../localstorage/Constants'
 import { INITIAL_VALUE } from '../../../firebase/initialValue'
+import { authLoading, userInfo } from '../../../recoil/all-atom'
 
 export const useAuth = () => {
   const [user, setUser] = useRecoilState(userInfo)

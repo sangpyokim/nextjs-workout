@@ -1,4 +1,3 @@
-import { userInfo } from './../../../recoil/ExercisesState'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -9,6 +8,7 @@ import {
 } from '../../../firebase/database/newDatabase'
 import { chatContent } from '../../../interface'
 import { useCallback } from 'react'
+import { userInfo } from '../../../recoil/all-atom'
 
 const useGroupDetail = () => {
   const router = useRouter()
@@ -57,6 +57,7 @@ const useGroupDetail = () => {
     const m = d.getMonth() + 1
     const day = d.getDate()
     if (
+      userData.statistics &&
       userData.statistics.timeLine &&
       userData.statistics.timeLine[y] &&
       userData.statistics.timeLine[y][m] &&

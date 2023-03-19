@@ -1,7 +1,6 @@
 import { Doughnut } from 'react-chartjs-2'
 import { useQuery } from 'react-query'
 import { useState } from 'react'
-import { userInfo } from '../../../recoil/ExercisesState'
 import { useRecoilState } from 'recoil'
 import { getTimeLine } from '../../../firebase/database/newDatabase'
 import { useRouter } from 'next/router'
@@ -11,6 +10,7 @@ import {
   INewTimeLineItem,
   ITimeLineItem,
 } from '../../../interface'
+import { userInfo } from '../../../recoil/all-atom'
 
 class ITimeLine implements IDay {
   day: number

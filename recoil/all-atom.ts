@@ -24,3 +24,16 @@ export const ARemainTime = atom({
     second: '00:00:00',
   },
 })
+
+export const userInfo = atom({
+  key: atomKeys.userInfo,
+  default: {
+    email: '',
+    displayName: '',
+  },
+})
+
+export const authLoading = atom({
+  key: atomKeys.authLoading,
+  default: true,
+})
