@@ -86,14 +86,22 @@ const ModalForm = styled.form`
   display: flex;
   flex-direction: column;
   padding: 8px;
+
   & > * {
     margin-bottom: 8px;
+    border-color: var(--border-color);
+    ::placeholder {
+      color: var(--input-color);
+    }
   }
   & input {
     background-color: var(--input-bg);
-    color: var(--input-color);
+    ::placeholder {
+      color: var(--input-color);
+    }
   }
   & select {
+    border-color: var(--border-color);
     background-color: var(--input-bg);
     color: var(--input-color);
   }

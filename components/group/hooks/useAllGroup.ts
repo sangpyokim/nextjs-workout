@@ -51,7 +51,6 @@ export const useAllGroup = () => {
   const isJoined = (group: IAllGroupList) => {
     return group.users && group.users[user.email.split('.')[0]]
   }
-  const filterCondition = (val) => {}
 
   return {
     data,
@@ -66,7 +65,6 @@ export const useAllGroup = () => {
     isJoined,
     setFilterState,
     filterState,
-    filterCondition,
   }
 }
 
