@@ -19,6 +19,8 @@ const GroupSearch = () => {
     setGroupDetailOpen,
     modalSubmitHandler,
     isJoined,
+    filterState,
+    setFilterState,
   } = useAllGroup()
 
   register('ko', koLocale)
@@ -27,57 +29,90 @@ const GroupSearch = () => {
     <Container>
       <AllGroupSection>
         <AllGroupSectionTitle>그룹들</AllGroupSectionTitle>
-
+        <Filter>
+          <div>
+            <label htmlFor="tag">필터: </label>
+            <Select
+              name="tag"
+              id="tag"
+              onChange={(e) => setFilterState(e.currentTarget.value)}
+            >
+              {[
+                '전체',
+                '대학생',
+                '학생',
+                '공부',
+                '운동',
+                '취미',
+                '취업',
+                '게임',
+                '기타',
+              ].map((str) => (
+                <option
+                  key={str}
+                  value={str}
+                >
+                  {str}
+                </option>
+              ))}
+            </Select>
+          </div>
+        </Filter>
         <MakeGroup>
           <div onClick={() => setOpen(true)}>그룹 만들기</div>
         </MakeGroup>
 
         <AllGroupList>
-          {allGroupData.map(([key, group]) => (
-            <AllGroupItem
-              key={key}
-              onClick={() => {
-                setCurFocus(key)
-                setGroupDetailOpen(true)
-              }}
-            >
-              <div>
-                <AllGroupItemTagWrapper>
-                  {group.info.tag.map((tag) => (
-                    <AllGroupItemTag key={tag}>{tag}</AllGroupItemTag>
-                  ))}
-                  {isJoined(group) && (
-                    <AllGroupItemIsJoin>참여중</AllGroupItemIsJoin>
-                  )}
-                </AllGroupItemTagWrapper>
+          {allGroupData
+            .filter(
+              ([_, group]) =>
+                filterState === '전체' || group.info.tag[0] === filterState,
+            )
+            .map(([key, group]) => (
+              <AllGroupItem
+                key={key}
+                onClick={() => {
+                  setCurFocus(key)
+                  setGroupDetailOpen(true)
+                }}
+              >
+                <div>
+                  <AllGroupItemTagWrapper>
+                    {group.info.tag.map((tag) => (
+                      <AllGroupItemTag key={tag}>{tag}</AllGroupItemTag>
+                    ))}
+                    {isJoined(group) && (
+                      <AllGroupItemIsJoin>참여중</AllGroupItemIsJoin>
+                    )}
+                  </AllGroupItemTagWrapper>
 
-                <AllGroupItemTitle>{group.info.title}</AllGroupItemTitle>
+                  <AllGroupItemTitle>{group.info.title}</AllGroupItemTitle>
 
-                <AllGroupItemSub>
-                  <AllGroupItemSubItem>
-                    {`그룹장: ${group.info.chief.displayName}`}
-                  </AllGroupItemSubItem>
+                  <AllGroupItemSub>
+                    <AllGroupItemSubItem>
+                      {`그룹장: ${group.info.chief.displayName}`}
+                    </AllGroupItemSubItem>
 
-                  <AllGroupItemSubItem>
-                    {`인원: ${Object.keys(group.users).length}/${
-                      group.info.capacity
-                    }명`}
-                  </AllGroupItemSubItem>
-                  <AllGroupItemSubItem>{`그룹 생성일: ${new Intl.DateTimeFormat(
-                    'ko',
-                    { dateStyle: 'long' },
-                  ).format(
-                    new Date(Number(group.info.id)),
-                  )}`}</AllGroupItemSubItem>
-                </AllGroupItemSub>
-                <AllGroupItemDes>{group.info.description}</AllGroupItemDes>
-              </div>
+                    <AllGroupItemSubItem>
+                      {`인원: ${Object.keys(group.users).length}/${
+                        group.info.capacity
+                      }명`}
+                    </AllGroupItemSubItem>
+                    <AllGroupItemSubItem>{`그룹 생성일: ${new Intl.DateTimeFormat(
+                      'ko',
+                      { dateStyle: 'long' },
+                    ).format(
+                      new Date(Number(group.info.id)),
+                    )}`}</AllGroupItemSubItem>
+                  </AllGroupItemSub>
+                  <AllGroupItemDes>{group.info.description}</AllGroupItemDes>
+                </div>
 
-              <AllGroupItemTimeAgo>
-                <div>{format(group.info.id, 'ko')}</div>
-              </AllGroupItemTimeAgo>
-            </AllGroupItem>
-          ))}
+                <AllGroupItemTimeAgo>
+                  <div>{format(group.info.id, 'ko')}</div>
+                </AllGroupItemTimeAgo>
+              </AllGroupItem>
+            ))}
         </AllGroupList>
       </AllGroupSection>
 
@@ -105,6 +140,12 @@ export default GroupSearch
 
 const Container = styled.div`
   color: var(--text-color);
+`
+const Filter = styled.div``
+const Select = styled.select`
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
 `
 const AllGroupSection = styled.section``
 const AllGroupSectionTitle = styled.div`

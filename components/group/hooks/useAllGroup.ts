@@ -10,7 +10,7 @@ import { userInfo } from '../../../recoil/all-atom'
 
 export const useAllGroup = () => {
   const [user, _] = useRecoilState(userInfo)
-
+  const [filterState, setFilterState] = useState('전체')
   const [curFocus, setCurFocus] = useState('')
 
   const formRef = useRef(null)
@@ -51,6 +51,7 @@ export const useAllGroup = () => {
   const isJoined = (group: IAllGroupList) => {
     return group.users && group.users[user.email.split('.')[0]]
   }
+  const filterCondition = (val) => {}
 
   return {
     data,
@@ -63,6 +64,9 @@ export const useAllGroup = () => {
     setGroupDetailOpen,
     modalSubmitHandler,
     isJoined,
+    setFilterState,
+    filterState,
+    filterCondition,
   }
 }
 
