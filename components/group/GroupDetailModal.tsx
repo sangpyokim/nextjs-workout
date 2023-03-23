@@ -10,7 +10,6 @@ const GroupDetailModal = ({ open, setOpen, curGroup }: IGroupDetailModal) => {
   const { data, isLoading, JoinGroup, isJoined } = useGroupDetailModal(curGroup)
 
   if (isLoading) return null
-
   return (
     <FlatModal
       header={data[0][1].info.title}
@@ -37,6 +36,9 @@ const GroupDetailModal = ({ open, setOpen, curGroup }: IGroupDetailModal) => {
         <Footer>
           {isJoined(data[0][1]) ? (
             <AlreadyJoinButton>이미 참여 중 입니다</AlreadyJoinButton>
+          ) : data[0][1].info.capacity <=
+            Object.keys(data[0][1].users).length ? (
+            <AlreadyJoinButton>자리가 없습니다</AlreadyJoinButton>
           ) : (
             <JoinButton onClick={() => JoinGroup()}>참여하기</JoinButton>
           )}
