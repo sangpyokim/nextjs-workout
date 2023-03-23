@@ -1,5 +1,3 @@
-// home
-
 import { ReactElement, ReactNode } from 'react'
 
 export type TTimerState = 'ready' | 'running' | 'stop' | 'end'

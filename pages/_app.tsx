@@ -62,7 +62,3 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     </QueryClientProvider>,
   )
 }
-
-// async function initializeState({ set }: any) {
-//   const data = await getExercises().then((res) => set(exerciseDataList, res))
-// }

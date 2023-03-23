@@ -32,9 +32,25 @@ const useNewWorkOutList = () => {
   const fetchData = async () => {
     const userEmail = localStorage.getItem(TIMER_KEY.userEmail)
     const res = (await getTimerListToday(userEmail)) || []
-
+    if (res.length === 0) {
+      setDefaultItemList()
+      return res
+    }
+    // 기본 값.
     setList(res)
+    setSelectedItem(res[0])
     return res
+  }
+  const setDefaultItemList = () => {
+    const item: WorkOutListItem = {
+      id: new Date().getTime(),
+      set: 1,
+      time: '00:00:00',
+      timeNum: 0,
+      title: '타이머',
+    }
+    setList([item])
+    setSelectedItem(item)
   }
 
   const {} = useQuery(['today', 'timerList'], fetchData)
@@ -101,8 +117,13 @@ const useNewWorkOutList = () => {
     const tempArr = [...list]
     tempArr.splice(selectedUpdateItemIndex, 1)
 
-    _updateWorkOutList(tempArr)
-    setList(tempArr)
+    if (tempArr.length === 0) {
+      // setDefaultItemList()
+      alert('아이템이 한개는 존재해야합니다.')
+    } else {
+      _updateWorkOutList(tempArr)
+      setList(tempArr)
+    }
     setSettingOpen(false)
   }
   const onClickAddButton = () => {
