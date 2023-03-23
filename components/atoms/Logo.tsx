@@ -56,5 +56,6 @@ const WrapImage = styled(MenuOutlined)`
 `
 const LogoImage = styled(Image)`
   width: 9rem;
+  height: 45px;
   color: var(--header-text-color);
 `
