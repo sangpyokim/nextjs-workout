@@ -161,7 +161,7 @@ const FormItem = styled.div`
   margin-bottom: 12px;
 `
 const Label = styled.label`
-  color: #252525;
+  color: var(--text-color);
   font-weight: 400;
   font-size: ${(props) => props.theme.fontSize.font_base};
   line-height: ${(props) => props.theme.lineHeight.font_base};

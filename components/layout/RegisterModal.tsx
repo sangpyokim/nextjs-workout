@@ -25,7 +25,7 @@ const FormItem = styled.div`
   margin-bottom: 12px;
 `
 const Label = styled.label`
-  color: #252525;
+  color: var(--text-color);
   font-weight: 400;
   font-size: 14px;
 `
