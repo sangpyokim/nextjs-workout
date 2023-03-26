@@ -27,18 +27,14 @@ export const useAuth = () => {
     localStorage.removeItem(TIMER_KEY.userEmail)
     _setLocalStorage(TIMER_KEY.timerSetting, INITIAL_VALUE.settings.timer)
     modalClose(false)
-    await router.push('/')
+    if (router.pathname === '/') router.reload()
+    else await router.push('/')
   }
   const _setLocalStorage = (key: string, val: any) => {
     const value = JSON.stringify(val)
     localStorage.setItem(key, value)
   }
   const googleLogIn = async () => {
-    // setImageState(Pressed)
-    // if (isPlatformPC()) {
-    // } else {
-    //   mobileLogIn()
-    // }
     await pcLogIn()
     await router.push('/')
   }
@@ -55,7 +51,8 @@ export const useAuth = () => {
         // Signed in
         const user = userCredential.user
         // ...
-        router.push('/')
+        if (router.pathname === '/') router.reload()
+        else router.push('/')
       })
       .catch((error) => {
         const errorCode = error.code

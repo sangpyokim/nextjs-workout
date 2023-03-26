@@ -57,6 +57,7 @@ export const GlobalStyle = createGlobalStyle`
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
     /* 아이폰 터치 하이라이트 제거 */
     -webkit-tap-highlight-color: transparent;
 

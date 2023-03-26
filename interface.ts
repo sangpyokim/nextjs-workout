@@ -92,10 +92,7 @@ export interface chat {
 }
 export interface chatContent {
   id: number
-  writer: {
-    email: string
-    displayName: string
-  }
+  writer: IMember
   content: string
   type: string
 }

@@ -28,7 +28,7 @@ const colors = {
   gray: '#303030',
   gray_white: '#626262',
   gray_background: '#f5f5f5',
-  red: '#f5222d',
+  red: '#ff4d4f',
 }
 const deviceSizes = {
   mobile: '767px',

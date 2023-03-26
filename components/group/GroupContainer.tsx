@@ -8,6 +8,7 @@ import useGroupDetail from './hooks/useGroupDetail'
 const GroupContainer = ({ children }: IGroupContainer) => {
   const router = useRouter()
   const { data } = useGroupDetail()
+
   return (
     <Container>
       <Header>
@@ -37,9 +38,15 @@ const GroupContainer = ({ children }: IGroupContainer) => {
               채팅
             </Links>
           </Link>
+          {
+            <Link href={`/group/manage/${router.query.id}`}>
+              <Links isHere={router.pathname.split('/').includes('manage')}>
+                관리
+              </Links>
+            </Link>
+          }
         </SubNav>
       </Header>
-
       {children}
     </Container>
   )

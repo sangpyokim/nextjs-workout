@@ -1,7 +1,5 @@
 import { BulbOutlined } from '@ant-design/icons'
 import { GetServerSideProps } from 'next'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React from 'react'
 import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
@@ -29,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const _ = () => {
+const Detail = () => {
   const { data, userData, onClickProfile, isUseToday } = useGroupDetail()
 
   return (
@@ -55,7 +53,7 @@ const _ = () => {
   )
 }
 
-export default _
+export default Detail
 
 const Body = styled.div`
   width: 100%;

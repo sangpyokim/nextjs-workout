@@ -220,3 +220,27 @@ export const postChat = async (groupId: string, data: any) => {
     data: data,
   })
 }
+
+interface IType {
+  groupID: string
+  email: string
+}
+export const deleteGroupMember = async (type: IType) => {
+  let groupData = await getGroup([type.groupID])
+  let userData = groupData[0][1].users
+
+  delete userData[type.email]
+
+  await updateGroupMember(type.groupID, userData)
+  // 유저 그룹데이터도 변경
+  const res = await axios.get(getUserInfoUrl(type.email))
+  const myGroup = await res.data.groups
+  delete myGroup[type.groupID]
+}
+
+const updateGroupMember = async (groupId: string, data: any) => {
+  const fn = getUrl('groups')
+  const url = fn.getGroupMember!(groupId)
+
+  await axios.put(url, data)
+}
