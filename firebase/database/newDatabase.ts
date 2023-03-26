@@ -224,7 +224,9 @@ export const postChat = async (groupId: string, data: any) => {
 interface IType {
   groupID: string
   email: string
+  displayName?: string
 }
+
 export const deleteGroupMember = async (type: IType) => {
   let groupData = await getGroup([type.groupID])
   let userData = groupData[0][1].users
@@ -234,8 +236,9 @@ export const deleteGroupMember = async (type: IType) => {
   await updateGroupMember(type.groupID, userData)
   // 유저 그룹데이터도 변경
   const res = await axios.get(getUserInfoUrl(type.email))
-  const myGroup = await res.data.groups
+  let myGroup = await res.data.groups
   delete myGroup[type.groupID]
+  await updateUser(type.email, myGroup)
 }
 
 const updateGroupMember = async (groupId: string, data: any) => {
@@ -243,4 +246,24 @@ const updateGroupMember = async (groupId: string, data: any) => {
   const url = fn.getGroupMember!(groupId)
 
   await axios.put(url, data)
+}
+const updateUser = async (userId: string, data: any) => {
+  const fn = getUrl('groups')
+  const url = fn.getMyGroup!(userId)
+
+  await axios.put(url, data)
+}
+
+export const updateGroupChief = async (type: IType) => {
+  let groupData = await getGroup([type.groupID])
+  let userData = groupData[0][1].info.chief
+  userData.displayName = type.displayName
+  userData.email = type.email
+
+  groupData[0][1].info.chief = userData
+
+  const fn = getUrl('groups')
+  const url = fn.getGroup!(type.groupID)
+
+  await axios.put(url, groupData[0][1])
 }

@@ -44,7 +44,6 @@ const Manage = () => {
     deleteHovered,
   } = useManage()
 
-  console.log(groupData)
   return (
     <GroupContainer>
       <Body>
@@ -60,7 +59,11 @@ const Manage = () => {
             id="chief"
             onDragOver={handleDragOver}
             onDragStart={(e) =>
-              handleDragStart(e, groupData[0][1].info.chief.email)
+              handleDragStart(
+                e,
+                groupData[0][1].info.chief.email,
+                groupData[0][1].info.chief.displayName,
+              )
             }
           >
             <UserImage>
@@ -90,7 +93,9 @@ const Manage = () => {
               <User
                 key={i}
                 draggable
-                onDragStart={(e) => handleDragStart(e, user.newUserEmail)}
+                onDragStart={(e) =>
+                  handleDragStart(e, user.newUserEmail, user.displayName)
+                }
               >
                 <UserImage>
                   <BulbOutlined />

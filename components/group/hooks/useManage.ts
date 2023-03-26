@@ -6,6 +6,7 @@ import {
   deleteGroupMember,
   getGroup,
   getGroupUsersData,
+  updateGroupChief,
 } from '../../../firebase/database/newDatabase'
 import { chatContent } from '../../../interface'
 import { userInfo } from '../../../recoil/all-atom'
@@ -47,12 +48,8 @@ const useManage = () => {
     },
   )
 
-  interface IType {
-    groupID: string
-    email: string
-  }
-
   const deleteUserMutate = useMutation(deleteGroupMember)
+  const updateChiefMutate = useMutation(updateGroupChief)
 
   useEffect(() => {
     if (!user.email) return
@@ -65,11 +62,17 @@ const useManage = () => {
     return () => {}
   }, [user])
 
-  const changeChief = async (userInfo: string) => {
-    if (isChief(userInfo, groupData)) return
+  const changeChief = async (email: string, displayName: string) => {
+    if (isChief(email, groupData)) return
 
     // 그룹장 변경
+    updateChiefMutate.mutate({
+      email: email,
+      groupID: groupData[0][0],
+      displayName,
+    })
   }
+
   const deleteUser = async (userInfo: string) => {
     if (isChief(userInfo, groupData))
       return alert('그룹장은 강퇴할 수 없습니다.')
@@ -95,16 +98,22 @@ const useManage = () => {
 
   const handleDrop = (e: any) => {
     e.preventDefault()
-    const email = e.dataTransfer.getData('index')
+    const email = e.dataTransfer.getData('email')
+    const displayName = e.dataTransfer.getData('displayName')
     if (e.target.id === 'delete') {
-      console.log('delete', email)
       setDeleteHovered(false)
-      deleteUser(email)
+      deleteUser(email).then(() => {
+        alert('삭제되었습니다.')
+        router.reload()
+      })
       // 삭제
     }
     if (e.target.id === 'chief') {
-      console.log('chief', email)
       setChiefHovered(false)
+      changeChief(email, displayName).then(() => {
+        alert('변경되었습니다.')
+        router.reload()
+      })
       // 삭제
     }
   }
@@ -117,8 +126,13 @@ const useManage = () => {
     setChiefHovered(false)
   }
 
-  const handleDragStart = (e: React.DragEvent, item: string) => {
-    e.dataTransfer.setData('index', item)
+  const handleDragStart = (
+    e: React.DragEvent,
+    email: string,
+    displayName: string,
+  ) => {
+    e.dataTransfer.setData('email', email)
+    e.dataTransfer.setData('displayName', displayName)
   }
 
   return {
