@@ -110,7 +110,7 @@ const useManage = () => {
     }
     if (e.target.id === 'chief') {
       setChiefHovered(false)
-      changeChief(email, displayName).then(() => {
+      changeChief(email, displayName + 'com').then(() => {
         alert('변경되었습니다.')
         router.reload()
       })
