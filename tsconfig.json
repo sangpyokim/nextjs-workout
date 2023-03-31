@@ -20,7 +20,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "workers/flatTimerSetTimeout.js"
+    "workers/flatTimerSetTimeout.js",
+    "pages/api/notification.js"
   ],
   "exclude": ["node_modules"]
 }

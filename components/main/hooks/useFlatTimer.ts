@@ -89,8 +89,6 @@ export const useFlatTimer = () => {
   }
 
   const _start = async () => {
-    // ls 값이 무조껀있음
-    // 동작을 뒤로 미루기
     setTimeout(() => {
       const settings = getTimerSettingValueInLocalStorage(
         TIMER_KEY.timerSetting,

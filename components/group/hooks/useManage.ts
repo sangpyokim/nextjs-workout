@@ -39,14 +39,6 @@ const useManage = () => {
       refetchOnReconnect: false,
     },
   )
-  const { data: userData = [] } = useQuery(
-    ['group', 'usersData', router.query.id],
-    () => getGroupUsersData(String(router.query.id!)),
-    {
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-    },
-  )
 
   const deleteUserMutate = useMutation(deleteGroupMember)
   const updateChiefMutate = useMutation(updateGroupChief)
@@ -110,7 +102,7 @@ const useManage = () => {
     }
     if (e.target.id === 'chief') {
       setChiefHovered(false)
-      changeChief(email, displayName + 'com').then(() => {
+      changeChief(email + '.com', displayName).then(() => {
         alert('변경되었습니다.')
         router.reload()
       })
@@ -137,7 +129,6 @@ const useManage = () => {
 
   return {
     groupData,
-    userData,
     changeChief,
     deleteUser,
     handleDragStart,

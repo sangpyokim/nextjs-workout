@@ -15,10 +15,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await queryClient.prefetchQuery(['group', 'detail', context.query.id], () =>
     getGroup([String(context.query.id!)]),
   )
-  await queryClient.prefetchQuery(
-    ['group', 'usersData', context.query.id],
-    () => getGroupUsersData(String(context.query.id!)),
-  )
 
   return {
     props: {
@@ -32,7 +28,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Manage = () => {
   const {
     groupData,
-    userData,
     changeChief,
     deleteUser,
     handleDragStart,
