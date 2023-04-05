@@ -29,6 +29,13 @@
 
 ### 배포 현황
 
+|     플랫폼     |        진행상황         |   링크  |
+| :----------: | :-----------------: | :-----: |
+|  <img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/vercel.svg?alt=media&token=011fea83-5bd4-4fcf-b14b-b36f52d94c95" width="25px" />     |      <img src="https://img.shields.io/badge/배포중-00b336?style=flat" />       | |
+|   <img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/android.svg?alt=media&token=6387ce48-96be-4010-9ed7-9c71c5c581cd" width="25px" />   | <img src="https://img.shields.io/badge/배포중-00b336?style=flat" /> | |
+
+
+
 <img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/vercel.svg?alt=media&token=011fea83-5bd4-4fcf-b14b-b36f52d94c95" width="25px" />  
 <img src="https://img.shields.io/badge/배포중-00b336?style=flat" />
 
