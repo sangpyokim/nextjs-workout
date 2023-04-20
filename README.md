@@ -29,14 +29,12 @@
 
 ### 배포 현황
 
-<img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/vercel.svg?alt=media&token=011fea83-5bd4-4fcf-b14b-b36f52d94c95" width="25px" />  
-<img src="https://img.shields.io/badge/배포중-00b336?style=flat" />
+|     플랫폼     |        진행상황         |   링크  |
+| :----------: | :-----------------: | :-----: |
+|  <img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/vercel.svg?alt=media&token=011fea83-5bd4-4fcf-b14b-b36f52d94c95" width="25px" />     |      <img src="https://img.shields.io/badge/배포중-00b336?style=flat" />       | [웹페이지](https://nextjs-workout.vercel.app/) |
+|   <img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/android.svg?alt=media&token=6387ce48-96be-4010-9ed7-9c71c5c581cd" width="25px" />   | <img src="https://img.shields.io/badge/배포중-00b336?style=flat" /> | [플레이스토어](https://play.google.com/store/apps/details?id=app.vercel.nextjs_workout.twa) |
 
-<img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/android.svg?alt=media&token=6387ce48-96be-4010-9ed7-9c71c5c581cd" width="25px" />
-<img src="https://img.shields.io/badge/검토중-aeaeae?style=flat" />
 
-웹 사이트 링크: Work Out | [https://nextjs-workout.vercel.app/](https://nextjs-workout.vercel.app/) <br/>
-플레이스토어 링크 : 다 모임 | 검토중. <br/>
 깃허브 위키: [workout 위키](https://github.com/sangpyokim/nextjs-workout/wiki)
 
 <br />
