@@ -1,5 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApp, getApps } from 'firebase/app'
+import {
+  Messaging,
+  getMessaging,
+  getToken,
+  isSupported,
+  onMessage,
+} from 'firebase/messaging'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,3 +24,31 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
+
+// const messaging = getMessaging(app)
+
+const key =
+  'BAyqwt3M2ODBribS4kpMTaKEhgHAv3udhNanPdIBrff82Gd419NTyqbVMp8nUIKWpyVnQ-3t8kYSIBlhEnyuzSo'
+
+export const getTokens = (messaging: Messaging) => {
+  return getToken(messaging, { vapidKey: key })
+    .then((currentToken) => {
+      if (currentToken) {
+        return currentToken
+      } else {
+        console.log(
+          'No registration token available. Request permission to generate one.',
+        )
+      }
+    })
+    .catch((err) => {
+      console.log('An error occurred while retrieving token. ', err)
+    })
+}
+
+export const onMessageListener = (messaging: Messaging) =>
+  new Promise((resolve) => {
+    onMessage(messaging, (payload) => {
+      resolve(payload)
+    })
+  })

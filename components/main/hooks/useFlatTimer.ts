@@ -3,6 +3,7 @@ import {
   ASelectedWorkOutListItem,
   AWorkOutList,
   userInfo,
+  ATimerState,
 } from '../../../recoil/all-atom'
 import { useEffect, useRef, useState } from 'react'
 import { TIMER_KEY } from '../../../localstorage/Constants'
@@ -11,7 +12,6 @@ import {
   updateTimerSettingValueInLocalStorage,
 } from '../../../localstorage/LocalStorage'
 import { useRecoilState } from 'recoil'
-import { ATimerState } from '../../../recoil/all-atom'
 import { convertTimer } from '../../../utils/time'
 import {
   pushWorkOutItemInTimeLine,
@@ -25,6 +25,9 @@ import {
   TTimerState,
   WorkOutListItem,
 } from '../../../interface'
+import TimerObserver from '../../../observer/TimerObserver'
+
+TimerObserver.subscribe((a: string) => console.log(a))
 
 export const useFlatTimer = () => {
   const [user, setUser] = useRecoilState(userInfo)
@@ -314,6 +317,7 @@ export const useFlatTimer = () => {
       if (timerState === 'running') {
         _countDown()
       }
+      TimerObserver.notify(timerState)
     }
     return () => worker.terminate()
   })

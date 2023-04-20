@@ -21,7 +21,8 @@
     "**/*.ts",
     "**/*.tsx",
     "workers/flatTimerSetTimeout.js",
-    "pages/api/notification.js"
+    "pages/api/notification.js",
+    "public/firebase-messaging-sw.js"
   ],
   "exclude": ["node_modules"]
 }

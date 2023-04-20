@@ -42,6 +42,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       registInit()
     }
+
+    // firebase init
   }, [])
 
   return getLayout(

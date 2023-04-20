@@ -9,6 +9,13 @@ const GroupContainer = ({ children }: IGroupContainer) => {
   const router = useRouter()
   const { data } = useGroupDetail()
 
+  const clickHandler = () => {
+    fetch('/api/push', {
+      method: 'POST',
+      body: JSON.stringify(' '),
+    })
+  }
+
   return (
     <Container>
       <Header>
@@ -25,6 +32,7 @@ const GroupContainer = ({ children }: IGroupContainer) => {
           <div>{`그룹 생성일: ${new Intl.DateTimeFormat('ko', {
             dateStyle: 'full',
           }).format(new Date(Number(data[0][1].info.id)))}`}</div>
+          <Alert onClick={clickHandler}>깨우기</Alert>
         </Info>
 
         <SubNav>
@@ -56,6 +64,7 @@ export default GroupContainer
 
 const Container = styled.div`
   width: 100%;
+  position: relative;
 `
 const Header = styled.header``
 const Title = styled.div`
@@ -67,6 +76,14 @@ const Title = styled.div`
   font-size: 1.7rem;
   font-weight: 500;
   margin-bottom: 8px;
+`
+const Alert = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 14px;
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  cursor: pointer;
 `
 const SubNav = styled.div`
   display: flex;
@@ -83,7 +100,6 @@ const Links = styled.div<{ isHere: boolean }>`
   color: ${(props) =>
     props.isHere ? 'var(--text-color)' : 'var(--text-sub-color)'};
 `
-
 const Info = styled.div`
   display: flex;
   flex-direction: column;
