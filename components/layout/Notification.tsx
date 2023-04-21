@@ -6,7 +6,8 @@ import styled from 'styled-components'
 const TIME = 2000
 
 const Notification = () => {
-  const [key, setKey] = useState(1)
+  const [prevTime, setPrevTime] = useState(0)
+
   const [isNotification, setIsNotification] = useState(false)
   const [notification, setNotification] = useState<any>()
 
@@ -16,6 +17,9 @@ const Notification = () => {
 
     onMessageListener(messaging)
       .then(async (payload: any) => {
+        const cur = new Date().getTime()
+        if (cur - prevTime < TIME) return
+
         setNotification(payload.notification)
 
         setIsNotification(true)
@@ -23,10 +27,10 @@ const Notification = () => {
           setIsNotification(false)
         }, TIME)
 
-        setKey(key + 1)
+        setPrevTime(cur)
       })
       .catch((err) => console.log('failed: ', err))
-  }, [key])
+  }, [prevTime])
 
   if (!isNotification) return <></>
 

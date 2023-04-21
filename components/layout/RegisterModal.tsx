@@ -86,6 +86,7 @@ const RegisterModal = ({ open, setOpen }: IRegisterModal) => {
                 autoComplete=""
                 name="name"
                 pattern="^[가-힣a-zA-Z]{0, 5}+$" //
+                placeholder="한글 5자 이내로 입력해주세요."
                 required
               />
             </div>
@@ -101,6 +102,7 @@ const RegisterModal = ({ open, setOpen }: IRegisterModal) => {
                 autoComplete=""
                 name="userFormItem"
                 pattern={'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'} // 이메일
+                placeholder="이메일 형식으로 입력해주세요."
                 required
               />
             </div>
@@ -116,6 +118,7 @@ const RegisterModal = ({ open, setOpen }: IRegisterModal) => {
                 autoComplete=""
                 name="user-password"
                 pattern="^[a-z0-9_-]{6,18}$" // 단순 6~18자리
+                placeholder="6 ~ 18자리로 입력해주세요."
                 required
               />
             </div>

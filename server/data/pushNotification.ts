@@ -19,6 +19,4 @@ export async function pushUser(token: string, title: string, body: string) {
       },
     }),
   })
-    .then((res) => console.log('완료'))
-    .catch((err) => console.log('err:'))
 }

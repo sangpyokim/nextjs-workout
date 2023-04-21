@@ -87,6 +87,7 @@ const HeaderLogIn = ({
                   autoComplete=""
                   name="userFormItem"
                   pattern={'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'} // 숫자 + 영문 만
+                  placeholder="이메일 형식으로 입력해주세요."
                   required
                 />
               </div>
@@ -102,6 +103,7 @@ const HeaderLogIn = ({
                   autoComplete=""
                   name="password"
                   pattern="^[a-z0-9_-]{6,18}$" // 단순 6~18자리
+                  placeholder="6 ~ 18자리로 입력해주세요."
                   required
                 />
               </div>

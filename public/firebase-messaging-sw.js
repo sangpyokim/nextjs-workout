@@ -17,8 +17,14 @@ firebase.initializeApp(firebaseConfig)
 
 // Retrieve firebase messaging
 const messaging = firebase.messaging()
+let prevTime = 0
+const TIME = 10000
 
 messaging.onBackgroundMessage(function (payload) {
+  const cur = new Date().getTime()
+  if (cur - prevTime < TIME) return
+  prevTime = cur
+
   console.log('Received background message ', payload)
 
   const notificationTitle = payload.notification.title

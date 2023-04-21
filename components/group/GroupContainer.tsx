@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { IGroupContainer } from '../../interface'
 import useGroupDetail from './hooks/useGroupDetail'
@@ -9,12 +9,12 @@ const GroupContainer = ({ children }: IGroupContainer) => {
   const router = useRouter()
   const { data } = useGroupDetail()
 
-  const clickHandler = () => {
+  const clickHandler = useCallback(() => {
     fetch('/api/push', {
       method: 'POST',
       body: JSON.stringify(' '),
     })
-  }
+  }, [])
 
   return (
     <Container>
