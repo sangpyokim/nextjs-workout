@@ -12,7 +12,7 @@ const GroupContainer = ({ children }: IGroupContainer) => {
   const clickHandler = useCallback(() => {
     fetch('/api/push', {
       method: 'POST',
-      body: JSON.stringify(' '),
+      body: JSON.stringify(Object.keys(data[0][1].users)),
     })
   }, [])
 
