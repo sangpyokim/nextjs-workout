@@ -46,11 +46,6 @@ const useManage = () => {
   useEffect(() => {
     if (!user.email) return
 
-    if (!isChief(user.email, groupData)) {
-      alert('그룹장만 접근할 수 있습니다.')
-      router.back()
-    }
-
     return () => {}
   }, [user])
 

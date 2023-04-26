@@ -12,12 +12,17 @@ import {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(['group', 'detail', context.query.id], () =>
-    getGroup([String(context.query.id!)]),
+
+  const groupData = await getGroup([String(context.query.id!)])
+  const groupUserData = await getGroupUsersData(String(context.query.id!))
+
+  await queryClient.prefetchQuery(
+    ['group', 'detail', context.query.id],
+    () => groupData,
   )
   await queryClient.prefetchQuery(
     ['group', 'usersData', context.query.id],
-    () => getGroupUsersData(String(context.query.id!)),
+    () => groupUserData,
   )
 
   return {
@@ -27,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const Detail = () => {
+const Detail = (context: any) => {
   const { data, userData, onClickProfile, isUseToday } = useGroupDetail()
 
   return (

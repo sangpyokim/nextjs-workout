@@ -10,26 +10,44 @@ import {
   getGroupUsersData,
 } from '../../../firebase/database/newDatabase'
 
+import nookies from 'nookies'
+import { admin } from '../../../firebaseAdmin'
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const groupData = await getGroup([String(context.query.id!)])
+
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(['group', 'detail', context.query.id], () =>
-    getGroup([String(context.query.id!)]),
+
+  await queryClient.prefetchQuery(
+    ['group', 'detail', context.query.id],
+    () => groupData,
   )
 
-  return {
-    props: {
-      dehydratedProps: dehydrate(queryClient),
-    },
+  try {
+    const cookies = nookies.get(context)
+    const idToken = await admin.auth().verifyIdToken(cookies.idToken)
+    return {
+      props: {
+        dehydratedProps: dehydrate(queryClient),
+        isVal: idToken.email === groupData[0][1].info.chief.email,
+      },
+    }
+  } catch (error) {
+    // 토큰 만료시
+    return {
+      props: {
+        dehydratedProps: dehydrate(queryClient),
+        isVal: false,
+      },
+    }
   }
 }
 // 그룹장변경, 유저 강퇴 -> 드래그 앤 드랍 연습
 // 그룹장 존, 유저 존 구분
 // 수정, 삭제
-const Manage = () => {
+const Manage = (context: any) => {
   const {
     groupData,
-    changeChief,
-    deleteUser,
     handleDragStart,
     handleDrop,
     handleDragOver,
@@ -39,6 +57,13 @@ const Manage = () => {
     deleteHovered,
   } = useManage()
 
+  if (!context.isVal) {
+    return (
+      <GroupContainer>
+        <Body>관리자만 접근할 수 있습니다.</Body>
+      </GroupContainer>
+    )
+  }
   return (
     <GroupContainer>
       <Body>

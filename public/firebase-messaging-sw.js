@@ -18,7 +18,7 @@ firebase.initializeApp(firebaseConfig)
 // Retrieve firebase messaging
 const messaging = firebase.messaging()
 let prevTime = 0
-const TIME = 10000
+const TIME = 2000
 
 messaging.onBackgroundMessage(function (payload) {
   const cur = new Date().getTime()
