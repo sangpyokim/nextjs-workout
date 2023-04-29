@@ -12,26 +12,24 @@ const GroupContainer = ({ children }: IGroupContainer) => {
   const clickHandler = useCallback(() => {
     fetch('/api/push', {
       method: 'POST',
-      body: JSON.stringify(Object.keys(data[0][1].users)),
+      body: JSON.stringify(Object.keys(data.users)),
     })
   }, [])
 
   return (
     <Container>
       <Header>
-        <Title>{data[0][1].info.title}</Title>
+        <Title>{data.info.title}</Title>
 
         <Info>
-          <div>카테고리: {data[0][1].info.tag[0]}</div>
-          <div>그룹장: {data[0][1].info.chief.displayName}</div>
+          <div>카테고리: {data.info.tag[0]}</div>
+          <div>그룹장: {data.info.chief.displayName}</div>
           <div>
-            {`인원: ${Object.keys(data[0][1].users).length}/${
-              data[0][1].info.capacity
-            }명`}
+            {`인원: ${Object.keys(data.users).length}/${data.info.capacity}명`}
           </div>
           <div>{`그룹 생성일: ${new Intl.DateTimeFormat('ko', {
             dateStyle: 'full',
-          }).format(new Date(Number(data[0][1].info.id)))}`}</div>
+          }).format(new Date(Number(data.info.id)))}`}</div>
           <Alert onClick={clickHandler}>깨우기</Alert>
         </Info>
 

@@ -9,6 +9,8 @@ import {
 import { chatContent } from '../../../interface'
 import { useCallback } from 'react'
 import { userInfo } from '../../../recoil/all-atom'
+import { getGroupService } from '../../../server/service/groupService'
+import axios from 'axios'
 
 const useGroupDetail = () => {
   const router = useRouter()
@@ -18,29 +20,28 @@ const useGroupDetail = () => {
   const { data = [], refetch } = useQuery(
     ['group', 'detail', router.query.id],
     async () => {
-      const res = await getGroup([String(router.query.id!)])
-      const chats = Object.entries<chatContent>(res[0][1].chats.chat).sort(
-        (a, b) => {
-          if (a[0] < b[0]) return 1
-          if (b[0] < a[0]) return -1
-          return 0
-        },
-      )
-      res[0][1].chats.chat = chats
-      return res
+      const res = await axios(`/api/group/${router.query.id}`)
+      const data = res.data
+      return data.groupData
     },
     {
       enabled: user.email.length !== 0,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      staleTime: 10 * 1000,
     },
   )
   const { data: userData = [] } = useQuery(
     ['group', 'usersData', router.query.id],
-    () => getGroupUsersData(String(router.query.id!)),
+    async () => {
+      const res = await axios(`/api/group/${router.query.id}`)
+      const data = res.data
+      return data.userData
+    },
     {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      staleTime: 10 * 1000,
     },
   )
 
@@ -69,7 +70,6 @@ const useGroupDetail = () => {
 
   const onSubmitHandler = useCallback(async (value: string) => {
     if (value.length === 0) return
-
     const data = {
       id: new Date().getTime(),
       type: 'text',

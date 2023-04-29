@@ -36,7 +36,6 @@ export const useAuthInit = () => {
         const idToken = await user.getIdToken()
         nookies.destroy(null, 'idToken')
         nookies.set(null, 'idToken', idToken, { path: '/' })
-
         // FCM 푸시알람
         // 로그인 시 토큰 가져오기
         const messaging = getMessaging(app)
@@ -44,7 +43,7 @@ export const useAuthInit = () => {
         // 토큰 서버에 저장 // post, api/push, token
         const data = {
           email: user.email,
-          pushToken,
+          token: pushToken,
         }
 
         fetch(`/api/pushtoken/${user.email?.split('.')[0]}`, {

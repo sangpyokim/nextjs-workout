@@ -1,9 +1,10 @@
 import { atom } from 'recoil'
 import { TTimerState, WorkOutListItem } from '../interface'
 import { atomKeys } from './constants'
+import { v1 } from 'uuid'
 
 export const ATimerState = atom<TTimerState>({
-  key: atomKeys.timerState,
+  key: `${atomKeys.timerState}/${v1()}`,
   default: 'ready',
 })
 

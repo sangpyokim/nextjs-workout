@@ -1,12 +1,17 @@
-import { getAllGroup } from '../../../firebase/database/newDatabase'
 import { useQuery } from 'react-query'
 import React, { useRef, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { createGroup } from '../../../firebase/database/newDatabase'
 import { useFlatModal } from '../../main/hooks/useFlatModal'
 import { useModal } from '../../main/hooks/useModal'
-import { IAllGroupList, ICreateGroup } from '../../../interface'
+import { IAllGroupList } from '../../../interface'
 import { userInfo } from '../../../recoil/all-atom'
+import axios from 'axios'
+
+const getAllGroup = async () => {
+  const res = await axios('/api/group')
+  const data: [string, IAllGroupList][] = res.data
+  return data
+}
 
 export const useAllGroup = () => {
   const [user, _] = useRecoilState(userInfo)
@@ -22,6 +27,7 @@ export const useAllGroup = () => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   })
+
   const modalSubmitHandler = async () => {
     const formData = new FormData(formRef.current!)
     const data = Object.fromEntries(formData)
@@ -32,16 +38,13 @@ export const useAllGroup = () => {
       return
     }
 
-    const createGroupData: ICreateGroup = {
-      id: new Date().getTime().toString(),
-      capacity: Number(data.capacity),
-      chief: user,
-      tag: [String(data.tag)],
-      title: String(data.title),
-      description: String(data.description),
+    const postData = {
+      email: user.email,
+      displayName: user.displayName,
+      data,
     }
-    // data post
-    await createGroup(user.email, user.displayName, createGroupData)
+
+    await axios.post('/api/group', postData)
 
     setOpen(false)
     window.alert('모임 등록이 완료되었습니다.')

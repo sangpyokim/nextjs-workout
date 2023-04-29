@@ -1,45 +1,44 @@
 import { BulbOutlined } from '@ant-design/icons'
 import { GetServerSideProps } from 'next'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
 import GroupContainer from '../../../components/group/GroupContainer'
 import useGroupDetail from '../../../components/group/hooks/useGroupDetail'
-import {
-  getGroup,
-  getGroupUsersData,
-} from '../../../firebase/database/newDatabase'
+import { getGroupAndUserDataService } from '../../../server/service/groupService'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient()
 
-  const groupData = await getGroup([String(context.query.id!)])
-  const groupUserData = await getGroupUsersData(String(context.query.id!))
+  const data = await getGroupAndUserDataService(String(context.query.id!))
 
   await queryClient.prefetchQuery(
     ['group', 'detail', context.query.id],
-    () => groupData,
+    () => data.groupData,
   )
   await queryClient.prefetchQuery(
     ['group', 'usersData', context.query.id],
-    () => groupUserData,
+    () => data.userData,
   )
 
   return {
     props: {
       dehydratedProps: dehydrate(queryClient),
+      groupData: data.groupData,
+      userData: data.userData,
     },
   }
 }
 
 const Detail = (context: any) => {
-  const { data, userData, onClickProfile, isUseToday } = useGroupDetail()
+  const { onClickProfile, isUseToday } = useGroupDetail()
+  const { groupData, userData } = context
 
   return (
     <GroupContainer>
       <Body>
         <Users>
-          {Object.values(data[0][1].users).map((user: any, i: number) => (
+          {Object.values(groupData.users).map((user: any, i: number) => (
             <User
               key={i}
               onClick={() => onClickProfile(userData[i][0])}

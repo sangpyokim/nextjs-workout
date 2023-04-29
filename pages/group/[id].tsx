@@ -1,6 +1,6 @@
 import { MessageFilled } from '@ant-design/icons'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { useMyGroup } from '../../components/group/hooks/useMyGroup'
