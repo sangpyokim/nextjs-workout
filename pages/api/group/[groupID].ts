@@ -1,10 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {
-  createGroupService,
-  getAllGroupService,
-  getGroupAndUserDataService,
-  getGroupService,
-} from '../../../server/service/groupService'
+import { getGroupAndUserDataService } from '../../../server/service/groupService'
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,7 +9,6 @@ export default async function handler(
   if (req.method === 'GET') {
     const { groupID } = req.query
     const data = await getGroupAndUserDataService(String(groupID))
-    console.log(data)
     return res.status(201).json(data)
   }
 }

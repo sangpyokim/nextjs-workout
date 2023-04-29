@@ -32,24 +32,22 @@ const Calender = ({
         <CalenderSkeleton />
       ) : (
         <Grid>
-          {calender.map((arr, i) => (
-            <Rows key={i}>
-              {arr.map((item, j) => (
-                <Item
-                  key={j}
-                  onClick={() => setSelectedDate(item)}
-                  thisMonth={item.thisMonth}
-                  isData={!!item.data && item.data.length > 0}
-                  isFocus={
-                    item.day === selectedDate?.day &&
-                    item.month === selectedDate?.month
-                  }
-                >
-                  <ItemDate isToday={item.isToday}>{item.day}</ItemDate>
-                </Item>
-              ))}
-            </Rows>
-          ))}
+          {calender.map((arr, i) =>
+            arr.map((item, j) => (
+              <Item
+                key={j}
+                onClick={() => setSelectedDate(item)}
+                thisMonth={item.thisMonth}
+                isData={!!item.data && item.data.length > 0}
+                isFocus={
+                  item.day === selectedDate?.day &&
+                  item.month === selectedDate?.month
+                }
+              >
+                <ItemDate isToday={item.isToday}>{item.day}</ItemDate>
+              </Item>
+            )),
+          )}
         </Grid>
       )}
     </Container>
@@ -70,15 +68,16 @@ const Container = styled.div`
 const Grid = styled.div`
   width: 100%;
   display: grid;
+  grid-template-columns: repeat(7, 1fr);
 `
 const Date = styled.div`
   width: 100%;
-  height: 2rem;
   display: flex;
   justify-content: space-evenly;
 `
 const DateItem = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,17 +85,13 @@ const DateItem = styled.div`
   line-height: ${(props) => props.theme.lineHeight.font_sm};
   font-weight: 500;
 `
-const Rows = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-`
 const Item = styled.div<{
   thisMonth: boolean
   isData: boolean
   isFocus: boolean
 }>`
   width: 100%;
-  height: 8rem;
+  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,9 +110,6 @@ const Item = styled.div<{
   border-radius: 2px;
   &:hover {
     cursor: pointer;
-  }
-  @media ${(props) => props.theme.breakPoint.mobile} {
-    height: 4rem;
   }
 `
 
