@@ -4,13 +4,11 @@ import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 import {
   deleteGroupMember,
-  getGroup,
-  getGroupUsersData,
   updateGroupChief,
 } from '../../../firebase/database/newDatabase'
-import { chatContent } from '../../../interface'
+
 import { userInfo } from '../../../recoil/all-atom'
-import { IMember, IPostGroup } from '../../../interface'
+import { IPostGroup } from '../../../interface'
 import axios from 'axios'
 
 const useManage = () => {
@@ -22,21 +20,15 @@ const useManage = () => {
   const { data: groupData = [], refetch } = useQuery(
     ['group', 'detail', router.query.id],
     async () => {
-      const res = await getGroup([String(router.query.id!)])
-      const chats = Object.entries<chatContent>(res[0][1].chats.chat).sort(
-        (a, b) => {
-          if (a[0] < b[0]) return 1
-          if (b[0] < a[0]) return -1
-          return 0
-        },
-      )
-      res[0][1].chats.chat = chats
-      return res
+      const res = await axios(`/api/group/${router.query.id}`)
+      const data = res.data
+      return data.groupData
     },
     {
       enabled: user.email.length !== 0,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      staleTime: 10 * 1000,
     },
   )
 

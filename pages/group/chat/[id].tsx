@@ -5,96 +5,101 @@ import styled from 'styled-components'
 import GroupContainer from '../../../components/group/GroupContainer'
 import useGroupDetail from '../../../components/group/hooks/useGroupDetail'
 import TextArea from '../../../components/group/TextArea'
-import {
-  getGroup,
-  getGroupUsersData,
-} from '../../../firebase/database/newDatabase'
+
+import { getGroupAndUserDataService } from '../../../server/service/groupService'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(['group', 'detail', context.query.id], () =>
-    getGroup([String(context.query.id!)]),
+
+  const data = await getGroupAndUserDataService(String(context.query.id!))
+
+  await queryClient.prefetchQuery(
+    ['group', 'detail', context.query.id],
+    () => data.groupData,
   )
   await queryClient.prefetchQuery(
     ['group', 'usersData', context.query.id],
-    () => getGroupUsersData(String(context.query.id!)),
+    () => data.userData,
   )
 
   return {
     props: {
       dehydratedProps: dehydrate(queryClient),
+      groupData: data.groupData,
+      userData: data.userData,
     },
   }
 }
 
-const _ = () => {
-  const { data, onSubmitHandler, user } = useGroupDetail()
+const _ = (context: any) => {
+  const { data: groupData, onSubmitHandler, user } = useGroupDetail()
+
+  const { groupData: data } = context
 
   // 메시지는 위가 제일 최신
   return (
     <GroupContainer>
       <Container>
         <Body>
-          {data[0][1].chats.notice === '' ? (
+          {data.chats.notice === '' ? (
             <FixedMessage>{`📢: 매너 채팅`}</FixedMessage>
           ) : (
-            <FixedMessage>{`📢: ${data[0][1].chats.notice}`}</FixedMessage>
+            <FixedMessage>{`📢: ${data.chats.notice}`}</FixedMessage>
           )}
 
-          {data[0][1].chats.chat.length &&
-            data[0][1].chats.chat.map(
-              ([key, value]: any, i: number) =>
-                value.content &&
-                value.content.length !== 0 &&
-                (value.writer.email === user.email.split('.')[0] ? (
-                  <Message
-                    key={key}
-                    isMine={value.writer.email === user.email.split('.')[0]}
-                    isOper={value.writer.email === 'operator'}
+          {Object.entries(groupData.chats.chat).map(
+            ([key, value]: any) =>
+              value.content &&
+              value.content.length !== 0 &&
+              (value.writer.email === user.email.split('.')[0] ? (
+                <Message
+                  key={key}
+                  isMine={value.writer.email === user.email.split('.')[0]}
+                  isOper={value.writer.email === 'operator'}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      height: '100%',
+                    }}
                   >
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-end',
-                        height: '100%',
-                      }}
-                    >
-                      <MessageTime>
-                        {new Intl.DateTimeFormat('ko', {
-                          // dateStyle: '',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        }).format(new Date(Number(value.id)))}
-                      </MessageTime>
-                    </div>
-                    <MessageContent>{value.content}</MessageContent>
-                  </Message>
-                ) : (
-                  <Message
-                    key={key}
-                    isMine={value.writer.email === user.email.split('.')[0]}
-                    isOper={value.writer.email === 'operator'}
+                    <MessageTime>
+                      {new Intl.DateTimeFormat('ko', {
+                        // dateStyle: '',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }).format(new Date(Number(value.id)))}
+                    </MessageTime>
+                  </div>
+                  <MessageContent>{value.content}</MessageContent>
+                </Message>
+              ) : (
+                <Message
+                  key={key}
+                  isMine={value.writer.email === user.email.split('.')[0]}
+                  isOper={value.writer.email === 'operator'}
+                >
+                  <MessageWriter>{value.writer.displayName}</MessageWriter>
+                  <MessageContent>{value.content}</MessageContent>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      height: '100%',
+                    }}
                   >
-                    <MessageWriter>{value.writer.displayName}</MessageWriter>
-                    <MessageContent>{value.content}</MessageContent>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-end',
-                        height: '100%',
-                      }}
-                    >
-                      <MessageTime>
-                        {new Intl.DateTimeFormat('ko', {
-                          // dateStyle: '',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        }).format(new Date(Number(value.id)))}
-                      </MessageTime>
-                    </div>
-                  </Message>
-                )),
-            )}
+                    <MessageTime>
+                      {new Intl.DateTimeFormat('ko', {
+                        // dateStyle: '',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }).format(new Date(Number(value.id)))}
+                    </MessageTime>
+                  </div>
+                </Message>
+              )),
+          )}
         </Body>
 
         <TextArea onSubmitHandler={onSubmitHandler} />

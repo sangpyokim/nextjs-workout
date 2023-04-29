@@ -12,15 +12,20 @@ import {
 
 import nookies from 'nookies'
 import { admin } from '../../../firebaseAdmin'
+import { getGroupAndUserDataService } from '../../../server/service/groupService'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const groupData = await getGroup([String(context.query.id!)])
-
   const queryClient = new QueryClient()
+
+  const data = await getGroupAndUserDataService(String(context.query.id!))
 
   await queryClient.prefetchQuery(
     ['group', 'detail', context.query.id],
-    () => groupData,
+    () => data.groupData,
+  )
+  await queryClient.prefetchQuery(
+    ['group', 'usersData', context.query.id],
+    () => data.userData,
   )
 
   try {
@@ -29,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {
         dehydratedProps: dehydrate(queryClient),
-        isVal: idToken.email === groupData[0][1].info.chief.email,
+        isVal: idToken.email === data.groupData.info.chief.email,
       },
     }
   } catch (error) {
@@ -81,15 +86,15 @@ const Manage = (context: any) => {
             onDragStart={(e) =>
               handleDragStart(
                 e,
-                groupData[0][1].info.chief.email,
-                groupData[0][1].info.chief.displayName,
+                groupData.info.chief.email,
+                groupData.info.chief.displayName,
               )
             }
           >
             <UserImage>
               <BulbOutlined />
             </UserImage>
-            <UserName>{groupData[0][1].info.chief.displayName}</UserName>
+            <UserName>{groupData.info.chief.displayName}</UserName>
 
             <DragIcon>
               <DragOutlined />
@@ -103,11 +108,10 @@ const Manage = (context: any) => {
           onDrop={handleDrop}
           isHover={false}
         >
-          {Object.values(groupData[0][1].users)
+          {Object.values(groupData.users)
             .filter(
               (user: any) =>
-                user.newUserEmail !==
-                groupData[0][1].info.chief.email.split('.')[0],
+                user.newUserEmail !== groupData.info.chief.email.split('.')[0],
             )
             .map((user: any, i: number) => (
               <User
