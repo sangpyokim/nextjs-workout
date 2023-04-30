@@ -1,6 +1,4 @@
-import axios from 'axios'
 import { IAllGroupList, ICreateGroup, IPostGroup } from '../../interface'
-import { ENDPOINT } from '../constants'
 import {
   createGroup,
   getAllGroup,

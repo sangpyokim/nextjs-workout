@@ -1,7 +1,7 @@
 import { getMessaging } from 'firebase/messaging'
 import React, { useEffect, useRef, useState } from 'react'
 import { app, getTokens, onMessageListener } from '../../firebase'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 const TIME = 2000
 
@@ -32,30 +32,35 @@ const Notification = () => {
       .catch((err) => console.log('failed: ', err))
   }, [prevTime])
 
-  if (!isNotification) return <></>
-
   return (
-    <Container>
-      <Title>{notification.title}</Title>
-      <Body>{notification.body}</Body>
+    <Container show={isNotification}>
+      <Title>{notification?.title}</Title>
+      <Body>{notification?.body}</Body>
+      {isNotification && <ProgressBar />}
     </Container>
   )
 }
 
 export default Notification
 
-const Container = styled.div`
+const Container = styled.div<{ show: boolean }>`
   display: flex;
   flex-direction: column;
   border: 1px solid white;
   background-color: var(--button-bg);
   padding: 12px;
   min-width: 120px;
+  /* min-height: 60px; */
+
+  color: white;
 
   position: fixed;
   top: 12px;
-  right: 12px;
-  color: white;
+  right: ${(props) => (props.show ? '12px' : '-100px')};
+
+  z-index: ${(props) => (props.show ? '10' : '-1')};
+  opacity: ${(props) => (props.show ? '1' : '0')};
+  transition: 0.2s all ease-in-out;
 `
 const Title = styled.div`
   font-size: 1rem;
@@ -63,6 +68,25 @@ const Title = styled.div`
 `
 const Body = styled.div`
   font-size: 0.8rem;
+`
+
+const progress = keyframes`
+  0% {
+    width: 0%
+  }
+  100% {
+    width: 100%;
+  }
+`
+
+const ProgressBar = styled.div`
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+
+  height: 3px;
+  background-color: white;
+  animation: ${progress} ${TIME}ms;
 `
 
 // 앱 처음 시작할때 토큰, 유효기간 생성 (2개월 정도)

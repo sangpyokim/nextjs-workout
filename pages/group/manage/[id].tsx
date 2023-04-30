@@ -1,14 +1,10 @@
 import { BulbOutlined, DragOutlined } from '@ant-design/icons'
 import { GetServerSideProps } from 'next'
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { dehydrate, QueryClient } from 'react-query'
 import styled from 'styled-components'
 import GroupContainer from '../../../components/group/GroupContainer'
 import useManage from '../../../components/group/hooks/useManage'
-import {
-  getGroup,
-  getGroupUsersData,
-} from '../../../firebase/database/newDatabase'
 
 import nookies from 'nookies'
 import { admin } from '../../../firebaseAdmin'
@@ -23,6 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ['group', 'detail', context.query.id],
     () => data.groupData,
   )
+
   await queryClient.prefetchQuery(
     ['group', 'usersData', context.query.id],
     () => data.userData,
