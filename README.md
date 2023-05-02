@@ -25,6 +25,11 @@
 | <img src="https://firebasestorage.googleapis.com/v0/b/workout-21c5f.appspot.com/o/android.svg?alt=media&token=6387ce48-96be-4010-9ed7-9c71c5c581cd" width="25px" /> | <img src="https://img.shields.io/badge/배포중-00b336?style=flat" /> | [플레이스토어](https://play.google.com/store/apps/details?id=app.vercel.nextjs_workout.twa) |
 
 <br />
+### 테스트 계정
+이메일: test@test.com
+비밀번호: 12341234
+
+<br />
 
 ### workout 위키
 
